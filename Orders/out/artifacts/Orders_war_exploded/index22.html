@@ -1,0 +1,115 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/css.css" />
+    <link rel="stylesheet" href="resources/css/multizoom.css" type="text/css" />
+
+    <!--<script type="text/javascript" src="resources/css/jquery.min.js"></script>-->
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+    </script>
+
+    <script type="text/javascript" src="resources/css/jquery.loupe.js"/>
+    <script type="text/javascript" src="resources/css/jquery.loupe.min.js"/>
+
+
+    <script type="text/javascript">
+        $('.demo').loupe();
+    </script>
+
+
+
+
+    <!-- <script>
+         $(document).ready(function(){
+             $("#image11").hover(function(){
+                 $(this).hide();
+             });
+             $("#image12").showe();
+         });
+     </script>-->
+    <style type="text/css" media="screen">
+
+        .loupe { background-color:#555; background:rgba(0, 0, 0, 0.25); border:5px solid rgba(0, 0, 0, 0);
+            cursor:url(resources/css/blank.png), url(resources/css/blank.cur), none; }
+    </style>
+
+</h:head>
+
+<h:body>
+    <f:view contentType="text/html"/>
+    <ui:param name="root" value="#{request.contextPath}" />
+    <h:form>
+        <p:growl id="messages"/>
+
+
+        <div id="globalwrapperLocation" class="container_12 marginbottom">
+            <div id="headerwrapperLocation" class="container_12">
+
+                <custom:topbar_c/>
+
+                <div id="bodyLocation" class="grid_12 marginbottom">
+                    <h:panelGrid columns="3" style="width: 100%;padding-left: 2%;" cellpadding="1">
+                        <h:panelGrid columns="1" style="padding-left: 0px;vertical-align: top">
+                            <h:outputText value="Бренды(5)"  styleClass="outputlink"/>
+                            <h:outputText value="Куртки(4)"  styleClass="outputlink"/>
+                            <h:outputText value="Пижамы(12)"  styleClass="outputlink"/>
+                            <h:outputText value="Подгузники(17)"  styleClass="outputlink"/>
+
+                        </h:panelGrid>
+                        <p:graphicImage value="#{itemCardController.getRelevantProductImage()}"
+                                        style="height: 200px; width: 250px;margin-left: 5%"
+                                        id="image0" styleClass="demo">
+
+                            <f:param name="relevantProd" value="#{itemCardController.current.product}" />
+
+                        </p:graphicImage>
+
+                        <p:galleria value="#{itemController.images}" var="img">
+
+                            <p:graphicImage value="#{itemCardController.getRelevantProductImage()}"
+                                            style="height: 200px; width: 250px;margin-left: 5%"
+                                            id="image0" styleClass="demo">
+
+                                <f:param name="relevantProd" value="#{itemCardController.current.product}" />
+
+                            </p:graphicImage>
+
+                        </p:galleria>
+
+
+                        <h:panelGrid columns="1" style="padding-left: 5%;">
+                            <h:outputText value="#{proposalController.findProduct(itemCardController.current.product).name}
+                                                (Артикул: #{proposalController.findProduct(itemCardController.current.product).recid})"
+                                          style="border-right-width: 10px;font-size:18;text-decoration: underline;"
+                                          styleClass="outputlink"/>
+
+                            <h:outputText value="#{itemCardController.current.price} РУБ."  styleClass="pricetext"/>
+
+                            <h:panelGrid columns="4">
+
+                                <p:inputText value="#{itemCardController.current.qty}"
+                                             rendered="false"
+                                             style="font-size:46px; width: 105px; height: 75px"/>
+                                <p:spacer width="50px"/>
+                                <p:commandButton value="Заказать"
+                                                 action="#{proposalController.addItemShoppingCart(itemCardController.current)}"
+                                                 update="@form"
+                                                 style="height: 75px; width: 200px;float:right !important;margin:0px 0px 3px 0px;"   />
+                            </h:panelGrid>
+
+
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+
+    </h:form>
+</h:body>
+</html>

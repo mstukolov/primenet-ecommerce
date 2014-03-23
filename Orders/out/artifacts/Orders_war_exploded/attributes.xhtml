@@ -1,0 +1,94 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/theme.css" />
+    <link rel="stylesheet" href="resources/css/m-styles.min.css"/>
+</h:head>
+<f:metadata>
+    <f:viewParam name="backurl" value="#{uiController.backurl}"/>
+</f:metadata>
+<h:body>
+
+    <custom:topbar  inputValue="Атрибуты товаров "
+                    currentPage="attributes.xhtml"
+                    thisPage="#{uiController.setPage('users')}"
+                    backButtonAction="#{uiController.setReference('users.xhtml')}"
+                    createButtonAction="#{attributesController.createEcoresattribute()}"
+                    saveButtonAction="#{attributesController.saveEcoresattribute}"
+                    editButtonAction="#{uiController.edit(uiController.editForm)}"
+                    deleteButtonAction="#{attributesController.deleteEcoresattribute()}"
+                    refreshButtonAction="#{attributesController.refreshEcoresattributes()}"
+            />
+
+
+    <h:form id="mainForm">
+        <p:growl id="messages"/>
+
+            <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
+            <p:fieldset id="table" legend="Атрибуты товара" rendered="#{not uiController.editForm}">
+                <p:dataTable var="data"
+                             value="#{attributesController.ecoresattributes}"
+                             selectionMode = "single"
+                             rowKey="#{data.recid}"
+                             selection="#{attributesController.ecoresattribute}">
+
+                    <p:ajax event="rowSelect" update="@form" listener="#{attributesController.selectionAttribute()}"/>
+
+                    <p:column headerText="Код" styleClass="m-text-medium">
+                        <h:outputText value="#{data.recid}" />
+                    </p:column>
+
+                    <p:column headerText="Атрибут"  styleClass="m-text-medium">
+                        <h:outputText value="#{data.attributeName}" />
+                    </p:column>
+
+                </p:dataTable>
+                </p:fieldset>
+                <p:fieldset id="items" legend="Значение атрибута" rendered="#{not uiController.editForm}">
+                    <p:commandButton id="addAttr" value="Добавить"  action="#{attributesController.createEcoresattribute}"/>
+                    <p:commandButton id="deleteAttr" action="#{attributesController.deleteEcoresattribute}"
+                                     value="Удалить" update="@form"/>
+
+
+
+                </p:fieldset>
+                <p:fieldset id="form" legend="Форма" rendered="#{uiController.editForm}">
+                    <p:panelGrid columns="2" style="border: 0px">
+                        <h:outputLabel value="Код группы:" styleClass="m-text-medium"/>
+                        <h:outputText value="#{attributesController.ecoresattribute.recid}"
+                                      style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                        <h:outputLabel value="Имя номенклатуры:" styleClass="m-text-medium"/>
+                        <p:inputText value="#{attributesController.ecoresattribute.attributeName}"
+                                     style="font: Segoe; font-size:24px; width: 550px; height: 40px">
+                            <p:ajax event="change" listener="#{attributesController.saveEcoresattribute()}" update="messages, table"/>
+                        </p:inputText>
+
+                        <h:outputLabel value="Тип атрибута:" styleClass="m-text-medium"/>
+                        <p:inputText value="#{attributesController.getAttributeTypeName(attributesController.ecoresattribute.attributeTypeRef)}" rendered="false"
+                                     style="font: Segoe; font-size:24px; width: 550px; height: 40px">
+                            <p:ajax event="change" listener="#{attributesController.saveEcoresattribute()}" update="messages, table"/>
+                        </p:inputText>
+                        <h:form>
+                        <p:selectOneMenu value="#{attributesController.ecoresattributetypeSelected}"  converter="#{ecoresattributetypeConverter}"
+                                         height="200" style="width: 300px" var="p">
+                            <p:ajax event="change" listener="#{attributesController.setAttributeType()}" update="@form"/>
+                            <f:selectItems value="#{attributesController.ecoresattributetypes}" var="type" itemLabel="#{type.typeName}" itemValue="#{type}"/>
+                            <p:column>
+                                <h:outputText value="#{p.typeName}" style="font-size: 24px"/>
+                            </p:column>
+                        </p:selectOneMenu>
+                        </h:form>
+                    </p:panelGrid>
+                </p:fieldset>
+            </p:panelGrid>
+        </h:form>
+</h:body>
+</html>

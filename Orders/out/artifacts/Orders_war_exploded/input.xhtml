@@ -1,0 +1,142 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/theme.css" />
+
+    <link rel="stylesheet" href="resources/css/m-styles.min.css"/>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:growl id="messages"/>
+
+
+
+        <p:panelGrid rendered="false">
+            <f:facet name="header" styleClass="ui-panelgrid-header">
+                <p:row>
+                    <p:column colspan="7">Главная</p:column>
+                </p:row>
+
+            </f:facet>
+
+            <p:row>
+                <p:column style="font-weight: bold;">
+                    <p:commandButton value="Создать"
+                                     update="messages, table"
+                                     action="#{userController.addUser}"
+                                     ajax="false"
+                                     styleClass="m-btn-metro m-btn-small m-light-blue m-icon-create"
+                                     icon="m-icon-create"/>
+
+                    <p:spacer width="10" height="3" />
+                    <p:commandButton value="Правка"
+                                     update="messages, table"
+                                     action="#{userController.addUser}"
+                                     ajax="false"
+                                     styleClass="m-btn-metro m-btn-small m-light-blue m-icon-edit"/>
+                </p:column>
+
+
+                <p:column rowspan="2" style="font-weight: bold;">
+                    <p:commandButton value="Удалить"
+                                     update="messages, table"
+                                     action="#{userController.addUser}"
+                                     ajax="false"
+                                     styleClass="m-btn-metro m-btn-small m-light-blue"/>
+                </p:column>
+                <p:column rowspan="2" style="font-weight: bold;">
+                    <p:commandButton value="Найти"
+                                     update="messages, table"
+                                     action="#{userController.addUser}"
+                                     ajax="false"
+                                     styleClass="m-btn-metro m-btn-small m-light-blue"/>
+                </p:column>
+
+            </p:row>
+
+
+            <f:facet name="footer">
+                <p:row>
+                    <p:column rowspan="2">Создать</p:column>
+                    <p:column rowspan="1">Удалить</p:column>
+                    <p:column colspan="2">Найти</p:column>
+
+                </p:row>
+            </f:facet>
+        </p:panelGrid>
+
+        <h:panelGrid columns="4"  border="0"
+                     cellpadding="0" cellspacing="0">
+           <!-- <f:facet name="header">
+                <h:outputText value="Login"/>
+            </f:facet>-->
+        <h:column>
+        <p:commandButton value="Создать"
+                         update="messages, table"
+                         action="#{userController.addUser}"
+                         ajax="false"
+                         styleClass="m-btn-metro m-btn-small m-light-blue m-icon-create"
+                         />
+
+        <p:commandButton value="Изменить"
+                         update="messages, table"
+                         action="#{userController.addUser}"
+                         ajax="false"
+                         styleClass="m-btn-metro m-btn-small m-light-blue m-icon-edit"
+                />
+        </h:column>
+        <h:column>
+        <p:commandButton value="Удалить"
+                         update="messages, table"
+                         action="#{userController.addUser}"
+                         ajax="false"
+                         styleClass="m-btn-metro m-btn-small m-light-blue m-icon-remove"
+                />
+        </h:column>
+        <h:column>
+        <p:commandButton value="Найти"
+                         update="messages, table"
+                         action="#{userController.addUser}"
+                         ajax="false"
+                         styleClass="m-btn-metro m-btn-small m-light-blue m-icon-search"
+                />
+        </h:column>
+
+        </h:panelGrid>
+        <p:separator/>
+        <p:dataTable value="#{userController.usersList}"
+                     id="table"
+                     sortBy="#{item.name}"
+                     sortOrder="ascending"
+                     var="item"
+                     rows="200"
+                     scrollHeight="150"
+                     style="border:solid 1px;width:420px"
+                >
+            <p:column sortBy="#{item.name}">
+                <f:facet name="header">
+                    <h:outputText value="Имя пользователя"/>
+                </f:facet>
+                <h:outputText value="#{item.name}"/>
+            </p:column>
+            <p:column sortBy="#{item.pasword}">
+                <f:facet name="header">
+                    <h:outputText value="Пароль"/>
+                </f:facet>
+                <h:outputText value="#{item.pasword}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+
+
+
+
+</h:body>
+</html>

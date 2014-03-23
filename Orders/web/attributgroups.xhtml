@@ -1,0 +1,140 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/theme.css" />
+    <link rel="stylesheet" href="resources/css/m-styles.min.css"/>
+</h:head>
+<f:metadata>
+    <f:viewParam name="backurl" value="#{uiController.backurl}"/>
+</f:metadata>
+<h:body>
+
+    <custom:topbar  inputValue="Группы Атрибутов товаров "
+                    currentPage="attributes.xhtml"
+                    thisPage="#{uiController.setPage('users')}"
+                    backButtonAction="#{uiController.setReference('users.xhtml')}"
+                    createButtonAction="#{attributesController.createEcoresattributegroup()}"
+                    saveButtonAction="#{attributesController.saveEcoresattributegroup}"
+                    editButtonAction="#{uiController.edit(uiController.editForm)}"
+                    deleteButtonAction="#{attributesController.deleteEcoresattributegroup()}"
+                    refreshButtonAction="#{attributesController.refreshEcoresattributegroups()}"
+            />
+
+
+    <h:form id="mainForm">
+        <p:growl id="messages"/>
+       Attributes Form Manage
+
+            <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
+            <p:fieldset id="table" legend="Группы атрибутов" rendered="#{not uiController.editForm}">
+                <p:dataTable var="data"
+                             value="#{attributesController.ecoresattributegroups}"
+                             selectionMode = "single"
+                             rowKey="#{data.recid}"
+                             selection="#{attributesController.ecoresattributegroup}">
+                    <p:ajax event="rowSelect" update="@form"
+                            listener="#{attributesController.selectAttributesByGroup()}"/>
+
+
+                    <p:column headerText="Код" styleClass="m-text-medium">
+                        <h:outputText value="#{data.recid}" />
+                    </p:column>
+
+                    <p:column headerText="Группа"  styleClass="m-text-medium">
+                        <h:outputText value="#{data.name}" />
+                    </p:column>
+
+                </p:dataTable>
+                </p:fieldset>
+                <p:fieldset id="items" rendered="#{not uiController.editForm}">
+                    <p:commandButton id="addAttr" value="Добавить" onclick="dlg.show();" action="#{attributesController.addAttributeToGroup}"/>
+                    <p:commandButton id="deleteAttr" action="#{attributesController.deleteAttributeToGroup}"
+                                     value="Удалить" update="@form"/>
+
+                    <p:dataTable var="data"
+                                 id="atrrtable"
+                                 value="#{attributesController.ecoresgroupbyattributeList}"
+                                 selection="#{attributesController.ecoresgroupbyattribute}"
+                                 selectionMode="single"
+                                 rowKey="#{data.recid}"
+                                 rendered="true"
+                                 style="width: 800px">
+
+                        <f:facet name="header">
+                            Атрибуты группы
+                        </f:facet>
+
+                        <p:ajax event="rowSelect" update="@form"
+                                listener="#{attributesController.addMessage(attributesController.ecoresgroupbyattribute.recid)}"/>
+
+
+                        <p:column headerText="Код" rendered="false">
+                            <h:outputText value="#{data.recid}" />
+                        </p:column>
+
+                        <p:column headerText="Группа">
+                            <h:outputText value="#{data.attributeGroupRef}" />
+                        </p:column>
+                        <p:column headerText="Атрибут">
+                            <h:outputText value="#{attributesController.getAttributeName(data.attributeRef)}" />
+                        </p:column>
+
+                    </p:dataTable>
+
+                </p:fieldset>
+                <p:fieldset id="form" legend="Форма" rendered="#{uiController.editForm}">
+                    <p:panelGrid columns="2" style="border: 0px">
+                        <h:outputLabel value="Код группы:" styleClass="m-text-medium"/>
+                        <h:outputText value="#{attributesController.ecoresattributegroup.recid}"
+                                      style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                        <h:outputLabel value="Имя группы:" styleClass="m-text-medium"/>
+                        <p:inputText value="#{attributesController.ecoresattributegroup.name}"
+                                     style="font: Segoe; font-size:24px; width: 550px; height: 40px">
+                            <p:ajax event="change" listener="#{attributesController.saveEcoresattributegroup()}" update="messages, table"/>
+                        </p:inputText>
+                    </p:panelGrid>
+                </p:fieldset>
+            </p:panelGrid>
+        <p:dialog id="dialog" header="Выбрать атрибуты" widgetVar="dlg" width="750" height="750">
+            <h:form>
+                <p:dataTable var="data"
+                             value="#{attributesController.ecoresattributes}"
+                             selection = "#{attributesController.ecoresattributesSelection}"
+                             rowKey="#{data.recid}"
+                             scrollable="true"
+                             scrollHeight="650"
+                        >
+
+                    <p:ajax event="rowSelectCheckbox"
+                            listener="#{attributesController.addAttributeToGroup()}" process="@this" update=":mainForm:atrrtable"/>
+
+                    <p:column selectionMode="multiple" style="width:2%" />
+
+                    <p:column headerText="Код атрибута" styleClass="m-text-medium" style="width:10%">
+                        <h:outputText value="#{data.recid}" />
+                    </p:column>
+                    <p:column headerText="Имя атрибута" styleClass="m-text-medium" style="width:25%">
+                        <h:outputText value="#{data.attributeName}" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <p:commandButton value="Закрыть" rendered="true"  oncomplete ="dlg.hide()"
+                             action="#{attributesController.selectAttributesByGroup()}"
+                             update="@form" style="height: 50px; width: 150px"/>
+        </p:dialog>
+        </h:form>
+
+
+
+
+
+</h:body>
+</html>

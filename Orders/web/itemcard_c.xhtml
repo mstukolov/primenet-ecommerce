@@ -1,0 +1,204 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/css.css" />
+    <link rel="stylesheet" href="resources/css/multizoom.css" type="text/css" />
+
+    <!--<script type="text/javascript" src="resources/css/jquery.min.js"></script>-->
+
+    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
+    </script>-->
+
+    <h:outputScript library="primefaces" name="jquery/jquery.js" />
+
+    <script type="text/javascript" src="resources/css/jquery.loupe.js"/>
+    <script type="text/javascript" src="resources/css/jquery.loupe.min.js"/>
+
+
+    <script type="text/javascript">
+        $('.demo').loupe();
+    </script>
+
+
+
+
+    <!-- <script>
+         $(document).ready(function(){
+             $("#image11").hover(function(){
+                 $(this).hide();
+             });
+             $("#image12").showe();
+         });
+     </script>-->
+    <style type="text/css" media="screen">
+
+        .loupe { background-color:#555; background:rgba(0, 0, 0, 0.25); border:5px solid rgba(0, 0, 0, 0);
+                 cursor:url(resources/css/blank.png), url(resources/css/blank.cur), none; }
+    </style>
+
+</h:head>
+
+<h:body>
+    <f:view contentType="text/html"/>
+    <ui:param name="root" value="#{request.contextPath}" />
+    <h:form>
+        <p:growl id="messages"/>
+
+
+        <div id="globalwrapperLocation" class="container_12 marginbottom">
+            <div id="headerwrapperLocation" class="container_12">
+
+                <custom:topbar_c/>
+
+                <div id="bodyLocation" class="grid_12 marginbottom">
+                    <h:panelGrid columns="5" style="width: 100%;padding-left: 2%;" cellpadding="1">
+                        <h:panelGrid columns="1" style="padding-left: 0px;vertical-align: top">
+                            <h:outputText value="Бренды(5)"  styleClass="outputlink"/>
+                            <h:outputText value="Куртки(4)"  styleClass="outputlink"/>
+                            <h:outputText value="Пижамы(12)"  styleClass="outputlink"/>
+                            <h:outputText value="Подгузники(17)"  styleClass="outputlink"/>
+
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="1">
+                        <p:graphicImage value="#{itemCardController.getRelevantProductImage()}"
+                                        style="height: 200px; width: 275px;margin-left: 5%"
+                                        id="image0" styleClass="demo" rendered="true">
+
+                            <f:param name="relevantProd" value="#{itemCardController.current.product}" />
+
+                        </p:graphicImage>
+                        <p:lightBox id="foto2" style="margin-left: 5%; margin-top: 5%;" styleClass="foto2_panel">
+                            <ui:repeat value="#{itemCardController.imgPos}" var="imgnum2">
+                                <h:outputLink value="#" >
+                                    <p:graphicImage value="#{itemCardController.getProdImage(0)}"
+                                                    style="height: 50px; width: 60px;margin-right: 2%" styleClass="demo22">
+                                        <f:param name="product" value="#{itemCardController.current.product}" />
+                                        <f:param name="number" value="#{imgnum2}" />
+                                    </p:graphicImage>
+                                </h:outputLink>
+                            </ui:repeat>
+                            <f:facet name="inline" id="ddddd">
+                                <div class="pp_Img2" id="ffffff">
+                                    <p:galleria  value="#{itemCardController.imgPos}"
+                                                 var="imgnum" panelWidth="450" panelHeight="400">
+
+                                        <p:graphicImage id="image"
+                                                        value="#{itemCardController.getProdImage(0)}">
+                                            <f:param name="product" value="#{itemCardController.current.product}" />
+                                            <f:param name="number" value="#{imgnum}" />
+                                        </p:graphicImage>
+
+                                        <!--<p:galleriaContent>
+
+                                            <p:graphicImage value="#{itemCardController.getProdImage(0)}" style="height: 400px; width: 450px">
+                                                <f:param name="product" value="#{itemCardController.current.product}" />
+                                                <f:param name="number" value="#{imgnum}" />
+                                            </p:graphicImage>
+
+                                        </p:galleriaContent>-->
+                                    </p:galleria>
+                                </div>
+                            </f:facet>
+                        </p:lightBox>
+                        </h:panelGrid>
+
+
+                        <h:panelGrid columns="1" style="padding-left: 5%;">
+                            <h:outputText value="#{proposalController.findProduct(itemCardController.current.product).name}
+                                                (Артикул: #{proposalController.findProduct(itemCardController.current.product).recid})"
+                                          style="border-right-width: 10px;font-size:18;text-decoration: underline;"
+                                          styleClass="outputlink"/>
+
+                            <h:outputText value="#{itemCardController.current.price} РУБ."  styleClass="pricetext"/>
+
+                            <p:rating value="#{itemCardController.rating}" readonly="true"/>
+
+                            <h:outputText  value="#{itemCardController.current.description}" escape="false" rendered="true" styleClass="outputlink"/>
+
+                            <p:editor value="#{itemCardController.current.description}" styleClass="ui-editor-toolbar1" disabled="true" controls="" rendered="false"/>
+
+                            <p:inputTextarea value="#{itemCardController.current.description}"  readonly="true"  rendered="false"
+                                             style="font-size:18px; width: 480px;" styleClass="outputlink"/>
+
+
+
+                            <p:commandButton value="КУПИТЬ"
+                                             action="#{proposalController.addItemShoppingCart(itemCardController.current)}"
+                                             update="@form"
+                                             style="height: 75px; width: 450px;float:left;margin-top: 5%"/>
+
+                        </h:panelGrid>
+                    </h:panelGrid>
+
+                    <script type="text/javascript" src="resources/css/jquery.loupe.js"></script>
+                    <script type="text/javascript">$('.demo').loupe();</script>
+                    <br/><br/>
+                    <h:outputText value="С ЭТИМ ТОВАРОМ ЧАСТО СМОТРЯТ"  styleClass="pricetext" style="padding-left: 20px"/>
+                    <p:carousel id="relevant" value="#{itemCardController.relevantPropolsals}"
+                                var="item"
+                                pageLinks="4" autoPlayInterval="4000"  rows="6"
+                                numVisible="1" effect="easeInStrong" circular="true"
+                                itemStyle="width:185px; border: hidden; padding-left: 0px;" style="padding-top:10px; padding-left: 20px">
+
+                        <p:panelGrid columns="1" style="width: 185px;padding-top: 50px;" styleClass="proposalwindow">
+                            <p:commandLink action="#{uiController.goItemCard(item)}">
+                                <p:graphicImage value="#{itemCardController.getRelevantProductImage()}" width="80" height="70" style="padding-left: 25%;padding-top: 15%;">
+                                    <f:param name="relevantProd" value="#{item.product}" />
+                                </p:graphicImage>
+                            </p:commandLink>
+                            <p:commandLink action="#{uiController.goItemCard(item)}">
+                                <h:outputText value="#{proposalController.findProduct(item.product).name}" style="padding-left: 10px" styleClass="outputlink"/>
+                            </p:commandLink>
+                            <h:outputText value="#{item.price} РУБ." styleClass="outputlink"/>
+                        </p:panelGrid>
+                    </p:carousel>
+
+                </div>
+            </div>
+            <div id="footerinformationwrapperLocation" class="container_12">
+                <div id="footerinformationLocation" class="grid_12 marginbottom">
+                    <div id="columnoneLocation" class="grid_12 marginbottom">
+
+                    </div>
+                    <div id="columntwoLocation" class="grid_12 marginbottom">
+                        <h:commandLink value="НОВОСТИ"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="РУКОВОДСТВО"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="СЕРВИС"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="НОВОСТИ"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                    </div>
+                    <div id="columnthreeLocation" class="grid_12 marginbottom">
+                        <h:outputLabel value="ИНТЕРНЕТ-МАГАЗИН" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Как оформить заказ?" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Правила торговли в Интернет" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Что такое Заказ без регистрации?" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Оплата товара" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Доставка товара" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Возврат товара" styleClass="outputlink" style="font-size: 12"/><br/>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</h:body>
+</html>

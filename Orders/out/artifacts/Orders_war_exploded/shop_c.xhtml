@@ -1,0 +1,85 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/css.css" />
+</h:head>
+
+<h:body style="LEFTMARGIN:0; TOPMARGIN:0; MARGINWIDTH:0; MARGINHEIGHT:0;">
+    <h:form>
+        <p:growl id="messages"/>
+        <div id="globalwrapperLocation" class="container_12 marginbottom">
+            <div id="headerwrapperLocation" class="container_12">
+
+                <custom:topbar_c/>
+                <div id="shopgridLocation" class="grid_12 marginbottom">
+                    <p:dataGrid id="availableProposals"
+                                var="proposals"
+                                value="#{proposalController.proposalList}"
+                                columns="3"
+                                rows="12" paginator="true"
+                                paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                rowsPerPageTemplate="4,6,12">
+
+                        <p:column>
+                                <h:panelGrid columns="1" styleClass="proposalwindow">
+                                <h:commandLink action="#{uiController.goItemCard(proposals)}">
+                                    <p:graphicImage value="#{proposalController.getProductImage()}" styleClass="proposalimage" id="grpImage">
+                                        <f:param name="imgprod" value="#{proposals.product}" />
+                                    </p:graphicImage>
+                                    <br/>
+                                    <h:outputText value="#{proposalController.findProduct(proposals.product).name}"
+                                                                                               styleClass="proposallink"/>
+                                </h:commandLink>
+                                <h:outputText value="ЦЕНА:#{proposals.price} Рублей" styleClass="proposallink"/>
+                                </h:panelGrid>
+                        </p:column>
+
+                    </p:dataGrid>
+                </div>
+            </div>
+            <div id="footerinformationwrapperLocation" class="container_12">
+                <div id="footerinformationLocation" class="grid_12 marginbottom">
+                    <div id="columnoneLocation" class="grid_12 marginbottom">
+
+                    </div>
+                    <div id="columntwoLocation" class="grid_12 marginbottom">
+                        <h:commandLink value="НОВОСТИ"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="РУКОВОДСТВО"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="СЕРВИС"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="НОВОСТИ"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                    </div>
+                    <div id="columnthreeLocation" class="grid_12 marginbottom">
+                        <h:outputLabel value="ИНТЕРНЕТ-МАГАЗИН" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Как оформить заказ?" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Правила торговли в Интернет" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Что такое Заказ без регистрации?" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Оплата товара" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Доставка товара" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Возврат товара" styleClass="outputlink" style="font-size: 12"/><br/>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</h:body>
+</html>

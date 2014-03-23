@@ -1,0 +1,79 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/css.css" />
+</h:head>
+
+<h:body style="LEFTMARGIN:0; TOPMARGIN:0; MARGINWIDTH:0; MARGINHEIGHT:0;">
+  <h:form>
+  <p:growl id="messages"/>
+    <div id="globalwrapperLocation" class="container_12 marginbottom">
+        <div id="headerwrapperLocation" class="container_12">
+
+            <custom:topbar_c/>
+            <div id="carouselLocation" class="grid_12 marginbottom">
+                <p:carousel id="basicCarousel" value="#{carouselController.carouselList}" var="item"
+                            autoPlayInterval="4000"
+                            rows="1"
+                            itemStyle="width:950px; border: hidden" effect="easeInStrong" circular="true"
+                            styleClass="carousel">
+
+                    <p:panelGrid columns="1" style="width:900px;height: 450px; border: hidden" cellpadding="0">
+
+                        <h:commandLink action="#{uiController.goPromo(item.recid)}" >
+                            <p:graphicImage value="#{carouselController.getImageByNum()}" height="650">
+                                <f:param name="inv" value="#{item.recid}" />
+                            </p:graphicImage>
+                            <h:outputText value="#{item.recid}" rendered="false"/>
+                        </h:commandLink>
+
+                    </p:panelGrid>
+                </p:carousel>
+            </div>
+        </div>
+          <div id="footerinformationwrapperLocation" class="container_12">
+              <div id="footerinformationLocation" class="grid_12 marginbottom">
+                  <div id="columnoneLocation" class="grid_12 marginbottom">
+
+                  </div>
+                  <div id="columntwoLocation" class="grid_12 marginbottom">
+                      <h:commandLink value="НОВОСТИ"
+                                     action="#{proposalController.addMessage('НОВОСТИ')}"
+                                     update="@form"
+                                     styleClass="outputlink" style="font-size: 12"/><br/>
+                      <h:commandLink value="РУКОВОДСТВО"
+                                     action="#{proposalController.addMessage('НОВОСТИ')}"
+                                     update="@form"
+                                     styleClass="outputlink" style="font-size: 12"/><br/>
+                      <h:commandLink value="СЕРВИС"
+                                     action="#{proposalController.addMessage('НОВОСТИ')}"
+                                     update="@form"
+                                     styleClass="outputlink" style="font-size: 12"/><br/>
+                      <h:commandLink value="НОВОСТИ"
+                                     action="#{proposalController.addMessage('НОВОСТИ')}"
+                                     update="@form"
+                                     styleClass="outputlink" style="font-size: 12"/><br/>
+                  </div>
+                  <div id="columnthreeLocation" class="grid_12 marginbottom">
+                      <h:outputLabel value="ИНТЕРНЕТ-МАГАЗИН" styleClass="outputlink" style="font-size: 12"/><br/>
+                      <h:commandLink value="Как оформить заказ?" styleClass="outputlink" style="font-size: 12"/><br/>
+                      <h:commandLink value="Правила торговли в Интернет" styleClass="outputlink" style="font-size: 12"/><br/>
+                      <h:commandLink value="Что такое Заказ без регистрации?" styleClass="outputlink" style="font-size: 12"/><br/>
+                      <h:commandLink value="Оплата товара" styleClass="outputlink" style="font-size: 12"/><br/>
+                      <h:commandLink value="Доставка товара" styleClass="outputlink" style="font-size: 12"/><br/>
+                      <h:commandLink value="Возврат товара" styleClass="outputlink" style="font-size: 12"/><br/>
+
+                  </div>
+              </div>
+          </div>
+     </div>
+  </h:form>
+</h:body>
+</html>

@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite" xmlns:custom="http://java.sun.com/jstl/core">
+
+<composite:interface>
+    <composite:attribute name="inputValue"/>
+    <composite:attribute name="submitButtonText"/>
+    <composite:attribute name="currentPage"/>
+</composite:interface>
+
+<composite:implementation>
+    <p:growl id="messages"/>
+
+       <h:form>
+
+           <p:carousel id="basicCarousel" value="#{carouselController.carouselList}" var="item"
+                       autoPlayInterval="4000"
+                       rows="1" itemStyle="width:1000px; border: hidden" effect="easeInStrong" circular="true"
+                       style = "border: hidden; border-top: hidden; border-left: hidden">
+
+               <p:panelGrid columns="1" style="width:100%;height: 450px; border: hidden" cellpadding="0">
+                   <p:commandLink action="#{uiController.goPage(item)}">
+                       <p:graphicImage value="#{carouselController.getImageByNum()}" width="1000" height="650">
+                           <f:param name="inv" value="#{item.recid}" />
+                       </p:graphicImage>
+                       <h:outputText value="#{item.recid}" rendered="false"/>
+                   </p:commandLink>
+               </p:panelGrid>
+
+           </p:carousel>
+       </h:form>
+
+
+</composite:implementation>
+
+</html>

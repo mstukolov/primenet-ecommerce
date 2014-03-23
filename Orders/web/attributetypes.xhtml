@@ -1,0 +1,145 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/theme.css" />
+    <link rel="stylesheet" href="resources/css/m-styles.min.css"/>
+</h:head>
+<f:metadata>
+    <f:viewParam name="backurl" value="#{uiController.backurl}"/>
+</f:metadata>
+<h:body>
+
+    <custom:topbar  inputValue="Типы Атрибутов товаров "
+                    currentPage="attributetypes.xhtml"
+                    thisPage="#{uiController.setPage('attributetypes')}"
+                    backButtonAction="#{uiController.setReference('attributetypes.xhtml')}"
+                    createButtonAction="#{attributesController.createEcoresattributeType()}"
+                    saveButtonAction="#{attributesController.saveEcoresattributeType}"
+                    editButtonAction="#{uiController.edit(uiController.editForm)}"
+                    deleteButtonAction="#{attributesController.deleteEcoresattributeType()}"
+                    refreshButtonAction="#{attributesController.refreshEcoresattributetypes()}"
+            />
+
+
+    <h:form id="mainForm">
+        <p:growl id="messages"/>
+
+        <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
+            <p:fieldset id="table" legend="Типы атрибутов" rendered="#{not uiController.editForm}">
+                <p:dataTable var="data"
+                             value="#{attributesController.ecoresattributetypes}"
+                             selectionMode = "single"
+                             rowKey="#{data.recid}"
+                             selection="#{attributesController.ecoresattributetype}">
+                    <p:ajax event="rowSelect" update="@form"
+                            listener="#{attributesController.selectAttributeType()}"/>
+
+                    <p:column headerText="Код" styleClass="m-text-medium">
+                        <h:outputText value="#{data.recid}" />
+                    </p:column>
+
+                    <p:column headerText="Имя типа"  styleClass="m-text-medium">
+                        <h:outputText value="#{data.typeName}" />
+                    </p:column>
+                    <p:column headerText="Список"  styleClass="m-text-medium">
+                        <h:outputText value="#{data.enumeration}" />
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+
+            <p:fieldset id="form" legend="Форма" rendered="#{uiController.editForm}">
+                <h:form>
+                <p:panelGrid columns="2" style="border: 0px">
+                    <h:outputLabel value="Код типа:" styleClass="m-text-medium"/>
+                    <h:outputText value="#{attributesController.ecoresattributetype.recid}"
+                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                    <h:outputLabel value="Имя типа:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{attributesController.ecoresattributetype.typeName}"
+                                 style="font: Segoe; font-size:24px; width: 550px; height: 40px">
+                        <p:ajax event="change" listener="#{attributesController.saveAttributeDataType()}" update="@form"/>
+                    </p:inputText>
+                    <h:outputLabel value="Тип данных:" styleClass="m-text-medium"/>
+
+                    <p:selectOneMenu id="dataType" var="t" value="#{attributesController.dataType}" converter="#{datatypeConverter}" style="width: 200px">
+                        <p:ajax event="change" update="@form"
+                                listener="#{attributesController.saveAttributeDataType()}"/>
+                        <f:selectItems value="#{attributesController.attributeDataTypeValues2}" var="g" itemValue="#{g}" itemLabel="#{g.label}"/>
+                        <p:column>
+                            <h:outputText value="#{t.label}" style="font-size: 24px"/>
+                        </p:column>
+                    </p:selectOneMenu>
+
+                    <h:outputLabel value="Фиксированный список:" styleClass="m-text-medium"/>
+                        <p:selectBooleanCheckbox  value="#{attributesController.ecoresattributetype.enumeration}"
+                                     style="font: Segoe; font-size:24px; width: 550px; height: 40px">
+                            <p:ajax listener="#{attributesController.checkboxChanged(true)}" update="@form"/>
+                        </p:selectBooleanCheckbox>
+                </p:panelGrid>
+                </h:form>
+            </p:fieldset>
+
+            <p:fieldset rendered="#{attributesController.ecoresattributetype.enumeration and uiController.editForm}" id="hiddingPanel" legend="Список значений">
+                <p:commandButton id="addValue" value="Создать" action="#{attributesController.addTypeValue}" update=":mainForm:atrrtable"/>
+                <p:commandButton id="deleteValue" value="Удалить" action="#{attributesController.deleteTypeValue}" update="@form"/>
+
+                <p:dataTable var="data"
+                             id="atrrtable"
+                             value="#{attributesController.ecoresvalueenumerationList}"
+                             selection="#{attributesController.ecoresvalueenumeration}"
+                             selectionMode="single"
+                             rowKey="#{data.recid}"
+                             rendered="true"
+                             style="width: 800px">
+                             <!--editable="true"
+                             editMode="cell">
+-->
+                    <f:facet name="header">
+                        Значения фиксированного списка
+                    </f:facet>
+
+                        <p:ajax event="rowSelect" listener="#{attributesController.addMessage(attributesController.ecoresvalueenumeration.textValue)}"
+                                update=":mainForm:messages" />
+                    <!--<p:ajax event="cellEdit" listener="#{attributesController.onCellEdit}" update=":mainForm:messages" />-->
+
+                    <p:column headerText="Код" rendered="false">
+                        <h:outputText value="#{data.recid}" />
+                    </p:column>
+
+                    <p:column headerText="Тип">
+                        <h:outputText value="#{data.instanceRelationType}" />
+                    </p:column>
+                    <p:column headerText="Значение" rendered="true">
+                        <p:inputText id="input" value="#{data.textValue}" style="width:96%">
+                            <p:ajax event="change" update=":mainForm:messages" listener="#{attributesController.saveTypeValue()}"/>
+                        </p:inputText>
+                    </p:column>
+                    <p:column headerText="Значение" rendered="false">
+
+                        <p:cellEditor rendered="false">
+                            <f:facet name="output"><h:outputText value="#{data.textValue}" /></f:facet>
+                            <f:facet name="input"><p:inputText id="modelInput" value="#{data.textValue}" style="width:96%"/></f:facet>
+                        </p:cellEditor>
+
+                    </p:column>
+
+                </p:dataTable>
+
+            </p:fieldset>
+        </p:panelGrid>
+
+    </h:form>
+
+
+
+
+
+</h:body>
+</html>

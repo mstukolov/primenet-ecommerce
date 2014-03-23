@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite" xmlns:custom="http://java.sun.com/jstl/core">
+
+<composite:interface>
+    <composite:attribute name="inputValue"/>
+    <composite:attribute name="submitButtonText"/>
+    <composite:attribute name="currentPage"/>
+</composite:interface>
+
+<composite:implementation>
+    <p:growl id="messages"/>
+
+    <h:form>
+
+       THIS IS ECORESCATEGORY
+
+        <p:dataTable var="data"
+                     value="#{ecorescategoryController.ecorescategories}"
+                     selectionMode = "single"
+                     rowKey="#{data.recid}"
+                     selection="#{ecorescategoryController.selected}"
+                >
+            <p:ajax event="rowSelect" update="@form"
+                    listener="#{ecorescategoryController.addMessage(ecorescategoryController.selected.recid)}"/>
+
+            <p:column headerText="recid">
+                <h:outputText value="#{data.recid}" />
+            </p:column>
+
+            <p:column headerText="url">
+                <h:outputText value="#{data.name}" />
+            </p:column>
+            <p:column headerText="image" rendered="false">
+                <p:graphicImage value="#{data.parentrecid}"/>
+            </p:column>
+
+
+        </p:dataTable>
+    </h:form>
+
+
+</composite:implementation>
+
+</html>

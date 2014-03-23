@@ -1,0 +1,115 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/theme.css" />
+    <link rel="stylesheet" href="resources/css/m-styles.min.css"/>
+</h:head>
+<f:metadata>
+    <f:viewParam name="backurl" value="#{uiController.backurl}"/>
+</f:metadata>
+<h:body>
+
+    <custom:topbar  inputValue="Настройка банера Карусель"
+                    currentPage="carousel.xhtml"
+                    thisPage="#{uiController.setPage('carousel')}"
+                    backButtonAction="#{uiController.setReference('carousel.xhtml')}"
+                    createButtonAction="#{carouselController.create()}"
+                    saveButtonAction="#{carouselController.save}"
+                    editButtonAction="#{uiController.edit(uiController.editForm)}"
+                    deleteButtonAction="#{carouselController.delete(carouselController.selected)}"
+                    searchButtonAction="#{carouselController.search}"
+            />
+
+    <h:form id="mainForm">
+        <p:growl id="messages"/>
+        <p:hotkey bind="ctrl+s" update="@form"
+                  actionListener="#{carouselController.save()}"/>
+
+        <p:carousel id="basicCarousel" value="#{carouselController.idlist}" var="item"
+                    pageLinks="4" autoPlayInterval="4000"  rows="6"
+                    numVisible="1" effect="easeInStrong" circular="true">
+            <!--<f:facet name="header">
+                List
+            </f:facet>-->
+            <p:panelGrid columns="1" style="width:100%;height: 250px" cellpadding="5">
+                <p:commandLink action="#{uiController.goItems}">
+                    <p:graphicImage value="#{carouselController.getImageByNum()}" width="300" height="450">
+                        <f:param name="inv" value="#{item}" />
+                    </p:graphicImage>
+                    <h:outputText value="#{item}"/>
+                </p:commandLink>
+            </p:panelGrid>
+
+        </p:carousel>
+        <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
+            <p:fieldset id="table" legend="Табличная часть" rendered="#{not uiController.editForm}">
+                <p:dataTable var="data"
+                             value="#{carouselController.carouselList}"
+                             selectionMode = "single"
+                             rowKey="#{data.recid}"
+                             selection="#{carouselController.selected}"
+                        >
+                    <p:ajax event="rowSelect" update=":mainForm:messages, :mainForm:form"
+                            listener="#{carouselController.addMessage(carouselController.selected.recid)}"/>
+
+                    <p:column headerText="recid">
+                        <h:outputText value="#{data.recid}" />
+                    </p:column>
+
+                    <p:column headerText="url">
+                        <h:outputText value="#{data.url}" />
+                    </p:column>
+                    <p:column headerText="image" rendered="false">
+                        <p:graphicImage value="#{data.image}" width="300" height="450"/>
+                    </p:column>
+
+
+                </p:dataTable>
+            </p:fieldset>
+            <p:fieldset id="form" legend="Форма" rendered="#{uiController.editForm}">
+                <p:panelGrid columns="2" style="border: 0px">
+
+                    <h:outputLabel value="Ссылка:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{carouselController.selected.url}"
+                                    style="font: Segoe; font-size:24px; width: 350px; height: 40px"
+                                 rendered="#{uiController.editForm}">
+                        <p:ajax event="change" listener="#{carouselController.save()}" update="messages, table"/>
+                    </p:inputText>
+                    <p:graphicImage value="#{carouselController.image}" width="300"  id="grpImage" height="250"/>
+
+
+                    <p:fileUpload fileUploadListener="#{carouselController.handleFileUpload}"
+                                  mode="advanced"
+                                  dragDropSupport="true"
+                                  update=":mainForm:messages, @form"
+                                  sizeLimit="1000000000"
+                                  style="width: 400px"
+                                  rendered="#{uiController.editForm}"
+                                  allowTypes="/(\.|\/)(gif|jpg|jpe?g|png)$/" />
+                    <h:form id="version">
+                        <h:outputLabel value="Версия: #{carouselController.selected.version}" styleClass="m-text-medium" id="version"/>
+                    </h:form>
+
+
+
+                </p:panelGrid>
+
+            </p:fieldset>
+
+        </p:panelGrid>
+
+    </h:form>
+
+
+
+
+
+</h:body>
+</html>
