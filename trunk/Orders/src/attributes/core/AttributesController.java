@@ -227,7 +227,7 @@ public class AttributesController {
             public void selectionAttribute(){
                 ecoresattributetypeSelected = attributetypeFacade.find(ecoresattribute.getAttributeTypeRef());
                 for(Getattributeenumlist enumlist : getattributeenumlistFacade.findEnumsByAttributeId(ecoresattribute)){
-                    _log.info("Значение атрибута ПРОВЕРКА 222-888-55: " + enumlist.getTextValue());
+                    _log.info("Значение атрибута ПРОВЕРКА 222-888-55-1111111111111: " + enumlist.getTextValue());
                 }
                 addMessage("Атрибут выбран" + ecoresattribute.getRecid() + ", тип: " + ecoresattribute.getAttributeTypeRef());
             }
