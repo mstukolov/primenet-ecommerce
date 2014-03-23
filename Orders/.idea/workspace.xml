@@ -7,11 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" readonly="true" id="58407f41-33ee-43de-8bc3-d5b3af9beaa9" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib" afterPath="$PROJECT_DIR$/lib" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/orders/controllers/CompanyController.java" afterPath="$PROJECT_DIR$/src/com/orders/controllers/CompanyController.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Orders.iml" afterPath="$PROJECT_DIR$/Orders.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/Orders_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/Orders_war_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/attributes/core/AttributesController.java" afterPath="$PROJECT_DIR$/src/attributes/core/AttributesController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <list id="c093d4f6-402f-4c8a-b27e-6be517091a38" name="Failed commit: Default" comment="first commit" />
@@ -48,7 +44,7 @@
     <file path="/BaseEntity.java" changelist="58407f41-33ee-43de-8bc3-d5b3af9beaa9" time="1384109892357" ignored="false" />
     <file path="/CompanyController.java" changelist="58407f41-33ee-43de-8bc3-d5b3af9beaa9" time="1395599088744" ignored="false" />
     <file path="/CompanyFacade.java" changelist="58407f41-33ee-43de-8bc3-d5b3af9beaa9" time="1383509332115" ignored="false" />
-    <file path="/Dummy.txt" changelist="58407f41-33ee-43de-8bc3-d5b3af9beaa9" time="1395601197006" ignored="false" />
+    <file path="/Dummy.txt" changelist="58407f41-33ee-43de-8bc3-d5b3af9beaa9" time="1395602776978" ignored="false" />
     <file path="$PROJECT_DIR$/../OrdersTest/src/facade/UserFacade.java" changelist="58407f41-33ee-43de-8bc3-d5b3af9beaa9" time="1384450779837" ignored="false" />
     <file path="$PROJECT_DIR$/../OrdersTest/src/facade/AbstractFacade.java" changelist="58407f41-33ee-43de-8bc3-d5b3af9beaa9" time="1383401783387" ignored="false" />
     <file path="/OrderTest.java" changelist="58407f41-33ee-43de-8bc3-d5b3af9beaa9" time="1384452972548" ignored="false" />
@@ -141,6 +137,7 @@
     <groupTables value="false" />
   </component>
   <component name="DebuggerManager">
+    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_any default_suspend_policy="SuspendAll" default_condition_enabled="true">
       <breakpoint>
         <option name="NOTIFY_CAUGHT" value="true" />
@@ -177,7 +174,6 @@
         <option name="LOG_MESSAGE" value="" />
       </breakpoint>
     </breakpoint_any>
-    <ui_properties default_suspend_policy="SuspendAll" default_condition_enabled="true" />
     <breakpoint_rules />
     <ui_properties />
   </component>
@@ -190,24 +186,8 @@
       <file leaf-file-name="shop.xhtml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/web/shop.xhtml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="28" selection-start="629" selection-end="629" vertical-scroll-proportion="-0.65384614">
-              <folding>
-                <marker date="1395593897728" expanded="true" signature="1903:1943" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="2022:2034" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="3616:3646" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="3774:3805" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="4007:4031" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="4273:4300" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="4648:4672" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="4853:4877" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="5075:5099" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="5304:5328" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="5500:5530" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="5808:5817" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="6124:6166" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="6576:6649" placeholder="{...}" />
-                <marker date="1395593897728" expanded="true" signature="7668:7683" placeholder="{...}" />
-              </folding>
+            <state line="16" column="28" selection-start="629" selection-end="629" vertical-scroll-proportion="0.0">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -216,9 +196,7 @@
         <entry file="file://$PROJECT_DIR$/src/com/orders/controllers/CompanyController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state line="81" column="50" selection-start="3043" selection-end="3043" vertical-scroll-proportion="0.0">
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -226,7 +204,7 @@
       <file leaf-file-name="AttributesController.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/attributes/core/AttributesController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="219" column="76" selection-start="10302" selection-end="10302" vertical-scroll-proportion="0.23433875">
+            <state line="229" column="82" selection-start="10959" selection-end="10959" vertical-scroll-proportion="0.3624031">
               <folding />
             </state>
           </provider>
@@ -302,7 +280,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -317,13 +294,28 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="Orders2014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
               <option name="myItemId" value="Orders" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Orders2014" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -343,14 +335,14 @@
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="Repository.Attach.Sources" value="false" />
-    <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
+    <property name="FullScreen" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="GoToClass.includeLibraries" value="false" />
-    <property name="Downloaded.Files.Path" value="C:\Projects\Java\Projects\Orders\lib" />
-    <property name="dynamic.classpath" value="false" />
-    <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="dynamic.classpath" value="false" />
+    <property name="Downloaded.Files.Path" value="C:\Projects\Java\Projects\Orders\lib" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -371,118 +363,6 @@
       <recent name="C:\Projects\Java\Projects\Orders\web\WEB-INF" />
       <recent name="C:\Projects\Java\Projects\Orders\src\META-INF\resources\css" />
     </key>
-  </component>
-  <component name="RestoreUpdateTree">
-    <UpdateInfo date="Moments ago" ActionInfo="_Update">
-      <UpdatedFiles>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated from server" />
-          <option name="myStatusName" value="Changed on server" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CHANGED_ON_SERVER" />
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Updated" />
-            <option name="myStatusName" value="Changed" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="UPDATED" />
-            <PATH vcs="svn" revision="87">C:\Java\PrimeShop\Orders\src\attributes\core\AttributesController.java</PATH>
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Created" />
-            <option name="myStatusName" value="Created" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="CREATED" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Deleted" />
-            <option name="myStatusName" value="Deleted" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="true" />
-            <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-          </FILE-GROUP>
-          <FILE-GROUP>
-            <option name="myUpdateName" value="Restored" />
-            <option name="myStatusName" value="Will be restored" />
-            <option name="mySupportsDeletion" value="false" />
-            <option name="myCanBeAbsent" value="false" />
-            <option name="myId" value="RESTORED" />
-          </FILE-GROUP>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Modified" />
-          <option name="myStatusName" value="Modified" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MODIFIED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Skipped" />
-          <option name="myStatusName" value="Skipped" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SKIPPED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with conflicts" />
-          <option name="myStatusName" value="Will be merged with conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_CONFLICTS" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with tree conflicts" />
-          <option name="myStatusName" value="Merged with tree conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged with property conflicts" />
-          <option name="myStatusName" value="Will be merged with property conflicts" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Merged" />
-          <option name="myStatusName" value="Will be merged" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="MERGED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Not in repository" />
-          <option name="myStatusName" value="Not in repository" />
-          <option name="mySupportsDeletion" value="true" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UNKNOWN" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally added" />
-          <option name="myStatusName" value="Locally added" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_ADDED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Locally removed" />
-          <option name="myStatusName" value="Locally removed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="LOCALLY_REMOVED" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Switched" />
-          <option name="myStatusName" value="Switched" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="SWITCHED" />
-        </FILE-GROUP>
-      </UpdatedFiles>
-    </UpdateInfo>
   </component>
   <component name="RunManager" selected="Glassfish Server.Glassfish">
     <configuration default="false" name="Default" type="com.intellij.persistence.run.ConsoleRunConfigurationType" factoryName="Query Language Console" temporary="true">
@@ -532,6 +412,19 @@
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <method />
     </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <module name="" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="HTML_FILE_NAME" />
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <option name="VM_PARAMETERS" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method />
+    </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
       <module name="" />
@@ -558,19 +451,6 @@
       <envs />
       <properties />
       <listeners />
-      <method />
-    </configuration>
-    <configuration default="true" type="Applet" factoryName="Applet">
-      <module name="" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="HTML_FILE_NAME" />
-      <option name="HTML_USED" value="false" />
-      <option name="WIDTH" value="400" />
-      <option name="HEIGHT" value="300" />
-      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
-      <option name="VM_PARAMETERS" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
       <method />
     </configuration>
     <configuration default="true" type="Application" factoryName="Application">
@@ -616,6 +496,12 @@
       <patterns />
       <method />
     </configuration>
+    <configuration default="true" type="com.intellij.persistence.run.ConsoleRunConfigurationType" factoryName="Query Language Console">
+      <option name="VM_PARAMETERS" value="" />
+      <option name="USER_CFG_CLASS" />
+      <option name="CONTEXT_PROVIDER" />
+      <method />
+    </configuration>
     <configuration default="true" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local">
       <deployment />
       <server-settings />
@@ -625,12 +511,6 @@
       <predefined_log_file id="Tomcat Host Manager" enabled="false" />
       <predefined_log_file id="Tomcat Localhost Access" enabled="false" />
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <method />
-    </configuration>
-    <configuration default="true" type="com.intellij.persistence.run.ConsoleRunConfigurationType" factoryName="Query Language Console">
-      <option name="VM_PARAMETERS" value="" />
-      <option name="USER_CFG_CLASS" />
-      <option name="CONTEXT_PROVIDER" />
       <method />
     </configuration>
     <configuration default="false" name="Java" type="Application" factoryName="Application">
@@ -871,20 +751,20 @@
     <option name="myMappingRoots">
       <list>
         <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="C:\Java\PrimeShop\Orders" />
-          <option name="myCopyRoot" value="C:\Java\PrimeShop\Orders" />
+          <option name="myVcsRoot" value="C:\Java\PrimeShop\Orders2014" />
+          <option name="myCopyRoot" value="C:\Java\PrimeShop\Orders2014" />
         </SvnCopyRootSimple>
         <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="C:\Java\PrimeShop\Orders\.idea" />
-          <option name="myCopyRoot" value="C:\Java\PrimeShop\Orders\.idea" />
+          <option name="myVcsRoot" value="C:\Java\PrimeShop\Orders2014\.idea" />
+          <option name="myCopyRoot" value="C:\Java\PrimeShop\Orders2014\.idea" />
         </SvnCopyRootSimple>
       </list>
     </option>
     <option name="myMoreRealMappingRoots">
       <list>
         <SvnCopyRootSimple>
-          <option name="myVcsRoot" value="C:\Java\PrimeShop\Orders" />
-          <option name="myCopyRoot" value="C:\Java\PrimeShop\Orders" />
+          <option name="myVcsRoot" value="C:\Java\PrimeShop\Orders2014" />
+          <option name="myCopyRoot" value="C:\Java\PrimeShop\Orders2014" />
         </SvnCopyRootSimple>
       </list>
     </option>
@@ -905,7 +785,11 @@
       <created>1385314209656</created>
       <updated>1385314209656</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="update 23/03/2014">
+      <created>1395602790715</created>
+      <updated>1395602790715</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -930,10 +814,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1932" height="1056" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39576367" sideWeight="0.4973262" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="SVN Properties" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998884" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Persistence" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22424242" sideWeight="0.3458904" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -942,25 +825,26 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46265328" sideWeight="0.5026738" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.39576367" sideWeight="0.5026738" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998884" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="JSF" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.6267123" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.46265328" sideWeight="0.4973262" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.46265328" sideWeight="0.4973262" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="SVN Repositories" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5284281" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2128788" sideWeight="0.5565069" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32887402" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.19318181" sideWeight="0.26027396" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3277592" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17219251" sideWeight="0.5373467" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.17219251" sideWeight="0.60423636" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.67112595" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="SVN Repositories" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.5284281" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
       <window_info id="Database Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32876712" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.329582" sideWeight="0.610245" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="SVN Properties" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32998884" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.6815069" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1100,7 +984,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/web/WEB-INF/faces-config.xml">
-      <provider editor-type-id="com.intellij.jsf.ui.FacesConfigEditorProvider">
+      <provider editor-type-id="com.intellij.jsf.yfilesGraph.editor.FacesNavigationFileEditorProvider">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
@@ -1108,7 +992,7 @@
           <folding />
         </state>
       </provider>
-      <provider editor-type-id="com.intellij.jsf.yfilesGraph.editor.FacesNavigationFileEditorProvider">
+      <provider editor-type-id="com.intellij.jsf.ui.FacesConfigEditorProvider">
         <state />
       </provider>
     </entry>
@@ -1142,32 +1026,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/web/shop.xhtml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="28" selection-start="629" selection-end="629" vertical-scroll-proportion="-0.65384614">
-          <folding>
-            <marker date="1395593897728" expanded="true" signature="1903:1943" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="2022:2034" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="3616:3646" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="3774:3805" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="4007:4031" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="4273:4300" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="4648:4672" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="4853:4877" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="5075:5099" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="5304:5328" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="5500:5530" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="5808:5817" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="6124:6166" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="6576:6649" placeholder="{...}" />
-            <marker date="1395593897728" expanded="true" signature="7668:7683" placeholder="{...}" />
-          </folding>
+        <state line="16" column="28" selection-start="629" selection-end="629" vertical-scroll-proportion="0.0">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="jar://$PROJECT_DIR$/lib/javax.servlet.jar!/javax/servlet/ServletContext.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="6" column="17" selection-start="160" selection-end="160" vertical-scroll-proportion="-0.96030533">
-          <folding />
-        </state>
+        <state line="6" column="17" selection-start="160" selection-end="160" vertical-scroll-proportion="-0.96030533" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/orders/search/IndexerController.java">
@@ -1179,23 +1045,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.idea/libraries/lucene_analyzers_3_1_0.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/orders/controllers/CompanyController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="81" column="50" selection-start="3043" selection-end="3043" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/attributes/core/AttributesController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="219" column="76" selection-start="10302" selection-end="10302" vertical-scroll-proportion="0.23433875">
+        <state line="229" column="82" selection-start="10959" selection-end="10959" vertical-scroll-proportion="0.3624031">
           <folding />
         </state>
       </provider>
