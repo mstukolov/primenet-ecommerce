@@ -1,0 +1,134 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/theme.css" />
+    <link rel="stylesheet" href="resources/css/m-styles.min.css"/>
+</h:head>
+<f:metadata>
+    <f:viewParam name="backurl" value="#{uiController.backurl}"/>
+</f:metadata>
+<h:body>
+
+    <custom:topbar  inputValue="Заказы"
+                    currentPage="orders.xhtml"
+                    backButtonAction="#{uiController.setReference('orders.xhtml')}"
+                    createButtonAction="#{userController.create}"
+                    saveButtonAction="#{userController.save}"
+                    editButtonAction="#{uiController.edit}"
+                    deleteButtonAction="#{userController.delete}"
+                    refreshButtonAction="#{ordersController.refreshOrders()}"
+            />
+    <h:form id="mainForm">
+        <p:growl id="messages"/>
+        <p:poll interval="60"
+                listener="#{uiController.increment}" update="@form" />
+        <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
+
+            <p:fieldset id="table" legend="Табличная часть">
+                <p:panelGrid columns="4" style="border: 0px" rendered="true">
+
+                    <p:commandButton value="Обновить"
+                                     action="#{ordersController.refreshOrders()}"
+                                     update="@form" style="width: 200px"/>
+
+                    <p:commandButton value="Оплачен"
+                                     action="#{proposalController.setBlocked()}"
+                                     update="@form" style="width: 200px"/>
+                    <p:commandButton value="В пути"
+                                     action="#{proposalController.setPromoAction()}"
+                                     update="@form" style="width: 200px"/>
+                    <p:commandButton value="Доставлен"
+                                     action="#{proposalController.refresh()}"
+                                     update="@form" style="width: 200px"/>
+
+                </p:panelGrid>
+                <p:dataTable var="data"
+                             value="#{ordersController.orderList}"
+                             selectionMode = "multiple"
+                             rowKey="#{data.recid}"
+                             selection="#{ordersController.selectedOrders}"
+                             scrollable="true"
+                             scrollHeight="550"
+                             style="width: 1650px"
+                        >
+                    <p:ajax event="rowSelect" update=":mainForm:messages, :mainForm:form"
+                            listener="#{ordersController.addMessage('Selected')}"/>
+
+                   <p:column headerText="Дата заказа" style="width: 150px" styleClass="m-text-medium">
+                        <h:outputText value="#{data.createdAt}">
+                            <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Предложение"   style="width: 150px" styleClass="m-text-medium">
+                        <h:outputText value="#{data.proposal}" />
+                    </p:column>
+
+                    <p:column headerText="Код заказа" style="width: 100px" filterBy="#{data.recid}" filterMatchMode="contains" styleClass="m-text-medium">
+                        <h:outputText value="#{data.recid}" />
+                    </p:column>
+                    <p:column headerText="Клиент" style="width: 150px" filterBy="#{data.customer}" filterMatchMode="contains" styleClass="m-text-medium">
+                        <h:outputText value="#{data.customer}" />
+                    </p:column>
+
+                    <p:column headerText="Код товара" style="width: 150px" filterBy="#{data.product}" filterMatchMode="contains" styleClass="m-text-medium">
+                        <h:outputText value="#{data.product}" />
+                    </p:column>
+                    <p:column headerText="Название" style="width: 15%">
+                        <h:outputText value="#{proposalController.findProduct(data.product).name}" styleClass="m-text-medium"/>
+                    </p:column>
+                    <p:column headerText="Кол-во" style="width: 100px" styleClass="m-text-medium">
+                        <h:outputText value="#{data.qty}" />
+                    </p:column>
+                    <p:column headerText="Цена" style="width: 100px" styleClass="m-text-medium">
+                        <h:outputText value="#{data.price}" />
+                    </p:column>
+                    <p:column headerText="Сумма" style="width: 100px" styleClass="m-text-medium">
+                        <h:outputText value="#{data.amount}" />
+                    </p:column>
+                    <p:column headerText="Статус" style="width: 100px" filterBy="#{data.status}" filterOptions="#{ordersController.statusOptions}"
+                              filterMatchMode="exact" styleClass="m-text-medium">
+                        <h:outputText value="#{data.status}" />
+                    </p:column>
+                    <p:column headerText="Бонусы" style="width: 100px" styleClass="m-text-medium">
+                        <h:outputText value="#{data.bonus}" />
+                    </p:column>
+                </p:dataTable>
+            </p:fieldset>
+            <p:fieldset id="form" legend="Управление">
+                <p:panelGrid columns="1" style="border: 0px" rendered="true">
+
+                    <p:commandButton value="Обработка"
+                                     action="#{ordersController.setStatusSelectedOrders('Обработка')}"
+                                     update="@form" style="width: 200px"/>
+                    <p:commandButton value="Оплачен"
+                                     action="#{ordersController.setStatusSelectedOrders('Оплачен')}"
+                                     update="@form" style="width: 200px"/>
+                    <p:commandButton value="Оплатить бонусами"
+                                     action="#{bonusController.payOrderByBonus(ordersController.selectedOrders)}"
+                                     update="@form" style="width: 200px"/>
+                    <p:commandButton value="В пути"
+                                     action="#{ordersController.setStatusSelectedOrders('В пути')}"
+                                     update="@form" style="width: 200px"/>
+                    <p:commandButton value="Доставлен"
+                                     action="#{ordersController.setStatusSelectedOrders('Доставлен')}"
+                                     update="@form" style="width: 200px"/>
+
+
+                </p:panelGrid>
+            </p:fieldset>
+        </p:panelGrid>
+    </h:form>
+
+
+
+
+
+</h:body>
+</html>

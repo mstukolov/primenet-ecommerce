@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="OrdersPU" transaction-type="JTA">
+
+        <jta-data-source>jdbc/mysql</jta-data-source>
+        <class>attributes.model.Ecoresgroupbyattribute</class>
+        <class>attributes.model.Ecoresvalueenumeration</class>
+        <class>attributes.model.Ecoresvalue</class>
+        <class>attributes.model.Ecoresproductattributevalue</class>
+        <class>attributes.model.Getattributeenumlist</class>
+
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="eclipselink.temporal.mutable"
+                      value="true" />
+            <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/sakila"/>
+            <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="toplink.jdbc.user" value="root"/>
+            <property name="toplink.jdbc.password" value="java"/>
+        </properties>
+
+    </persistence-unit>
+</persistence>

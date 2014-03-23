@@ -1,0 +1,127 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/theme.css" />
+    <link rel="stylesheet" href="resources/css/m-styles.min.css"/>
+</h:head>
+<f:metadata>
+    <f:viewParam name="backurl" value="#{uiController.backurl}"/>
+</f:metadata>
+<h:body>
+
+    <custom:topbar  inputValue="Карточка товара"
+                    currentPage="itemcard.xhtml"
+                    backButtonAction="#{uiController.setReference('info.xhtml')}"/>
+
+    <h:form id="mainForm">
+        <p:growl id="messages"/>
+        <h:outputText value="Код товара: #{proposalController.findProduct(itemCardController.current.product).recid}"
+                      style="border-right-width: 10px;padding-left: 2%;"
+                      styleClass="m-text-large"/>
+        <h:panelGrid columns="3" columnClasses="alignRight,alignRight" style="width: 75%;">
+        <h:outputText value="#{proposalController.findProduct(itemCardController.current.product).name}"
+                      style="border-right-width: 10px;padding-left: 3%;"
+                      styleClass="m-text-header"/>
+        <br/><br/>
+
+        <div>
+            <p:commandLink action="#{uiController.goShopcart}" styleClass="m-text-medium">Ваша корзина
+                (
+                <h:outputText value="#{proposalController.shopingCart.cartBalance} РУБЛЕЙ" styleClass="m-text-large">
+                    <f:convertNumber currencyCode="RUR" type="currency" minFractionDigits="2" />
+                </h:outputText>
+                )
+            </p:commandLink>
+        </div>
+        </h:panelGrid>
+        <h:panelGrid columns="2" columnClasses="alignRight,alignRight" style="width: 75%;">
+            <h:panelGrid columns="1" style="width: 100%;padding-left: 5%;" cellpadding="1">
+                <p:lightBox>
+                    <h:outputLink value="???????" title="Sopranos 1">
+                        <p:graphicImage value="#{itemCardController.getRelevantProductImage()}" style="height: 400px; width: 600px" id="grpImage">
+                            <f:param name="relevantProd" value="#{itemCardController.current.product}" />
+                        </p:graphicImage>
+                    </h:outputLink>
+                </p:lightBox>
+            </h:panelGrid>
+
+            <h:panelGrid columns="2" >
+                <h:outputText value="#{itemCardController.current.price} РУБ."  styleClass="m-text-header"/>
+
+                <h:panelGrid columns="4">
+
+                    <p:inputText value="#{itemCardController.current.qty}"
+                                 rendered="false"
+                                 style="font-size:46px; width: 105px; height: 75px"/>
+                    <p:spacer width="50px"/>
+                    <p:commandButton value="Заказать"
+                                     action="#{proposalController.addItemShoppingCart(itemCardController.current)}"
+                                     update="@form"
+                                     style="height: 75px; width: 200px;float:right !important;margin:0px 0px 3px 0px;"   />
+                </h:panelGrid>
+                <h:panelGrid columns="2" style="padding-left: 50px;">
+                    <h:outputText value="Текущее предложение:"  styleClass="m-text-large"/>
+                    <h:outputText value=" #{itemCardController.current.recid}"  style="border-right-width: 10px" styleClass="m-text-large"/>
+                    <h:outputText value="Минимальное количество:"  styleClass="m-text-large" style="width: 400px"/>
+                    <h:outputText value="#{itemCardController.current.minQty}"  styleClass="m-text-large"/>
+                    <h:outputText value="Количество на складе:"  styleClass="m-text-large"/>
+                    <h:outputText value="#{itemCardController.current.qty}"  styleClass="m-text-large"/>
+                    <h:outputText value="Стартовое Количество:"  styleClass="m-text-large"/>
+                    <h:outputText value="#{itemCardController.current.startQty}"  styleClass="m-text-large"/>
+                    <h:outputText value="Промо:"  styleClass="m-text-large"/>
+                    <h:outputText value="#{itemCardController.current.promo eq true ? 'Да' : 'Нет'}"  styleClass="m-text-large"/>
+                    <h:outputText value="Описание товара:"  styleClass="m-text-large"/>
+                    <h:outputText value="#{itemCardController.current.description}"  styleClass="m-text-large"/>
+                </h:panelGrid>
+
+            </h:panelGrid>
+
+            <h:panelGrid columns="4" rendered="false">
+                <h:outputText value="Количество:" styleClass="m-text-medium"/>
+                <p:inputText value="#{itemCardController.current.qty}"
+                             rendered="false"
+                             style="font-size:46px; width: 105px; height: 75px"/>
+                <p:spacer width="50px"/>
+                <p:commandButton value="Заказать"
+                                 action="#{proposalController.addItemShoppingCart(itemCardController.current)}"
+                                 update="@form"
+                                 style="height: 75px; width: 200px;float:right !important;margin:0px 0px 3px 0px;"   />
+            </h:panelGrid>
+
+        </h:panelGrid>
+        <br/><br/>
+        <h2>С ЭТИМ ТОВАРОМ ЧАСТО СМОТРЯТ</h2>
+        <p:carousel id="relevant" value="#{itemCardController.relevantPropolsals}"
+                    var="item"
+                    pageLinks="4" autoPlayInterval="4000"  rows="6"
+                    numVisible="1" effect="easeInStrong" circular="true"
+                    style = "border: hidden; border-top: hidden; border-left: hidden">
+
+            <p:panelGrid columns="1" style="width:80%;height: 250px;" cellpadding="5">
+                <p:commandLink action="#{uiController.goItemCard(item)}">
+                    <p:graphicImage value="#{itemCardController.getRelevantProductImage()}" width="150" height="150">
+                        <f:param name="relevantProd" value="#{item.product}" />
+                    </p:graphicImage>
+                </p:commandLink>
+                <p:commandLink action="#{uiController.goItemCard(item)}">
+                    <h:outputText value="#{proposalController.findProduct(item.product).name}" styleClass="m-text-medium"/>
+                </p:commandLink>
+                <h:outputText value="Код товара: #{proposalController.findProduct(item.product).recid}" styleClass="m-text-medium"/>
+                <h:outputText value="#{item.price} РУБ." styleClass="m-text-medium"/>
+            </p:panelGrid>
+        </p:carousel>
+    </h:form>
+
+
+
+
+
+</h:body>
+</html>

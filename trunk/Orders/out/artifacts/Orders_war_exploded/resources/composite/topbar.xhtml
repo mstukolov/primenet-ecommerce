@@ -1,0 +1,157 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+    <composite:attribute name="inputValue"/>
+    <composite:attribute name="submitButtonText"/>
+    <composite:attribute name="currentPage"/>
+    <composite:attribute name="thisPage"
+                         method-signature="java.lang.String action()"/>
+    <composite:attribute name="backButtonAction"
+                         method-signature="java.lang.String action()"/>
+    <composite:attribute name="createButtonAction"
+                         method-signature="java.lang.String action()"/>
+    <composite:attribute name="saveButtonAction"
+                         method-signature="java.lang.String action()"/>
+    <composite:attribute name="editButtonAction"
+                         method-signature="java.lang.String action()"/>
+    <composite:attribute name="deleteButtonAction"
+                         method-signature="java.lang.String action()"/>
+    <composite:attribute name="searchButtonAction"
+                         method-signature="java.lang.String action()"/>
+    <composite:attribute name="refreshButtonAction"
+                         method-signature="java.lang.String action()"/>
+
+</composite:interface>
+
+<composite:implementation>
+    <h:form id="menuForm">
+        <p:growl id="messages"/>
+        <p:menubar>
+            <p:menuitem value="HOME"  update="messages"/>
+            <p:menuitem value="Магазин" action="#{uiController.goShop_C()}" update="messages"/>
+            <p:menuitem value="Личный кабинет" action="#{uiController.goPersonalAccount}" update="messages" rendered="#{loginController.user}"/>
+            <p:menuitem style="width: 1300px"/>
+
+                <p:menuitem action="#{uiController.changeAdmin()}" update="@form">
+                    <p:lightBox id="internalLightBox" widgetVar="lightBox" iframe="true" width="200%" height="30%" >
+                        <h:outputLink id="internalLink" value="login.xhtml">
+                            <h:outputText value="#{loginController.menuTxt}" styleClass="m-text-large"/>
+                        </h:outputLink>
+
+                    </p:lightBox>
+                </p:menuitem>
+        </p:menubar>
+
+        <div id="label" class="ui-form-label">
+         <h:outputText value="#{cc.attrs.inputValue}"/>
+        </div>
+
+        <p:tabMenu activeIndex="0">
+
+            <p:menuitem value="Товары" url="/faces/items.xhtml" rendered="true"/>
+            <p:menuitem value="Заказы"  url="/faces/orders.xhtml" rendered="true" />
+            <p:menuitem value="Предложения" url="/faces/proposal.xhtml" rendered="true"/>
+            <p:menuitem value="Клиенты" url="/faces/customers.xhtml" rendered="#{loginController.admin}"/>
+            <p:menuitem value="Пользователи" action="#{uiController.goUsers}"  rendered="#{loginController.admin}" update="@form"/>
+            <p:menuitem value="Бонусы" url="/faces/bonus.xhtml" rendered="#{loginController.admin}"/>
+            <p:menuitem value="Компания" url="/faces/company.xhtml" rendered="#{loginController.admin}"/>
+            <p:menuitem value="Карусель" action="#{uiController.goCarousel()}"  rendered="#{loginController.admin}" update="@form"/>
+            <p:menuitem value="Классификатор" action="#{uiController.goCategories()}"  rendered="#{loginController.admin}" update="@form"/>
+
+            <p:menuitem value="Атрибуты" action="#{uiController.goAttributes()}"  rendered="#{loginController.admin}" update="@form"/>
+            <p:menuitem value="Группы Атрибутов" action="#{uiController.goAttributeGroups()}"  rendered="#{loginController.admin}" update="@form"/>
+            <p:menuitem value="Типы Атрибутов" action="#{uiController.goAttributTypes()}"  rendered="#{loginController.admin}" update="@form"/>
+
+            <p:menuitem value="Администрирование" action="#{uiController.goAdministration()}"  rendered="#{loginController.admin}" update="@form"/>
+            <p:menuitem value="Мои заказы" url="/faces/myorders.xhtml" rendered="#{loginController.user}"/>
+            <p:menuitem value="Личные данные"  url="/faces/myinfo.xhtml" rendered="#{loginController.user}"/>
+            <p:menuitem value="Профили доставок" url="/faces/mydelivery.xhtml" rendered="false"/>
+            <p:menuitem value="История" url="/faces/myhistory.xhtml" rendered="false"/>
+
+
+        </p:tabMenu>
+
+        <h:panelGrid columns="7"  border="0"
+                     cellpadding="0" cellspacing="0" style="border: 10px"
+                     rendered="#{uiController.admin and cc.attrs.currentPage != 'shop.xhtml'
+                                                    and cc.attrs.currentPage != 'users.xhtml'
+                                                    and cc.attrs.currentPage != 'personal.xhtml'
+                                                    and cc.attrs.currentPage != 'itemcard.xhtml'}">
+
+            <h:column>
+                <p:commandButton value=""
+                                 update="messages, table"
+                                 action="#{uiController.back}"
+                                 ajax="false"
+                                 styleClass="m-btn-metro m-btn-small m-light-blue m-icon-back"
+                        />
+            </h:column>
+            <h:column>
+                <p:commandButton value="Создать #{cc.attrs.submitButtonText}"
+                                 update="messages, table"
+                                 action="#{cc.attrs.createButtonAction}"
+                                 ajax="false"
+                                 styleClass="m-btn-metro m-btn-small m-light-blue m-icon-create"
+                                 rendered="#{uiController.admin and cc.attrs.currentPage != 'bonus.xhtml'}"
+                        />
+            </h:column>
+            <h:column>
+                <p:commandButton value="Изменить"
+                                 update="messages, table, form"
+                                 action="#{cc.attrs.editButtonAction}"
+                                 ajax="false"
+                                 styleClass="m-btn-metro m-btn-small m-light-blue m-icon-edit"
+                        />
+                <p:commandButton value="Сохранить"
+                                 update="@form"
+                                 prependId="true"
+                                 action="#{cc.attrs.saveButtonAction}"
+                                 rendered="false"
+                                 styleClass="m-btn-metro m-btn-small m-light-blue m-icon-save"
+                        />
+            </h:column>
+            <h:column>
+                <p:commandButton value="Удалить"
+                                 update="messages, table"
+                                 action="#{cc.attrs.deleteButtonAction}"
+                                 ajax="false"
+                                 styleClass="m-btn-metro m-btn-small m-light-blue m-icon-remove"
+                                 rendered="#{uiController.admin and cc.attrs.currentPage != 'bonus.xhtml'}"
+                        />
+            </h:column>
+            <h:column>
+                <p:commandButton value="Обновить"
+                                 update="messages, table, @form"
+                                 action="#{cc.attrs.refreshButtonAction}"
+                                 ajax="false"
+                                 styleClass="m-btn-metro m-btn-small m-light-blue m-icon-refresh"
+                        />
+            </h:column>
+            <h:column>
+                <p:spacer width="10" height="10" />
+
+
+
+            </h:column>
+
+            <h:column rendered="false">
+                <p:spacer width="100" height="10" />
+                <p:commandButton value="Color"
+                                 update="messages, table, @form"
+                                 action="#{uiController.buildRandomColor()}"
+                                 ajax="false"
+                                 styleClass="m-btn-metro m-btn-small m-light-blue"
+                        />
+            </h:column>
+        </h:panelGrid>
+
+    </h:form>
+
+</composite:implementation>
+
+</html>

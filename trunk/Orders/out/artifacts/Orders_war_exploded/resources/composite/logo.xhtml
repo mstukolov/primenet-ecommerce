@@ -1,0 +1,101 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite" xmlns:custom="http://java.sun.com/jstl/core">
+
+<composite:interface>
+    <composite:attribute name="inputValue"/>
+    <composite:attribute name="submitButtonText"/>
+    <composite:attribute name="currentPage"/>
+</composite:interface>
+
+<composite:implementation>
+
+    <style type="text/css">
+        .ui-datagrid-no-border .ui-datagrid-content {
+            border: none;
+        }
+    </style>
+    <h:form>
+        <p:growl id="messages"/>
+
+        <p:panelGrid columns="4" style="border: 10px; width: 100%">
+
+           <!-- <ui:param name="root" value="#{request.contextPath}" />
+            <img src="#{root}/resources/content/logo.jpg" style="width: 300px;height: 100px"/>-->
+
+            <h:panelGrid columns="1">
+                <p:graphicImage value="#{companyController.image}" style="height: 100px; width: 400px" id="grpImage"/>
+
+                <h:outputText value="#{uiController.company.phone}" styleClass="m-text-medium"/>
+                <h:outputText value="Заказ в интернет-магазине: #{companyController.selected.phone}" styleClass="m-text-medium"/>
+
+
+            <div>
+            <p:commandLink action="#{uiController.goShopcart}" styleClass="m-text-medium">Ваша корзина
+            (
+                <h:outputText value="#{proposalController.shopingCart.cartBalance} РУБЛЕЙ" styleClass="m-text-medium">
+                    <f:convertNumber currencyCode="RUR" type="currency" minFractionDigits="2" />
+                </h:outputText>
+             )
+            </p:commandLink>
+            </div>
+
+                <p:dataGrid id="assortbutons"
+                            var="searchcategories"
+                            styleClass="ui-datagrid-no-border"
+                            value="#{ecorescategoryController.searchcategories}" columns="4">
+
+
+                        <p:column>
+                            <p:commandButton value="#{searchcategories.name}"
+                                             action="#{ecorescategoryController.searchProposals(searchcategories.recid)}"
+                                             update=":shopForm:availableProposals"
+                                             styleClass="m-btn-assort m-light-blue" style="font-size: 16"/>
+
+                        </p:column>
+
+              </p:dataGrid>
+
+              <p:remoteCommand name="startsearch" actionListener="#{searchController.analyze(searchController.searchString)}" update=":shopForm:availableProposals"/>
+              <p:panelGrid columns="2" style="border: 10px; width: 80%">
+
+                <p:inputText value="#{searchController.searchString}"
+                             style="font-size:54px; width: 130%; height: 83px"
+                             onkeydown="if (event.keyCode == 13) { startsearch(); return false; }"
+                             rendered="false"/>
+
+
+                <p:commandButton value="Поиск"
+                                 action="#{searchController.analyze(searchController.searchString)}"
+                                 update=":shopForm:availableProposals"
+                                 styleClass="m-btn-assort m-light-blue"
+                                 rendered="false"
+                                 style="font-size: 16; height: 83px; width: 100%"/>
+
+
+              </p:panelGrid>
+                <p:autoComplete  id="search"
+                                 value="#{searchController.searchString}"
+                                 completeMethod="#{searchController.complete}"
+                                 var="p" itemLabel="#{p}" itemValue="#{p}"
+                                 forceSelection="false"
+                                 rendered="true"
+                                 onkeydown="if (event.keyCode == 13) { startsearch(); return false; }"
+                                 style="font-size:54px; width: 100%; height: 83px">
+                    <p:ajax event="change"
+                            listener="#{searchController.analyze(searchController.searchString)}"
+                            update="@form" />
+                    <p:ajax event="itemSelect"
+                            listener="#{searchController.startSearch(searchController.searchString)}"
+                            update="@form"/>
+                </p:autoComplete>
+            </h:panelGrid>
+        </p:panelGrid>
+    </h:form>
+
+</composite:implementation>
+
+</html>

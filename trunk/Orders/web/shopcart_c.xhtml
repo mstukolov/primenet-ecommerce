@@ -1,0 +1,129 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/css.css" />
+</h:head>
+
+<h:body style="LEFTMARGIN:0; TOPMARGIN:0; MARGINWIDTH:0; MARGINHEIGHT:0;">
+    <f:view contentType="text/html"/>
+    <ui:param name="root" value="#{request.contextPath}" />
+    <h:form>
+        <p:growl id="messages"/>
+        <div id="globalwrapperLocation" class="container_12 marginbottom">
+            <div id="headerwrapperLocation" class="container_12">
+
+                <custom:topbar_c/>
+
+                <div id="bodyLocation" class="grid_12 marginbottom">
+                    <h:outputText value="Ваша корзина пуста"
+                                  rendered="#{empty proposalController.shopingCart.shopingCartItemList}"
+                                  styleClass="pricetext" style="padding-left: 220px"/>
+
+                    <custom:buy_c id="buyForm" buyValue="Предложения" shoppingCart="#{proposalController.shopingCart}"/>
+
+                    <p:dataTable id= "table"
+                                 var="data"
+                                 value="#{proposalController.shopingCart.shopingCartItemList}"
+                                 rendered="#{not empty proposalController.shopingCart.shopingCartItemList}"
+                                 rowKey="#{data.proposal.recid}"
+                                 style="width: 100%">
+
+                                <p:column headerText="proposalId" rendered="false">
+                                    <h:outputText value="#{data.proposal.recid}" />
+                                </p:column>
+                                <p:column headerText="Photo" style="width: 15%" rendered="true">
+                                    <p:commandLink action="#{uiController.goItemCard(data.proposal)}">
+                                        <p:graphicImage value="#{proposalController.getProductImage()}" style="height: 75px; width: 100px" id="image">
+                                            <f:param name="imgprod" value="#{data.proposal.product}" />
+                                        </p:graphicImage>
+                                    </p:commandLink>
+                                </p:column>
+                                <p:column headerText="Артикул" style="width: 10%">
+                                    <h:outputText value="#{data.proposal.product}" styleClass="outputlink"/>
+                                </p:column>
+                                <p:column headerText="Название" style="width: 40%">
+                                    <h:outputText value="#{proposalController.findProduct(data.proposal.product).name}" styleClass="outputlink"/>
+                                </p:column>
+                                <p:column headerText="цена" style="width: 150px">
+                                    <h:outputText value="#{data.proposal.price}" styleClass="outputlink">
+                                        <f:convertNumber groupingUsed="true" minFractionDigits="2"/>
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:column headerText="кол-во" style="width: 15%;text-align: center">
+                                    <p:commandLink action="#{proposalController.qtyChange('minus')}" update="@form" rendered="true">
+                                        <img src="#{root}/resources/css/img/minus.png" style="height: 15px; width: 15px"/>
+                                        <f:param name="cartitem" value="#{data.cartItemId}" />
+
+                                    </p:commandLink>
+
+                                    <h:outputText value="#{data.qty}" styleClass="outputlink"/>
+
+                                    <p:commandLink action="#{proposalController.qtyChange('plus')}" update="@form" rendered="true">
+                                        <img src="#{root}/resources/css/img/plus.png" style="height: 15px; width: 15px"/>
+                                        <f:param name="cartitem" value="#{data.cartItemId}" />
+                                    </p:commandLink>
+                                </p:column>
+
+                                <p:column headerText="сумма" style="width: 150px">
+                                    <h:outputText value="#{data.amount}" styleClass="outputlink">
+                                        <f:convertNumber groupingUsed="true" minFractionDigits="2"/>
+                                    </h:outputText>
+                                </p:column>
+                                <p:column headerText="Удалить" style="width: 150px" rendered="true">
+
+                                    <p:commandLink action="#{proposalController.removeItemShoppingCart()}" update="@form"
+                                                   rendered="true">
+                                        <img src="#{root}/resources/css/img/m-ui-remove.png" style="height: 15px; width: 15px"/>
+                                        <f:param name="cartitem" value="#{data.cartItemId}" />
+                                    </p:commandLink>
+                                </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+            <div id="footerinformationwrapperLocation" class="container_12">
+                <div id="footerinformationLocation" class="grid_12 marginbottom">
+                    <div id="columnoneLocation" class="grid_12 marginbottom">
+
+                    </div>
+                    <div id="columntwoLocation" class="grid_12 marginbottom">
+                        <h:commandLink value="НОВОСТИ"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="РУКОВОДСТВО"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="СЕРВИС"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="НОВОСТИ"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                    </div>
+                    <div id="columnthreeLocation" class="grid_12 marginbottom">
+                        <h:outputLabel value="ИНТЕРНЕТ-МАГАЗИН" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Как оформить заказ?" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Правила торговли в Интернет" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Что такое Заказ без регистрации?" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Оплата товара" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Доставка товара" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Возврат товара" styleClass="outputlink" style="font-size: 12"/><br/>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</h:body>
+</html>

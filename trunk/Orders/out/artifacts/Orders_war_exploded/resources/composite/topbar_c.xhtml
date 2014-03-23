@@ -1,0 +1,108 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+    <composite:attribute name="buyValue"/>
+    <composite:attribute name="currentPage"/>
+    <composite:attribute name="shoppingCart"/>
+    <composite:attribute name="buyButtonAction"
+                         method-signature="java.lang.String action()"/>
+
+</composite:interface>
+
+<composite:implementation>
+    <div id="globalwrapperLocation" class="container_12 marginbottom">
+    <div id="headerwrapperLocation" class="container_12">
+
+    <div id="headbandLocation" class="grid_12" >
+        <div id="useraccountLocation" class="marginbottom float-right">
+            <h:commandLink value="Авторизация" styleClass="outputlink" style="text-decoration: underline;"
+                           action="#{uiController.goAuthPage()}" update="@form" rendered="#{not loginController.auth}"/>
+
+            <h:outputText value="#{loginController.menuTxt}" styleClass="outputlink" rendered="#{loginController.auth}"/>
+            <p:commandButton id="logoutButton" value="Выйти"  styleClass="commandButton"
+                             actionListener="#{loginController.logout()}"
+                             update="@form" rendered="#{loginController.auth}"/>
+        </div>
+
+    </div>
+    <br/>
+    <h:outputText value="Заказ в интернет-магазине: #{companyController.selected.phone}"
+                  styleClass="outputlink" style="font-size:18;text-decoration: underline;"/>
+    <br/><br/>
+
+    <div id="headerLocation">
+        <div>
+            <div id="logoLocation">
+                <h:commandLink action="#{uiController.goIndex()}">
+                    <p:graphicImage value="#{companyController.image}" style="height: 120px; width: 400px" id="logo"/>
+                </h:commandLink>
+            </div>
+
+            <div id="userInfoLocation" class="tar" >
+                <p:commandLink action="#{uiController.goItems()}" value="Админ-Панель" styleClass="outputlink" rendered="#{loginController.admin}"/>
+                <div style="padding-bottom: 20px;">
+                    <p:commandLink action="#{uiController.goShopcart}" styleClass="outputlink">Ваша корзина
+                        (
+                        <h:outputText value="#{proposalController.shopingCart.cartBalance} РУБЛЕЙ" styleClass="outputlink">
+                            <f:convertNumber currencyCode="RUR" type="currency" minFractionDigits="2" />
+                        </h:outputText>
+                        )
+                    </p:commandLink>
+                </div>
+
+                <p:autoComplete  id="search"
+                                 value="#{searchController.searchString}"
+                                 completeMethod="#{searchController.complete}"
+                                 var="p" itemLabel="#{p}" itemValue="#{p}"
+                                 forceSelection="false"
+                                 rendered="true"
+                                 onkeydown="if (event.keyCode == 13) { startsearch(); return false; }"
+                                 styleClass="searchwindow">
+                    <p:ajax event="change"
+                            listener="#{searchController.analyze(searchController.searchString)}"
+                            update="@form" />
+                    <p:ajax event="itemSelect"
+                            listener="#{searchController.startSearch(searchController.searchString)}"
+                            update="@form"/>
+                </p:autoComplete>
+                <p:commandButton value="Найти" styleClass="commandbutton"
+                                 action="#{proposalController.addMessage('HHHHHH')}" update="@form"/>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div id="horizontalmenuLocation" style="padding-left: 10px;" class="grid_12 marginbottom">
+        <p:dataGrid id="assortbutons"
+                    var="searchcategories"
+                    style="background: transparent;"
+                    value="#{ecorescategoryController.searchcategories}" columns="8">
+
+
+            <p:column style="background: transparent;">
+
+
+                <h:commandLink value="#{searchcategories.name}"
+                               action="#{uiController.goShop_C}"
+                               update="@form"
+                               styleClass="outputlink" style="font-size: 14">
+                    <f:actionListener binding="#{ecorescategoryController.searchProposals(searchcategories.recid)}" />
+                </h:commandLink>
+
+            </p:column>
+
+        </p:dataGrid>
+    </div>
+    </div>
+    </div>
+
+
+</composite:implementation>
+
+</html>

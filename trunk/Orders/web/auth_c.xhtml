@@ -1,0 +1,122 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/css.css" />
+</h:head>
+
+<h:body style="LEFTMARGIN:0; TOPMARGIN:0; MARGINWIDTH:0; MARGINHEIGHT:0;">
+    <f:view contentType="text/html"/>
+    <ui:param name="root" value="#{request.contextPath}" />
+    <h:form>
+        <p:growl id="messages"/>
+        <div id="globalwrapperLocation" class="container_12 marginbottom">
+            <div id="headerwrapperLocation" class="container_12">
+
+                <custom:topbar_c/>
+
+
+
+                <div id="bodyLocation" class="grid_12 marginbottom">
+                    <h:panelGrid columns="2" style="border: 10px" rendered="#{not loginController.auth}">
+                        <h:outputText value="Регистрация нового покупателя"  styleClass="pricetext" style="padding-left: 50px"/>
+                        <h:outputText value="Авторизация"  styleClass="pricetext" style="padding-left: 220px"/>
+
+
+                        <h:panelGrid columns="2" style="padding-left: 50px;padding-top: 10px;" rendered="true">
+                            <h:outputText value="Имя*:"  styleClass="outputlink"/>
+                            <p:inputText value="#{loginController.name}"  styleClass="inputform"/>
+                            <h:outputText value="Фамилия*:"  styleClass="outputlink"/>
+                            <p:inputText value="#{loginController.surname}"  styleClass="inputform"/>
+                            <h:outputText value="Дата рождения*:"  styleClass="outputlink"/>
+                            <p:inputMask value="#{loginController.birth}"  styleClass="inputform" mask="99/99/9999"/>
+                            <h:outputText value="E-mail*:"  styleClass="outputlink"/>
+                            <p:inputText value="#{loginController.email}"  styleClass="inputform"/>
+                            <h:outputText value="Телефон*:"  styleClass="outputlink"/>
+                            <p:inputMask value="#{loginController.phone}" styleClass="inputform" mask="(999) 999-9999" />
+
+                            <h:outputLabel for="pwd1" value="Пароль*:" styleClass="outputlink"/>
+                            <p:password id="pwd1" value="#{loginController.pwd}" styleClass="inputform"/>
+
+
+                            <p:commandButton value="Регистрация" action="#{loginController.createNewCustomer()}"
+                                             styleClass="commandButton" update="@form" style="width: 150px;"/>
+
+
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2" cellpadding="5" style="padding-left: 100px;padding-top: 10px">
+                            <h:outputLabel for="username" value="Логин:" styleClass="outputlink"/>
+                            <p:inputText value="#{loginController.username}"
+                                         id="username" required="false" label="username"
+                                         styleClass="inputform"/>
+
+                            <h:outputLabel for="password" value="Пароль:" styleClass="outputlink"/>
+                            <p:password value="#{loginController.password}"
+                                           id="password" label="password"  styleClass="inputform"/>
+
+                            <f:facet name="footer">
+                                <p:commandButton id="loginButton" value="Войти"  styleClass="commandButton"
+                                                 actionListener="#{loginController.auth(loginController.username)}"
+                                                 update="@form"
+                                        />
+
+                                <p:commandButton id="logoutButton" value="Уйти"  styleClass="commandButton"
+                                                 actionListener="#{loginController.logout()}"
+                                                 update="messages"
+                                        />
+                            </f:facet>
+                        </h:panelGrid>
+
+                    </h:panelGrid>
+                    <h:outputText value="#{loginController.warning}" styleClass="pricetext"/>
+                    <h:outputText value="Авторизация прошла успешно"  styleClass="pricetext" style="padding-left: 50px"
+                                   rendered="#{loginController.auth}"/>
+
+                </div>
+            </div>
+            <div id="footerinformationwrapperLocation" class="container_12">
+                <div id="footerinformationLocation" class="grid_12 marginbottom">
+                    <div id="columnoneLocation" class="grid_12 marginbottom">
+
+                    </div>
+                    <div id="columntwoLocation" class="grid_12 marginbottom">
+                        <h:commandLink value="НОВОСТИ"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="РУКОВОДСТВО"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="СЕРВИС"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="НОВОСТИ"
+                                       action="#{proposalController.addMessage('НОВОСТИ')}"
+                                       update="@form"
+                                       styleClass="outputlink" style="font-size: 12"/><br/>
+                    </div>
+                    <div id="columnthreeLocation" class="grid_12 marginbottom">
+                        <h:outputLabel value="ИНТЕРНЕТ-МАГАЗИН" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Как оформить заказ?" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Правила торговли в Интернет" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Что такое Заказ без регистрации?" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Оплата товара" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Доставка товара" styleClass="outputlink" style="font-size: 12"/><br/>
+                        <h:commandLink value="Возврат товара" styleClass="outputlink" style="font-size: 12"/><br/>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </h:form>
+</h:body>
+</html>

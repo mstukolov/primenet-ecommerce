@@ -1,0 +1,231 @@
+html {
+    -webkit-font-smoothing: antialiased;
+}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, window, article, aside, figure, footer, header, hgroup, menu, nav, section, menu, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    vertical-align: baseline;
+    background: transparent;
+}
+body {
+    padding-bottom: 20px!important;
+    background-color: #513f39;
+    background-position: top left;
+    background-repeat: repeat-x;
+    font-size: 13px;
+    line-height: 18px;
+    display: block;
+}
+body, textarea, input {
+    font-family: Arial, Helvetica, sans-serif;
+}
+#globalwrapperLocation {
+    box-shadow: 0 0 12px #000;
+    border-radius: 0px;
+}
+#headerwrapperLocation {
+    /*background-image: url(/media/themes/gz/bg-header.png);*/
+    background-color: #332522;
+    background-repeat: no-repeat;
+}
+#horizontalmenuLocation {
+    background-position: top left;
+    background-repeat: repeat-x;
+    padding: 5px 0;
+    text-align: center;
+}
+.container_12, .container_16 {
+    margin-left: auto;
+    margin-right: auto;
+    width: 960px;
+}
+.marginbottom {
+    margin-bottom: 10px;
+}
+.float-right, .floatRight {
+    float: right;
+}
+.outputlink {
+    color: #fff;
+    font-size: 14px;
+}
+
+.pricetext{
+    font: bold 22px Times;font-style:normal;color: coral;
+}
+.proposallink {
+    color: #fff;
+    border-right-width: 10px;
+    font-size: 12px;
+    padding-left: 20px;
+    padding-bottom: 5px;
+}
+.inputform{
+    border-right-width: 5px;
+    width: 250px;
+}
+.proposalwindow {
+    background: #291c19;
+    height: 200px;
+    width: 300px;
+}
+.proposalimage {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    height: 150px;
+    width: 250px;
+}
+.commandbutton {
+    display: inline-block;
+    padding: 3px 10px;
+    color: #fff;
+    background: #523833;
+    text-decoration: none;
+    margin-left: 6px;
+}
+.alpha {
+    margin-left: 0;
+}
+.container_12 .grid_8 {
+    width: 320px;
+}
+.container_12 .grid_4 {
+    width: 300px;
+}
+.omega {
+    margin-right: 0;
+}
+.text-align-right, .tar {
+    text-align: right;
+}
+.searchwindow{
+    font-size:18px;
+    width: 100%;
+    height: 25px
+}
+
+.container_12 .grid_12, .container_16 .grid_16 {
+    width: 940px;
+}
+.carousel{
+    border: hidden; border-top: hidden; border-left: hidden;
+}
+.ui-carousel .ui-widget .ui-widget-content .ui-corner-all{
+    position: relative;
+    display: inline-block;
+}
+.ui-metro-carousel {
+    position: relative;
+    display: inline-block;
+    border: hidden;
+}
+
+.ui-carousel .ui-carousel-header {
+    margin: 0 1px;
+    height: 0px;
+    overflow: hidden;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.ui-carousel-nav{
+    margin: 0px 9px;
+    margin-top: 1px;
+    display: inline-table;
+    float: right;
+}
+.ui-widget-content {
+    border: hidden;
+    background: transparent;
+}
+.ui-widget-content a {
+    color: #fff;
+    font-size: 18;
+}
+#footerinformationwrapperLocation{
+    background-color: #332522;
+    background-repeat: no-repeat;
+}
+#footerinformationLocation{
+    height: 171px;
+    background-image: url(http://statics.catimini-boutique.com/publicmedia/original/178/420/fr/footer_new.jpg);
+    display: block;
+    background-color: #332522;
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+#columnoneLocation, #columntwoLocation, #columnthreeLocation {
+    float: left;
+    padding: 16px 20px;
+    font-size: 11px;
+}
+#columnoneLocation {
+    width: 390px;
+}
+#columntwoLocation {
+    width: 156px;
+    margin-right: 0;
+}
+#columnthreeLocation {
+    width: 274px;
+}
+#logoLocation{
+    height: 0px;
+    padding-left: 5%;
+}
+#headerLocation{
+    padding-top: 10px;
+    padding-bottom: 50px;
+    width: 100%;
+}
+.ui-carousel .ui-carousel-viewport ul {
+    margin: -15px;
+}
+.ui-carousel .ui-carousel-header {
+    margin: 0 10000px;
+}
+.ui-widget-header {
+    background: transparent;
+    border: transparent;
+}
+.ui-paginator .ui-paginator-page, .ui-paginator .ui-paginator-pages, .ui-paginator .ui-paginator-next, .ui-paginator .ui-paginator-last, .ui-paginator .ui-paginator-first, .ui-paginator .ui-paginator-prev, .ui-paginator .ui-paginator-current {
+    display: inline-block;
+    padding: 0px 0px;
+    zoom: 1;
+    margin-left: 1px;
+    margin-right: 1px;
+    text-decoration: none;
+    outline: none;
+}
+.ui-datatable-header{
+    font-size: 5px;
+}
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+/*    background: transparent;*/
+    border: 1px solid #a8a8a8;
+    font-size: 12px;
+    color: #fff;
+    background: #291c19;
+}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, figure, footer, header, hgroup, menu, nav, section, menu, time, mark, audio, video {
+    vertical-align: text-top;
+}
+.ui-lightbox-content-wrapper{
+    top: -200px;
+}
+.ui-light-box .ui-widget .ui-helper-hidden .ui-corner-all .ui-shadow{
+    top: 30px;
+}
+.ui-editor-toolbar1{
+    background: transparent;
+}
+.ui-editor-toolbar{
+    background: transparent;
+}
+.textarea:disabled {
+    color: #ffffff;
+}

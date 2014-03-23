@@ -1,0 +1,189 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:custom="http://java.sun.com/jsf/composite/composite">
+<h:head>
+    <title><ui:insert name="title">Orders</ui:insert></title>
+    <link rel="stylesheet" href="resources/css/theme.css" />
+    <link rel="stylesheet" href="resources/css/m-styles.min.css"/>
+</h:head>
+
+<h:body>
+
+    <custom:topbar  inputValue="Магазин"
+                    currentPage="shop.xhtml"
+                    backButtonAction="#{uiController.setReference('shop.xhtml')}"
+                    createButtonAction="#{itemController.create}"
+                    editButtonAction="#{itemController.edit}"
+                    deleteButtonAction="#{itemController.delete}"
+                    searchButtonAction="#{itemController.search}"
+                    rendered="true"
+            />
+      <h:panelGrid columns="2" columnClasses="alignMiddle,alignMiddle" id="toppanel">
+          <h:panelGrid columns="1" columnClasses="alignMiddle,alignMiddle">
+            <custom:logo id="logo"/>
+          <!--  <custom:search id="search"/>-->
+          </h:panelGrid>
+              <custom:carousel id="carousel"/>
+      </h:panelGrid>
+
+
+    <h:form id="shopForm">
+        <p:growl id="messages"/>
+        <ui:param name="root" value="#{request.contextPath}" />
+        <p:poll interval="10000000"
+                listener="#{uiController.incrementShop}" update="@form" />
+
+        <p:commandButton value="Обновить"
+                         action="#{proposalController.refresh()}"
+                         update="@form"
+                         styleClass="m-btn-assort m-light-blue"
+                         rendered="false"
+                         style="font-size: 16; height: 83px; width: 100%"/>
+
+        <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
+            <p:fieldset legend="Предложения" styleClass="myFieldset">
+
+
+                <p:dataGrid id="availableProposals"
+                            var="proposals"
+                            value="#{proposalController.proposalList}"
+                            columns="3"
+                            rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                            rowsPerPageTemplate="4,6,12">
+
+                    <p:column>
+
+                      <!--  <p:panel id="pnl" header="#{proposals.recid}"
+                                          rendered="#{not proposals.blocked and ordersController.getRemainQty(proposals)> 0 }"
+                                          style="text-align:center;background-color: #{proposals.price lt 110 ? '#6696ff' :
+                                                                                       proposals.price gt 110 and proposals.price lt 180 ? '#ff0097' :
+                                                                                       proposals.price gt 180? '#ffc425':
+                                                                                       '#ffc425'}"
+                                 styleClass="shopBars">-->
+
+                        <p:panel id="pnl" header="#{proposals.recid}"
+                                 rendered="#{not proposals.blocked and ordersController.getRemainQty(proposals)>= 0 }"
+                                 style="text-align:center; width: 100%"  styleClass="shopBars">
+
+                            <h:panelGrid columns="1"
+                                         style="width:100%; border-style: none;">
+
+                            <h:panelGrid columns="2">
+                                <h:panelGrid columns="1">
+                                    <h:outputText value="#{proposals.product}" style="border-right-width: 10px" styleClass="m-text-medium"/>
+
+                                    <h:commandLink action="#{uiController.goItemCard(proposals)}">
+                                        <p:graphicImage value="#{proposalController.getProductImage()}" style="height: 200px; width: 300px" id="grpImage">
+                                            <f:param name="imgprod" value="#{proposals.product}" />
+                                        </p:graphicImage>
+                                        <br/>
+                                        <h:outputText value="#{proposalController.findProduct(proposals.product).name}" style="border-right-width: 10px" styleClass="m-text-medium"/>
+                                    </h:commandLink>
+
+                                    <h:outputText value="ЦЕНА:#{proposals.price} Рублей" style="border-right-width: 10px" styleClass="m-text-medium"/>
+                                    <h:outputText value="Остаток:#{ordersController.getRemainQty(proposals)}"
+                                                  style="border-right-width: 10px" styleClass="m-text-medium"/>
+                                    <h:outputText value="Минимальный заказ:#{ordersController.getMinQty(proposals)}"
+                                                  style="border-right-width: 10px" styleClass="m-text-medium"/>
+                                </h:panelGrid>
+                                <h:panelGrid columns="1" rendered="#{proposals.promo}" style="background-color: transparent;">
+                                    <img src="#{root}/resources/css/img/promo.png" style="height: 90px; width: 150px"/>
+                                </h:panelGrid>
+
+                            </h:panelGrid>
+                                <h:panelGrid columns="2" style="border: 5">
+
+                                </h:panelGrid>
+                                <h:panelGrid columns="4">
+                                    <h:outputText value="Количество:" styleClass="m-text-medium" rendered="false"/>
+                                    <p:inputText value="#{proposals.qty}"  style="font-size:46px; width: 105px; height: 75px" rendered="false"/>
+
+                                    <p:spacer width="50px"/>
+                                    <p:commandButton value="Купить" action="#{proposalController.addItemShoppingCart(proposals)}"
+                                                     update=":shopForm:messages,:shopForm:dropArea availableProposals, @form, :toppanel"
+                                                     style="height: 75px; width: 200px;float:right !important;margin:0px 0px 3px 0px;"   />
+                                </h:panelGrid>
+                            </h:panelGrid>
+                        </p:panel>
+
+                        <p:draggable for="pnl"
+                                     revert="true"
+                                     opacity="0.3"
+                                     handle=".ui-panel-titlebar"
+                                />
+
+                    </p:column>
+
+                </p:dataGrid>
+
+
+            </p:fieldset>
+
+            <p:fieldset id="selectedProposals" legend="Корзина" rendered="false">
+                <custom:buy id="buyForm"
+                            buyValue="Предложения"
+                            shoppingCart="#{proposalController.shopingCart}"/>
+                <br/>  <br/><br/>
+                <p:outputPanel id="dropArea">
+
+                    <h:outputText value="!!!Перетащить сюда!!!"
+                                  rendered="#{empty proposalController.shopingCart.shopingCartItemList}"
+                                  style="font-size:24px;" />
+
+                    <p:dataTable var="data"
+                                 value="#{proposalController.shopingCart.shopingCartItemList}"
+                                 rendered="#{not empty proposalController.shopingCart.shopingCartItemList}"
+                                 selectionMode = "single"
+                                 rowKey="#{data.proposal.recid}"
+                                 selection="#{proposalController.selectedShopingCartItem}"
+                            >
+                        <p:ajax event="rowSelect" update=":shopForm:messages"/>
+
+                        <p:column headerText="recid" rendered="false">
+                            <h:outputText value="#{data.proposal.recid}" />
+                        </p:column>
+
+                        <p:column headerText="позиция">
+                            <h:outputText value="#{data.proposal.product}" />
+                        </p:column>
+                        <p:column headerText="цена">
+                            <h:outputText value="#{data.price}" />
+                        </p:column>
+                        <p:column headerText="кол-во">
+                            <h:outputText value="#{data.qty}" />
+                        </p:column>
+                        <p:column headerText="сумма">
+                            <h:outputText value="#{data.price}" />
+                        </p:column>
+                        <p:column headerText="Remove">
+                            <p:commandButton value="Remove"
+                                             action="#{proposalController.removeItemShoppingCart()}"
+                                             update=":shopForm:messages,:shopForm:dropArea, @form"/>
+                        </p:column>
+                    </p:dataTable>
+
+                </p:outputPanel>
+                <br/>
+
+            </p:fieldset>
+
+            <p:droppable for="selectedProposals" tolerance="touch" activeStyleClass="ui-state-highlight"
+                         datasource="availableProposals">
+                <p:ajax listener="#{proposalController.onProposalDrop}" update="dropArea availableProposals, @form" />
+            </p:droppable>
+
+
+        </p:panelGrid>
+
+    </h:form>
+
+
+
+
+</h:body>
+</html>
