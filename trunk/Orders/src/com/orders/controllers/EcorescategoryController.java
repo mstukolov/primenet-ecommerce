@@ -1,6 +1,7 @@
 package com.orders.controllers;
 
 import attributes.core.AttributesController;
+import attributes.core.SearchAttributeFacade;
 import com.orders.facade.EcorescategoryFacade;
 import com.orders.facade.EcoresproductcategoryFacade;
 import com.orders.facade.ProductFacade;
@@ -50,6 +51,8 @@ public class EcorescategoryController {
     private ProductFacade productFacade;
     @EJB
     private ProposalFacade proposalFacade;
+    @EJB
+    private SearchAttributeFacade searchAttributeFacade;
 
     @ManagedProperty("#{proposalController}")
     ProposalController proposalController;
@@ -96,6 +99,7 @@ public class EcorescategoryController {
           for(Ecorescategory ecorescategory: ecorescategoryFacade.findChildCategories(category)){
 
             for (Ecoresproductcategory ecoresproductcategory: ecoresproductcategoryFacade.findByCategory(ecorescategory.getRecid())){
+                searchAttributeFacade.addProducts(ecoresproductcategory.getProduct());
 
                 for(Proposal proposal: proposalFacade.findPropolsalsByProduct(Long.valueOf(ecoresproductcategory.getProduct()))){
                     searchproposals.add(proposal);
@@ -110,8 +114,14 @@ public class EcorescategoryController {
 
     public void searchProposals(Long category){
         searchproposals.clear();
+        searchAttributeFacade.clearProducts();
         filterChildren(category);
         proposalController.searchProposals(searchproposals);
+        log.info("Фильтр содержит продукты в списоке поиска..................");
+        for(Long product : searchAttributeFacade.getProducts()){
+            log.info("Продукт: " + product);
+        }
+
     }
 
 
