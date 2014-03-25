@@ -38,4 +38,5 @@ public class EcoresvalueFacade extends AbstractFacade<Ecoresvalue> {
         _log.info("Код фактического значения атрибута продукта: " + ecoresvalue.getRecid());
         return ecoresvalue.getRecid();
     }
+
 }
