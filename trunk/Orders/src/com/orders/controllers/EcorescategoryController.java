@@ -101,8 +101,7 @@ public class EcorescategoryController {
                     searchproposals.add(proposal);
                     addMessage("Предложение:" + proposal.getRecid().toString() + ",Товар: " + ecoresproductcategory.getProduct());
                 }
-
-            }
+           }
             filterChildren(ecorescategory.getRecid());
         }
 
