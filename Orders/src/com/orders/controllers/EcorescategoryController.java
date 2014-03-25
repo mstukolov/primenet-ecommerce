@@ -2,6 +2,7 @@ package com.orders.controllers;
 
 import attributes.core.AttributesController;
 import attributes.core.SearchAttributeFacade;
+import attributes.model.ProductAttributesvaluesView;
 import com.orders.facade.EcorescategoryFacade;
 import com.orders.facade.EcoresproductcategoryFacade;
 import com.orders.facade.ProductFacade;
@@ -120,8 +121,12 @@ public class EcorescategoryController {
         log.info("Фильтр содержит продукты в списоке поиска..................");
         for(Long product : searchAttributeFacade.getProducts()){
             log.info("Продукт: " + product);
-        }
 
+            for(ProductAttributesvaluesView view : searchAttributeFacade.findProductAttributeValues(product)){
+                log.info("Значение: " + view.getTextValue());
+            }
+
+        }
     }
 
 
