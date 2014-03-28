@@ -1,5 +1,6 @@
 package com.orders.controllers;
 
+import attributes.core.AttributeValueCount;
 import attributes.core.AttributesController;
 import attributes.core.SearchAttributeFacade;
 import attributes.model.ProductAttributesvaluesView;
@@ -19,8 +20,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.persistence.Tuple;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @ManagedBean(name="ecorescategoryController")
@@ -44,6 +47,8 @@ public class EcorescategoryController {
     private Ecorescategory selected;
     private TreeNode root;
     private TreeNode selectedNode;
+
+    private Map<String, List<AttributeValueCount>> searchAttributes;
     @EJB
     private EcorescategoryFacade ecorescategoryFacade;
     @EJB
@@ -118,15 +123,22 @@ public class EcorescategoryController {
         searchAttributeFacade.clearProducts();
         filterChildren(category);
         proposalController.searchProposals(searchproposals);
-        log.info("Фильтр содержит продукты в списоке поиска..................");
-        for(Long product : searchAttributeFacade.getProducts()){
-            log.info("Продукт: " + product);
+        log.info("Фильтр содержит продукты в списоке поиска.................." +
+                "Кол-во атрибутов: " + searchAttributeFacade.findProductsAttributeValues().size());
 
-            for(ProductAttributesvaluesView view : searchAttributeFacade.findProductAttributeValues(product)){
-                log.info("Значение: " + view.getTextValue());
+        searchAttributes = searchAttributeFacade.buildSearchAttributes();
+            for(Map.Entry entry : searchAttributeFacade.buildSearchAttributes().entrySet()){
+                String key = (String) entry.getKey();
+                Object entryValueList = entry.getValue();
+                for(AttributeValueCount entryValue :  (List<AttributeValueCount>)entryValueList){
+                    String valueText = entryValue.value;
+                    Integer valueCount = entryValue.count;
+                    log.info("  Атрибут: "+ key +
+                            ", Значение: " + valueText +
+                            ", Кол-во: " + valueCount);
+                }
+
             }
-
-        }
     }
 
 
@@ -397,5 +409,13 @@ public class EcorescategoryController {
 
     public void setEcoresproductcategory(Ecoresproductcategory ecoresproductcategory) {
         this.ecoresproductcategory = ecoresproductcategory;
+    }
+
+    public Map<String, List<AttributeValueCount>> getSearchAttributes() {
+        return searchAttributes;
+    }
+
+    public void setSearchAttributes(Map<String, List<AttributeValueCount>> searchAttributes) {
+        this.searchAttributes = searchAttributes;
     }
 }
