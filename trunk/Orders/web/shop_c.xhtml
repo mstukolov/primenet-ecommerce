@@ -19,23 +19,23 @@
 
                 <custom:topbar_c/>
 
-                <div id="shopgridLocation" class="container_12" style="border:1px solid green; ">
-                    <h:panelGrid columns="2">
-                    <div id="searchAttributesLocation" class="grid_12" style="display:inline-block;">
+                <div id="shopgridLocation" class="container_12">
+                    <h:panelGrid columns="2" style="padding-left: 15px">
+
 
                         <ui:repeat value="#{ecorescategoryController.searchAttributes.entrySet().toArray()}" var="entry">
                             <h:outputLabel value="#{entry.key}:"/>
                             <br/>
                             <ui:repeat value="#{entry.value}" var="entryValue">
-                                <h:commandLink value="#{entryValue.value}(#{(entryValue.count)})" action="#{ecorescategoryController.addMessage(entryValue.value)}"
+                                <h:commandLink value="#{entryValue.value}(#{(entryValue.count)})"
+                                               action="#{ecorescategoryController.searchProposalsByAttribute(entryValue.value)}"
                                                styleClass="outputlink" style="font-size: 14"/>
                                 <br/>
 
                             </ui:repeat>
                         </ui:repeat>
 
-                    </div>
-                    <div id="availableProposalsLocation" class="grid_12" style="display:inline-block;">
+
                     <p:dataGrid id="availableProposals"
                                 var="proposals"
                                 value="#{proposalController.proposalList}"
@@ -59,7 +59,7 @@
                         </p:column>
 
                     </p:dataGrid>
-                    </div>
+
                     </h:panelGrid>
                 </div>
             </div>

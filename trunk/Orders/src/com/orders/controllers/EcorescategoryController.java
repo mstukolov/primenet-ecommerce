@@ -114,8 +114,12 @@ public class EcorescategoryController {
            }
             filterChildren(ecorescategory.getRecid());
         }
+    }
 
+    public void searchProposalsByAttribute(String attribute){
+      searchAttributeFacade.findProductByAttributeSelection(attribute);
 
+      addMessage("Поиск по атрибутут: " + attribute);
     }
 
     public void searchProposals(Long category){
@@ -127,7 +131,7 @@ public class EcorescategoryController {
                 "Кол-во атрибутов: " + searchAttributeFacade.findProductsAttributeValues().size());
 
         searchAttributes = searchAttributeFacade.buildSearchAttributes();
-            for(Map.Entry entry : searchAttributeFacade.buildSearchAttributes().entrySet()){
+            /*for(Map.Entry entry : searchAttributeFacade.buildSearchAttributes().entrySet()){
                 String key = (String) entry.getKey();
                 Object entryValueList = entry.getValue();
                 for(AttributeValueCount entryValue :  (List<AttributeValueCount>)entryValueList){
@@ -138,7 +142,7 @@ public class EcorescategoryController {
                             ", Кол-во: " + valueCount);
                 }
 
-            }
+            }*/
     }
 
 

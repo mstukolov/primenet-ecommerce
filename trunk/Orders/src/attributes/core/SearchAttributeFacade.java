@@ -43,6 +43,19 @@ public class SearchAttributeFacade extends AbstractFacade<ProductAttributesvalue
     public void clearProducts(){
         this.products.clear();
     }
+    public void findProductByAttributeSelection(String attribute){
+        _log.info("Поиск продуктов по аттрибуту: " + attribute);
+        javax.persistence.criteria.CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
+        javax.persistence.criteria.CriteriaQuery<Tuple> cq = criteriaBuilder.createTupleQuery();
+        Root<ProductAttributesvaluesView> root = cq.from(ProductAttributesvaluesView.class);
+        List<Predicate> products = new ArrayList<Predicate>();
+        for(Long product : this.products){
+            products.add(criteriaBuilder.equal(root.get("productRef"), product));
+            _log.info("Продукты для выборки по аттрибуту: " + product);
+        }
+
+
+    }
     public Map<String, List<AttributeValueCount>> buildSearchAttributes(){
         searchAttributeValues.clear();
         for(Tuple tuple : this.groupByProductsAttributeValues()){
@@ -83,9 +96,6 @@ public class SearchAttributeFacade extends AbstractFacade<ProductAttributesvalue
                 _log.info("В фильтр добавлен продукт: " + product);
                 predicates.add(criteriaBuilder.equal(root.get("productRef"), product));
             }
-           /* cq.select(root.get("textvalue"), criteriaBuilder.count(root.get("dd"))
-            );*/
-
             cq.multiselect(attributeName.alias("ATTRIBUTE"), textValue.alias("VALUE"), count.alias("CNT"));
             cq.where(criteriaBuilder.or(predicates.toArray(new Predicate[]{})));
             cq.groupBy(textValue);
