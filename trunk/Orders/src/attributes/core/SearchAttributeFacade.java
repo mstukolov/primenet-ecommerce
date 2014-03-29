@@ -2,6 +2,7 @@ package attributes.core;
 
 import attributes.model.ProductAttributesvaluesView;
 import com.orders.facade.AbstractFacade;
+import org.orders.entity.Product;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -43,19 +44,30 @@ public class SearchAttributeFacade extends AbstractFacade<ProductAttributesvalue
     public void clearProducts(){
         this.products.clear();
     }
-    public void findProductByAttributeSelection(String attribute){
-        _log.info("Поиск продуктов по аттрибуту: " + attribute);
+    public List<ProductAttributesvaluesView> findProductByAttributeSelection(Object... attribute){
+
+        _log.info("Начался поиск продуктов по аттрибуту: " + attribute);
         javax.persistence.criteria.CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
-        javax.persistence.criteria.CriteriaQuery<Tuple> cq = criteriaBuilder.createTupleQuery();
+        javax.persistence.criteria.CriteriaQuery<ProductAttributesvaluesView> cq = criteriaBuilder.createQuery(ProductAttributesvaluesView.class);
         Root<ProductAttributesvaluesView> root = cq.from(ProductAttributesvaluesView.class);
         List<Predicate> products = new ArrayList<Predicate>();
+        //Формрование запроса по присутсвующим продуктам в текущей выборке
         for(Long product : this.products){
             products.add(criteriaBuilder.equal(root.get("productRef"), product));
             _log.info("Продукты для выборки по аттрибуту: " + product);
         }
 
-
+        if(attribute[0] instanceof String){
+            _log.info("Передан параметр типа String: " + attribute[0]);
+        }
+        //Параметр для выборки по значению атрибута
+        Predicate attributeValue =  criteriaBuilder.equal(root.get("textValue"), attribute[0]);
+        cq.select(root);
+        cq.where(criteriaBuilder.or(products.toArray(new Predicate[]{})),
+                                    criteriaBuilder.and(attributeValue));
+        return getEntityManager().createQuery(cq).getResultList();
     }
+
     public Map<String, List<AttributeValueCount>> buildSearchAttributes(){
         searchAttributeValues.clear();
         for(Tuple tuple : this.groupByProductsAttributeValues()){

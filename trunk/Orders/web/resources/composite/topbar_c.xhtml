@@ -78,23 +78,18 @@
 
     </div>
 
-    <div id="horizontalmenuLocation" style="padding-left: 10px;" class="grid_12 marginbottom">
+    <div id="horizontalmenuLocation" style="padding-left: 5%;" class="grid_12 marginbottom">
         <p:dataGrid id="assortbutons"
                     var="searchcategories"
                     style="background: transparent;"
                     value="#{ecorescategoryController.searchcategories}" columns="8">
-
-
             <p:column style="background: transparent;">
-
-
                 <h:commandLink value="#{searchcategories.name}"
                                action="#{uiController.goShop_C}"
                                update="@form"
-                               styleClass="outputlink" style="font-size: 14">
+                               styleClass="outputlink" style="font-size: 15;">
                     <f:actionListener binding="#{ecorescategoryController.searchProposals(searchcategories.recid)}" />
                 </h:commandLink>
-
             </p:column>
 
         </p:dataGrid>

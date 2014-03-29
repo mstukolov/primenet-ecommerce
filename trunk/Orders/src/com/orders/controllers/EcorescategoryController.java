@@ -117,32 +117,35 @@ public class EcorescategoryController {
     }
 
     public void searchProposalsByAttribute(String attribute){
-      searchAttributeFacade.findProductByAttributeSelection(attribute);
-
-      addMessage("Поиск по атрибутут: " + attribute);
+      searchproposals.clear();
+      for(ProductAttributesvaluesView view : searchAttributeFacade.findProductByAttributeSelection(attribute)){
+          for(Proposal proposal: proposalFacade.findPropolsalsByProduct(view.getProductRef())){
+              searchproposals.add(proposal);
+              log.info("Предложение из метода searchProposalsByAttribute:" + proposal.getRecid().toString());
+          }
+      }
+      proposalController.searchProposals(searchproposals);
+      addMessage("Поиск по атрибуту: " + attribute);
     }
 
-    public void searchProposals(Long category){
+    public void searchProposals(Object _arg){
         searchproposals.clear();
-        searchAttributeFacade.clearProducts();
-        filterChildren(category);
-        proposalController.searchProposals(searchproposals);
-        log.info("Фильтр содержит продукты в списоке поиска.................." +
-                "Кол-во атрибутов: " + searchAttributeFacade.findProductsAttributeValues().size());
-
-        searchAttributes = searchAttributeFacade.buildSearchAttributes();
-            /*for(Map.Entry entry : searchAttributeFacade.buildSearchAttributes().entrySet()){
-                String key = (String) entry.getKey();
-                Object entryValueList = entry.getValue();
-                for(AttributeValueCount entryValue :  (List<AttributeValueCount>)entryValueList){
-                    String valueText = entryValue.value;
-                    Integer valueCount = entryValue.count;
-                    log.info("  Атрибут: "+ key +
-                            ", Значение: " + valueText +
-                            ", Кол-во: " + valueCount);
+        if(_arg instanceof Long){
+            log.info("Поиск продуктов по КАТЕГОРИИ");
+            searchAttributeFacade.clearProducts();
+            filterChildren((Long) _arg);
+            searchAttributes = searchAttributeFacade.buildSearchAttributes();
+        } else if(_arg instanceof String){
+            log.info("Поиск продуктов по АТРИБУТУ: " + _arg);
+            for(ProductAttributesvaluesView view : searchAttributeFacade.findProductByAttributeSelection(_arg)){
+                for(Proposal proposal: proposalFacade.findPropolsalsByProduct(view.getProductRef())){
+                    searchproposals.add(proposal);
+                    log.info("Предложение из метода searchProposals:" + proposal.getRecid().toString());
                 }
+            }
+        }
+        proposalController.searchProposals(searchproposals);
 
-            }*/
     }
 
 
