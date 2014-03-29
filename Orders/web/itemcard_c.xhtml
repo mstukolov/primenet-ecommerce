@@ -58,18 +58,11 @@
                 <custom:topbar_c/>
 
                 <div id="bodyLocation" class="grid_12 marginbottom">
-                    <h:panelGrid columns="5" style="width: 100%;padding-left: 2%;" cellpadding="1">
-                        <h:panelGrid columns="1" style="padding-left: 0px;vertical-align: top">
-                            <h:outputText value="Бренды(5)"  styleClass="outputlink"/>
-                            <h:outputText value="Куртки(4)"  styleClass="outputlink"/>
-                            <h:outputText value="Пижамы(12)"  styleClass="outputlink"/>
-                            <h:outputText value="Подгузники(17)"  styleClass="outputlink"/>
-
-                        </h:panelGrid>
+                    <h:panelGrid columns="5" style="width: 100%;padding-left: 5%; padding-top: 3%" cellpadding="1">
 
                         <h:panelGrid columns="1">
                         <p:graphicImage value="#{itemCardController.getRelevantProductImage()}"
-                                        style="height: 200px; width: 275px;margin-left: 5%"
+                                        style="height: 225px; width: 300px;margin-left: 5%"
                                         id="image0" styleClass="demo" rendered="true">
 
                             <f:param name="relevantProd" value="#{itemCardController.current.product}" />

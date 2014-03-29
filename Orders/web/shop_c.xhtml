@@ -24,12 +24,12 @@
 
 
                         <ui:repeat value="#{ecorescategoryController.searchAttributes.entrySet().toArray()}" var="entry">
-                            <h:outputLabel value="#{entry.key}:"/>
+                            <h:outputLabel value="#{entry.key}:" styleClass="groupattributelink"/>
                             <br/>
                             <ui:repeat value="#{entry.value}" var="entryValue">
-                                <h:commandLink value="#{entryValue.value}(#{(entryValue.count)})"
-                                               action="#{ecorescategoryController.searchProposalsByAttribute(entryValue.value)}"
-                                               styleClass="outputlink" style="font-size: 14"/>
+                                <p:commandLink value="#{entryValue.value}(#{(entryValue.count)})"
+                                               action="#{ecorescategoryController.searchProposals(entryValue.value)}"
+                                               styleClass="outputlink" style="font-size: 14" update="@form"/>
                                 <br/>
 
                             </ui:repeat>
