@@ -7,14 +7,13 @@ import attributes.model.Getattributeenumlist;
 import com.orders.facade.ProductFacade;
 import com.orders.facade.RelevantprodFacade;
 import org.datamodel.ProductDataModel;
+import org.datamodel.ProductsLazyDataModel;
 import org.orders.entity.Items;
 import org.orders.entity.Product;
 import org.orders.entity.Relevantproducts;
 import org.orders.entity.SelectedProduct;
 import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.primefaces.model.UploadedFile;
+import org.primefaces.model.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -23,11 +22,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.persistence.criteria.*;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 @ManagedBean(name="itemController")
@@ -51,7 +49,9 @@ public class ItemController {
     private Ecoresvalue ecoresvalue;
     private Boolean isAttributeValueEnum;
     private SelectItem[] attributeEnumValues;
-
+    //[STUM] Переменная для ленивой загрузки справочника номенклатуры
+    private LazyDataModel<Product> productLazyDataList;
+    private Map<String,String> filters;
     @EJB
     private ProductFacade productFacade;
     @EJB
@@ -68,17 +68,20 @@ public class ItemController {
     private EcoresattributetypeFacade ecoresattributetypeFacade;
 
     public void refresh(){
-        products = productFacade.findAll();
-        selected = productFacade.find(selected.getRecid());
+        //products = productFacade.findAll();
+        //[STUM] Замена обычной выборки на ленивую загрузку справочника при обновлении
+        productLazyDataList = new ProductsLazyDataModel(filters);
+        //selected = productFacade.find(selected.getRecid());
+//        selected = productLazyDataList.getRowData(selected.getRecid().toString());
     }
     @PostConstruct
     public void init(){
         FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-        products = productFacade.findAll();
+        /*products = productFacade.findAll();
         if(!productFacade.findAll().isEmpty()){
             products = productFacade.findAll();
             selected = products.get(0);
-        }else{selected = new Product();}
+        }else{selected = new Product();}*/
 
         relevantproductes = new ArrayList<Relevantproducts>();
         selectedProducts = new ArrayList<SelectedProduct>();
@@ -86,7 +89,105 @@ public class ItemController {
         productAttributes = new ArrayList<Ecoresattribute>();
         selectedProductsModel = new ProductDataModel(products);
 
+        filters = new HashMap<String, String>();
+        productLazyDataList = new ProductsLazyDataModel(filters);
+        //selected = productLazyDataList.load(0, 0, "", SortOrder.ASCENDING, filters).get(0);
         images = new ArrayList<StreamedContent>();
+    }
+    //[STUM]Класс для ленивой загрузки данных по продуктам.
+    public class ProductsLazyDataModel extends LazyDataModel<Product> {
+        private Map<String,String> filtersExt;
+
+        public ProductsLazyDataModel() {
+        }
+
+        public ProductsLazyDataModel(Map<String, String> filtersExt) {
+            this.filtersExt = filtersExt;
+        }
+        @Override
+        public List<Product> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
+            List<Product> data = new ArrayList<Product>();
+            int rowCount = 0;
+
+            // Criteria
+            CriteriaBuilder criteriaBuilder = productFacade.getEntityManager().getCriteriaBuilder();
+            CriteriaQuery query = criteriaBuilder.createQuery(Product.class);
+            // From
+            Root from = query.from(Product.class);
+            //sort
+            if(sortField != null) {
+                if (sortOrder == SortOrder.ASCENDING) {
+                    query.orderBy(criteriaBuilder.asc(from.get(sortField)));
+                }
+                else {
+                    query.orderBy(criteriaBuilder.desc(from.get(sortField)));
+                }
+            }
+            // filters
+            Predicate external = null;
+            List<Predicate> predicates = new ArrayList();
+            if(!filtersExt.isEmpty() && filtersExt != null){
+                for(String field: filtersExt.keySet()){
+                    external = criteriaBuilder.like(from.get(field), filtersExt.get(field));
+                    predicates.add(external);
+                }
+            }
+
+            if(!filters.isEmpty() && filters != null){
+
+                for(Iterator<String> it = filters.keySet().iterator(); it.hasNext();) {
+                    String filterProperty = it.next(); // table column name = field name
+                    String filterValue = filters.get(filterProperty);
+
+                    Expression<Collection<String>> expression = from.get(filterProperty);
+
+                    if(concatFilter(filterValue).length > 1){
+
+                        List<Predicate> subpredicates = new ArrayList();
+                        Path<Object> path = from.get(filterProperty);
+                        Object[] values = new Object[concatFilter(filterValue).length];
+                        int j = 0;
+                        for(String str : concatFilter(filterValue)){
+                            values[j] = str;
+                            subpredicates.add(criteriaBuilder.like(from.get(filterProperty), "%"+str+"%"));
+                            j++;
+                        }
+                        Subquery<Product> subquery = query.subquery(Product.class);
+                        Root subroot = subquery.from(Product.class);
+
+                        subquery.where(criteriaBuilder.or(subpredicates.toArray(new Predicate[subpredicates.size()])));
+                        subquery.select(subroot.get(filterProperty));
+
+                        predicates.add(criteriaBuilder.in(path).value(subquery));
+                    }else{
+                        Expression literal = criteriaBuilder.literal("%"+((String)filterValue).trim()+"%");
+                        predicates.add(criteriaBuilder.like(from.get(filterProperty), literal));
+                    }
+
+                }
+
+
+                query.where(predicates.toArray(new Predicate[predicates.size()]));
+                data = productFacade.getEntityManager().createQuery(query).setFirstResult(first)
+                        .setMaxResults(pageSize).getResultList();
+                //rowCount = productFacade.count();
+                rowCount = productFacade.getEntityManager().createQuery(query).getResultList().size();
+            }else{
+                query.where(predicates.toArray(new Predicate[predicates.size()]));
+                data = productFacade.getEntityManager().createQuery(query).setFirstResult(first)
+                        .setMaxResults(pageSize).getResultList();
+                //rowCount = productFacade.count();
+                rowCount = productFacade.getEntityManager().createQuery(query).getResultList().size();
+            }
+
+            // row count
+            /*rowCount = data.size();*/
+            setRowCount(rowCount);
+            return data;
+        }
+        public String[] concatFilter(String filter){
+            return filter.replaceAll(" ", "").split(",");
+        }
     }
     //Создание значений атрибутов выбранного продукта
     public void selectProductAttributeValue(){
@@ -388,6 +489,14 @@ public class ItemController {
 
     public void setEcoresvalue(Ecoresvalue ecoresvalue) {
         this.ecoresvalue = ecoresvalue;
+    }
+
+    public LazyDataModel<Product> getProductLazyDataList() {
+        return productLazyDataList;
+    }
+
+    public void setProductLazyDataList(LazyDataModel<Product> productLazyDataList) {
+        this.productLazyDataList = productLazyDataList;
     }
 
     public void addMessage(String summary) {
