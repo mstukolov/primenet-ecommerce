@@ -29,21 +29,31 @@
 
         <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
             <p:fieldset id="table" legend="Табличная часть" rendered="#{not uiController.editForm}">
+
+
                 <p:dataTable var="data"
-                             value="#{itemController.products}"
+                             value="#{itemController.productLazyDataList}"
                              selectionMode = "single"
                              rowKey="#{data.recid}"
                              selection="#{itemController.selected}"
-                             filteredValue="#{itemController.filteredProducts}">
+                             filteredValue="#{itemController.filteredProducts}"
+                             scrollable="true"
+                             scrollHeight="800"
+                             style="width: 100%"
+                             lazy="true"
+                             rows ="100"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,50,100, 500, 1000, 3000">
 
                     <p:ajax event="rowSelect" update="@form"
                             listener="#{itemController.productSelection()}"/>
 
-                    <p:column headerText="Код" filterBy="#{data.recid}" styleClass="m-text-medium">
+                    <p:column headerText="Код" filterBy="#{data.recid}" filterStyle="width: 300px;" styleClass="m-text-medium" style="width:280px">
                         <h:outputText value="#{data.recid}" />
                     </p:column>
 
-                    <p:column headerText="Название товара" filterBy="#{data.name}" filterMatchMode="contains" styleClass="m-text-medium">
+                    <p:column headerText="Название товара" filterBy="#{data.name}" filterStyle="width: 500px;" filterMatchMode="contains" styleClass="m-text-medium">
                         <h:outputText value="#{data.name}" />
                     </p:column>
 
@@ -359,14 +369,19 @@
             </p:fieldset>
         </p:panelGrid>
     </p:panelGrid>
-        <p:dialog id="basicDialog" header="Выбрать товары" widgetVar="dlg" width="750" height="750">
+        <p:dialog id="basicDialog" header="Выбрать товары" widgetVar="dlg" width="750" >
             <h:form>
                 <p:dataTable var="data"
-                             value="#{itemController.selectedProductsModel}"
+                             value="#{itemController.productLazyDataList}"
                              selection = "#{itemController.selectedProductsA}"
                              rowKey="#{data.recid}"
                              scrollable="true"
                              scrollHeight="650"
+                             lazy="true"
+                             rows ="100"
+                             paginator="true"
+                             paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                             rowsPerPageTemplate="10,50,100, 500, 1000, 3000"
                         >
 
                     <p:ajax event="rowSelectCheckbox"
@@ -374,10 +389,10 @@
 
                     <p:column selectionMode="multiple" style="width:2%" />
 
-                    <p:column headerText="Продукт" styleClass="m-text-medium" style="width:10%">
+                    <p:column headerText="Продукт" styleClass="m-text-medium" style="width:5%">
                         <h:outputText value="#{data.recid}" />
                     </p:column>
-                    <p:column headerText="Название" styleClass="m-text-medium" style="width:25%">
+                    <p:column headerText="Название" styleClass="m-text-medium">
                         <h:outputText value="#{data.name}" />
                     </p:column>
                 </p:dataTable>

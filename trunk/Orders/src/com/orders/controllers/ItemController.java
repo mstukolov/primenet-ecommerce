@@ -87,11 +87,13 @@ public class ItemController {
         selectedProducts = new ArrayList<SelectedProduct>();
 
         productAttributes = new ArrayList<Ecoresattribute>();
-        selectedProductsModel = new ProductDataModel(products);
 
         filters = new HashMap<String, String>();
         productLazyDataList = new ProductsLazyDataModel(filters);
         //selected = productLazyDataList.load(0, 0, "", SortOrder.ASCENDING, filters).get(0);
+        //[STUM] Объект для вывода списка продуктов в выпадающем списке
+        //selectedProductsModel = new ProductDataModel(productLazyDataList);
+
         images = new ArrayList<StreamedContent>();
     }
     //[STUM]Класс для ленивой загрузки данных по продуктам.
@@ -265,7 +267,6 @@ public class ItemController {
         */
         if(ecoresvalue == null && ecoresvalueFacade.findAll().isEmpty() != true)
         {log.info("Атрибут в значении NULL");ecoresvalue = ecoresvalueFacade.findAll().get(0);ecoresvalue.setBooleanValue(false);}
-
         selectedProductsA = null;
         relevantproductes =  relevantprodFacade.findRelevantProducts(selected.getRecid());
         getProdAttributes();
