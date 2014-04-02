@@ -10,6 +10,7 @@ import com.orders.facade.ProductFacade;
 import com.orders.facade.ProposalFacade;
 import org.orders.entity.*;
 import org.primefaces.event.NodeSelectEvent;
+import org.primefaces.event.SlideEndEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 
@@ -47,6 +48,8 @@ public class EcorescategoryController {
     private Ecorescategory selected;
     private TreeNode root;
     private TreeNode selectedNode;
+
+    private int minPrice = 0, maxPrice = 2000;
 
     private Map<String, List<AttributeValueCount>> searchAttributes;
     @EJB
@@ -127,7 +130,10 @@ public class EcorescategoryController {
       proposalController.searchProposals(searchproposals);
       addMessage("Поиск по атрибуту: " + attribute);
     }
+    public void searchProposalsByPriceRange(SlideEndEvent event){
 
+            addMessage("Цена выбрана от: " + minPrice + " до " + maxPrice);
+    }
     public void searchProposals(Object _arg){
         searchproposals.clear();
         if(_arg instanceof Long){
@@ -424,5 +430,21 @@ public class EcorescategoryController {
 
     public void setSearchAttributes(Map<String, List<AttributeValueCount>> searchAttributes) {
         this.searchAttributes = searchAttributes;
+    }
+
+    public int getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(int minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public int getMaxPrice() {
+        return maxPrice;
+    }
+
+    public void setMaxPrice(int maxPrice) {
+        this.maxPrice = maxPrice;
     }
 }
