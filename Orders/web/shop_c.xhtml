@@ -22,7 +22,7 @@
                 <div id="shopgridLocation" class="container_12">
                     <h:panelGrid columns="2" style="padding-left: 15px">
 
-
+                    <h:panelGrid columns="1" style="margin-bottom:10px; margin-right: 10px">
                         <ui:repeat value="#{ecorescategoryController.searchAttributes.entrySet().toArray()}" var="entry">
                             <h:outputLabel value="#{entry.key}:" styleClass="groupattributelink"/>
                             <br/>
@@ -34,22 +34,23 @@
 
                             </ui:repeat>
                         </ui:repeat>
-                        <br/>
 
-                        <h:panelGrid columns="1" style="margin-bottom:10px">
+
+
                             <h:outputLabel value="Цена:" styleClass="groupattributelink"/>
                             <h:outputText id="displayRange"  styleClass="groupattributelink"
                                           rendered="true"
                                           value="Between #{ecorescategoryController.minPrice}
                                                                         and #{ecorescategoryController.maxPrice}"/>
-                                <p:slider for="txt6,txt7" display="displayRange" style="width:200px" range="true"
+                                <p:slider for="txt6,txt7" display="displayRange" style="width:150px" range="true"
                                           displayTemplate="Between {min} and {max}">
                                     <p:ajax event="slideEnd" listener="#{ecorescategoryController.searchProposalsByPriceRange}"
                                             update="messages"/>
                                 </p:slider>
+                            <h:inputHidden id="txt6" value="#{ecorescategoryController.minPrice}" />
+                            <h:inputHidden id="txt7" value="#{ecorescategoryController.maxPrice}" />
                         </h:panelGrid>
-                        <h:inputHidden id="txt6" value="#{ecorescategoryController.minPrice}" />
-                        <h:inputHidden id="txt7" value="#{ecorescategoryController.maxPrice}" />
+
 
                     <p:dataGrid id="availableProposals"
                                 var="proposals"
