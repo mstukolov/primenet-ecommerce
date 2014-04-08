@@ -122,21 +122,26 @@
 
                 </p:dataTable>
                 <!-- Форма диалога для привязки продукта к категрии иерархии-->
-                <p:dialog id="dialog2" header="Добавить продукт к категории" widgetVar="dlgProd" width="750" height="550">
+                <p:dialog id="dialog2" header="Добавить продукт к категории" widgetVar="dlgProd" width="1050" height="850">
                     <h:form>
                         <p:dataTable var="data"
-                                     value="#{ecorescategoryController.products}"
+                                     value="#{itemController.productLazyDataList}"
                                      selection = "#{ecorescategoryController.productsSelection}"
                                      rowKey="#{data.recid}"
                                      scrollable="true"
-                                     scrollHeight="450">
+                                     scrollHeight="650"
+                                     lazy="true"
+                                     rows ="25"
+                                     paginator="true"
+                                     paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="10,50,100">
 
-                            <p:column selectionMode="multiple" style="width:2%" />
+                            <p:column selectionMode="multiple" style="width:1%" />
 
-                            <p:column headerText="Код группы атрибута" styleClass="m-text-medium" style="width:10%">
+                            <p:column headerText="Код" styleClass="m-text-medium" style="width:15px">
                                 <h:outputText value="#{data.recid}" />
                             </p:column>
-                            <p:column headerText="Имя группы" styleClass="m-text-medium" style="width:25%">
+                            <p:column headerText="Продукт" styleClass="m-text-medium" style="width:250px">
                                 <h:outputText value="#{data.name}" />
                             </p:column>
                         </p:dataTable>

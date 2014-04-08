@@ -26,11 +26,10 @@
             />
     <h:form id="mainForm">
         <p:growl id="messages"/>
-
+        <h:outputText id="label" value="#{itemController.selected.recid}, #{itemController.selected.name}" styleClass="m-text-large"/>
         <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
-            <p:fieldset id="table" legend="Табличная часть" rendered="#{not uiController.editForm}">
 
-
+        <p:fieldset id="table" legend="Табличная часть" rendered="#{not uiController.editForm}">
                 <p:dataTable var="data"
                              value="#{itemController.productLazyDataList}"
                              selectionMode = "single"
@@ -46,10 +45,10 @@
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,50,100, 500, 1000, 3000">
 
-                    <p:ajax event="rowSelect" update="@form"
+                    <p:ajax event="rowSelect" update=":mainForm:reltable, :mainForm:attributeTable, :mainForm:label, :mainForm:messages"
                             listener="#{itemController.productSelection()}"/>
 
-                    <p:column headerText="Код" filterBy="#{data.recid}" filterStyle="width: 300px;" styleClass="m-text-medium" style="width:280px">
+                    <p:column headerText="Код" filterBy="#{data.recid}" filterStyle="width: 150px;" styleClass="m-text-medium" style="width:10%">
                         <h:outputText value="#{data.recid}" />
                     </p:column>
 
@@ -277,6 +276,7 @@
 
             <p:fieldset id="formAttr" legend="Группы атрибутов" rendered="#{not uiController.editForm}" toggleable="true">
                 <p:dataTable var="data"
+                             id="attributeTable"
                              value="#{itemController.productAttributes}"
                              selectionMode = "single"
                              selection="#{itemController.selectedAttribute}"
