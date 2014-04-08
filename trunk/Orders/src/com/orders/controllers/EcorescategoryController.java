@@ -79,7 +79,7 @@ public class EcorescategoryController {
         selectedProducts = new ArrayList<SelectedProduct>();
         ecoresproductcategories = new ArrayList<Ecoresproductcategory>();
 
-        if(!productFacade.findAll().isEmpty()){
+        /*if(!productFacade.findAll().isEmpty()){
             for(Product product : productFacade.findAll()){
                 SelectedProduct selectedProduct = new SelectedProduct();
                 selectedProduct.setProduct(product);
@@ -87,13 +87,13 @@ public class EcorescategoryController {
                 selectedProducts.add(selectedProduct);
             }
 
-        }
+        }*/
         if(!ecorescategoryFacade.findAll().isEmpty()){
             ecorescategories = ecorescategoryFacade.findAll();
             selected = ecorescategories.get(0);
         }else{selected = new Ecorescategory();}
 
-        if(!productFacade.findAll().isEmpty()){products = productFacade.findAll();}
+        /*if(!productFacade.findAll().isEmpty()){products = productFacade.findAll();}*/
 
         productsDataModel = new ProductsDataModel(ecoresproductcategories);
 

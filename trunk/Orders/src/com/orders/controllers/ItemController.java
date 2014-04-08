@@ -265,11 +265,15 @@ public class ItemController {
         /*selectedAttribute = ecoresattributeFacade.findAll().get(0);
         ecoresvalue = ecoresproductattributevalueFacade.findEcoresValue(selected, selectedAttribute);
         */
+        long start = System.currentTimeMillis();
         if(ecoresvalue == null && ecoresvalueFacade.findAll().isEmpty() != true)
-        {log.info("Атрибут в значении NULL");ecoresvalue = ecoresvalueFacade.findAll().get(0);ecoresvalue.setBooleanValue(false);}
+            {log.info("Атрибут в значении NULL");ecoresvalue = ecoresvalueFacade.findAll().get(0);ecoresvalue.setBooleanValue(false);}
         selectedProductsA = null;
         relevantproductes =  relevantprodFacade.findRelevantProducts(selected.getRecid());
         getProdAttributes();
+
+        long elapsed = System.currentTimeMillis() - start;
+        log.info("Затраченное время на выборку: " + elapsed);
     }
    /* public void handleFileUpload(FileUploadEvent event) throws IOException {
         UploadedFile file = event.getFile();
