@@ -79,7 +79,7 @@
     </div>
 
     <div id="horizontalmenuLocation" style="padding-left: 5%;" class="grid_12 marginbottom">
-        <p:dataGrid id="assortbutons"
+        <p:dataGrid id="assortbutons"  rendered="false"
                     var="searchcategories"
                     style="background: transparent;"
                     value="#{ecorescategoryController.searchcategories}" columns="8">
@@ -93,7 +93,16 @@
             </p:column>
 
         </p:dataGrid>
+
+
     </div>
+
+        <div style="background-color: coral; height: 10%">
+            <p:megaMenu rendered="true" model="#{ecorescategoryController.menuModel}"/>
+
+
+        </div>
+
     </div>
     </div>
 

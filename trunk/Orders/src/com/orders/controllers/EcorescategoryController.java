@@ -13,6 +13,7 @@ import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.SlideEndEvent;
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
+import org.primefaces.model.menu.*;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -48,6 +49,8 @@ public class EcorescategoryController {
     private Ecorescategory selected;
     private TreeNode root;
     private TreeNode selectedNode;
+
+    private MenuModel menuModel;
 
     private int minPrice = 0, maxPrice = 2000;
 
@@ -156,11 +159,34 @@ public class EcorescategoryController {
 
 
     public void buildSearchButtons(){
+        menuModel  = new DefaultMenuModel();
+
+
+
         searchcategories.clear();
         for(Ecorescategory ecorescategory: ecorescategoryFacade.findChildCategories(findRoot().getRecid())){
             searchcategories.add(ecorescategory);
+            //[STUM] Динамическое построение меню
+            DefaultSubMenu subMenu = new DefaultSubMenu(ecorescategory.getName());
+            DefaultMenuColumn column = new DefaultMenuColumn();
+
+            for(Ecorescategory ecorescategory1: ecorescategoryFacade.findChildCategories(ecorescategory.getRecid())){
+            DefaultSubMenu subMenu2 = new DefaultSubMenu(ecorescategory.getName());
+            subMenu2.setLabel(ecorescategory1.getName());
+                for(Ecorescategory ecorescategory2: ecorescategoryFacade.findChildCategories(ecorescategory1.getRecid())){
+                    DefaultMenuItem item = new DefaultMenuItem(ecorescategory2.getName());
+                    item.setUrl("http://www.primefaces.org");
+                    item.setIcon("ui-icon-home");
+                    subMenu2.addElement(item);
+                }
+                column.addElement(subMenu2);
+            }
+            subMenu.addElement(column);
+            menuModel.addElement(subMenu);
         }
+
     }
+
     public void refreshCategoriesAfterRestore(){
         if(!ecorescategoryFacade.findAll().isEmpty()){
             ecorescategories = ecorescategoryFacade.findAll();
@@ -446,5 +472,13 @@ public class EcorescategoryController {
 
     public void setMaxPrice(int maxPrice) {
         this.maxPrice = maxPrice;
+    }
+
+    public MenuModel getMenuModel() {
+        return menuModel;
+    }
+
+    public void setMenuModel(MenuModel menuModel) {
+        this.menuModel = menuModel;
     }
 }
