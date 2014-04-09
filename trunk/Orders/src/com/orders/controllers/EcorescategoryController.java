@@ -166,7 +166,7 @@ public class EcorescategoryController {
         searchcategories.clear();
         for(Ecorescategory ecorescategory: ecorescategoryFacade.findChildCategories(findRoot().getRecid())){
             searchcategories.add(ecorescategory);
-            //[STUM] Динамическое построение меню
+            //[STUM][Issue 1] Добавить в разделе выбора категорий, отражение всех уровней классификатора
             DefaultSubMenu subMenu = new DefaultSubMenu(ecorescategory.getName());
             DefaultMenuColumn column = new DefaultMenuColumn();
 
