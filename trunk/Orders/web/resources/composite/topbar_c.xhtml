@@ -97,10 +97,12 @@
 
     </div>
 
-        <div style="background-color: coral; height: 10%">
-            <p:megaMenu rendered="true" model="#{ecorescategoryController.menuModel}"/>
-
-
+        <div style="background-color: coral; height: 5%">
+            <p:megaMenu rendered="true" model="#{ecorescategoryController.menuModel}" autoDisplay="true"
+                        style="padding-left: 5%"/>
+           <!-- <script type="text/javascript">
+                $(".myMeineClass").bind("click",function(){ window.location.href="#{request.contextPath}/faces/shop_c.xhtml"; });
+            </script>-->
         </div>
 
     </div>
