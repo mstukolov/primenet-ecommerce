@@ -9,6 +9,7 @@ import com.orders.facade.EcoresproductcategoryFacade;
 import com.orders.facade.ProductFacade;
 import com.orders.facade.ProposalFacade;
 import org.orders.entity.*;
+import org.primefaces.event.MenuActionEvent;
 import org.primefaces.event.NodeSelectEvent;
 import org.primefaces.event.SlideEndEvent;
 import org.primefaces.model.DefaultTreeNode;
@@ -22,6 +23,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.persistence.Tuple;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,6 +110,7 @@ public class EcorescategoryController {
 
     public void filterChildren(Long category){
 
+          if(!ecorescategoryFacade.findChildCategories(category).isEmpty()){
           for(Ecorescategory ecorescategory: ecorescategoryFacade.findChildCategories(category)){
 
             for (Ecoresproductcategory ecoresproductcategory: ecoresproductcategoryFacade.findByCategory(ecorescategory.getRecid())){
@@ -116,10 +119,20 @@ public class EcorescategoryController {
                 for(Proposal proposal: proposalFacade.findPropolsalsByProduct(Long.valueOf(ecoresproductcategory.getProduct()))){
                     searchproposals.add(proposal);
                     addMessage("Предложение:" + proposal.getRecid().toString() + ",Товар: " + ecoresproductcategory.getProduct());
+                    }
                 }
-           }
-            filterChildren(ecorescategory.getRecid());
-        }
+                filterChildren(ecorescategory.getRecid());
+            }
+          }else{
+              log.info("Категория является самым нижним уровнем");
+              for (Ecoresproductcategory ecoresproductcategory: ecoresproductcategoryFacade.findByCategory(category)){
+                  searchAttributeFacade.addProducts(ecoresproductcategory.getProduct());
+                  for(Proposal proposal: proposalFacade.findPropolsalsByProduct(Long.valueOf(ecoresproductcategory.getProduct()))){
+                      searchproposals.add(proposal);
+                  }
+              }
+          }
+
     }
 
     public void searchProposalsByAttribute(String attribute){
@@ -140,7 +153,7 @@ public class EcorescategoryController {
     public void searchProposals(Object _arg){
         searchproposals.clear();
         if(_arg instanceof Long){
-            log.info("Поиск продуктов по КАТЕГОРИИ");
+            log.info("Поиск продуктов по КАТЕГОРИИ: " + _arg);
             searchAttributeFacade.clearProducts();
             filterChildren((Long) _arg);
             searchAttributes = searchAttributeFacade.buildSearchAttributes();
@@ -160,31 +173,64 @@ public class EcorescategoryController {
 
     public void buildSearchButtons(){
         menuModel  = new DefaultMenuModel();
-
-
-
         searchcategories.clear();
+
         for(Ecorescategory ecorescategory: ecorescategoryFacade.findChildCategories(findRoot().getRecid())){
             searchcategories.add(ecorescategory);
             //[STUM][Issue 1] Добавить в разделе выбора категорий, отражение всех уровней классификатора
             DefaultSubMenu subMenu = new DefaultSubMenu(ecorescategory.getName());
-            DefaultMenuColumn column = new DefaultMenuColumn();
+            //subMenu.setIcon("ui-icon-check");
 
-            for(Ecorescategory ecorescategory1: ecorescategoryFacade.findChildCategories(ecorescategory.getRecid())){
-            DefaultSubMenu subMenu2 = new DefaultSubMenu(ecorescategory.getName());
-            subMenu2.setLabel(ecorescategory1.getName());
-                for(Ecorescategory ecorescategory2: ecorescategoryFacade.findChildCategories(ecorescategory1.getRecid())){
-                    DefaultMenuItem item = new DefaultMenuItem(ecorescategory2.getName());
-                    item.setUrl("http://www.primefaces.org");
-                    item.setIcon("ui-icon-home");
-                    subMenu2.addElement(item);
-                }
-                column.addElement(subMenu2);
+            DefaultMenuColumn column = new DefaultMenuColumn();
+            if(!ecorescategoryFacade.findChildCategories(ecorescategory.getRecid()).isEmpty()){
+                for(Ecorescategory ecorescategory1: ecorescategoryFacade.findChildCategories(ecorescategory.getRecid())){
+                   if(!ecorescategoryFacade.findChildCategories(ecorescategory1.getRecid()).isEmpty()){
+                            DefaultSubMenu subMenu2 = new DefaultSubMenu(ecorescategory1.getName());
+                            for(Ecorescategory ecorescategory2: ecorescategoryFacade.findChildCategories(ecorescategory1.getRecid())){
+                                DefaultMenuItem item = new DefaultMenuItem(ecorescategory2.getName());
+                                item.setAjax(true);
+                                item.setUpdate("@form");
+                                item.setParam("menuId", ecorescategory2.getRecid());
+                                item.setCommand("#{ecorescategoryController.displayList}");
+                                item.setStyle("padding-right: 5%");
+                                subMenu2.addElement(item);
+                            }
+                                column.addElement(subMenu2);
+
+                        }else{
+                                DefaultSubMenu subMenu2 = new DefaultSubMenu(ecorescategory1.getName());
+                                DefaultMenuItem item = new DefaultMenuItem(ecorescategory1.getName());
+                                item.setAjax(true);
+                                item.setUpdate("@form");
+                                item.setParam("menuId", ecorescategory1.getRecid());
+                                item.setCommand("#{ecorescategoryController.displayList}");
+                                subMenu2.addElement(item);
+                                column.addElement(subMenu2);
+                                log.info("Категория 2 уровня: " + ecorescategory1.getName() + " не имеет детей!");
+                             }
+                        }
+
+            }else{
+                DefaultSubMenu subMenu1 = new DefaultSubMenu(ecorescategory.getName());
+                DefaultMenuItem item = new DefaultMenuItem(ecorescategory.getName());
+                item.setAjax(true);
+                item.setUpdate("@form");
+                item.setParam("menuId", ecorescategory.getRecid());
+                item.setCommand("#{ecorescategoryController.displayList}");
+                subMenu1.addElement(item);
+                column.addElement(subMenu1);
             }
             subMenu.addElement(column);
             menuModel.addElement(subMenu);
         }
 
+    }
+    public String displayList(ActionEvent event) {
+        MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
+        Long id = Long.parseLong(menuItem.getParams().get("menuId").get(0));
+        log.info("Выбрана категория: " + id);
+        this.searchProposals(id);
+        return "shop_c";// + "?faces-redirect=true";
     }
 
     public void refreshCategoriesAfterRestore(){
@@ -192,7 +238,7 @@ public class EcorescategoryController {
             ecorescategories = ecorescategoryFacade.findAll();
             selected = ecorescategories.get(0);
         }else{selected = new Ecorescategory();}
-
+        buildSearchButtons();
         addMessage("Классификтор обновлен");
     }
 
