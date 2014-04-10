@@ -25,9 +25,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.persistence.Tuple;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 
 @ManagedBean(name="ecorescategoryController")
@@ -52,7 +50,8 @@ public class EcorescategoryController {
     private TreeNode root;
     private TreeNode selectedNode;
 
-    private MenuModel menuModel;
+    private MenuModel menuModel, breadCrumbModel;
+    private List<Ecorescategory> treeUp;
 
     private int minPrice = 0, maxPrice = 2000;
 
@@ -106,6 +105,7 @@ public class EcorescategoryController {
         selectedNode = root;
         buildtree();
         buildSearchButtons();
+
     }
 
     public void filterChildren(Long category){
@@ -113,14 +113,14 @@ public class EcorescategoryController {
           if(!ecorescategoryFacade.findChildCategories(category).isEmpty()){
           for(Ecorescategory ecorescategory: ecorescategoryFacade.findChildCategories(category)){
 
-            for (Ecoresproductcategory ecoresproductcategory: ecoresproductcategoryFacade.findByCategory(ecorescategory.getRecid())){
+            /*for (Ecoresproductcategory ecoresproductcategory: ecoresproductcategoryFacade.findByCategory(ecorescategory.getRecid())){
                 searchAttributeFacade.addProducts(ecoresproductcategory.getProduct());
 
                 for(Proposal proposal: proposalFacade.findPropolsalsByProduct(Long.valueOf(ecoresproductcategory.getProduct()))){
-                    searchproposals.add(proposal);
-                    addMessage("Предложение:" + proposal.getRecid().toString() + ",Товар: " + ecoresproductcategory.getProduct());
+                    //searchproposals.add(proposal);
+                    //addMessage("Предложение:" + proposal.getRecid().toString() + ",Товар: " + ecoresproductcategory.getProduct());
                     }
-                }
+                }*/
                 filterChildren(ecorescategory.getRecid());
             }
           }else{
@@ -128,6 +128,7 @@ public class EcorescategoryController {
               for (Ecoresproductcategory ecoresproductcategory: ecoresproductcategoryFacade.findByCategory(category)){
                   searchAttributeFacade.addProducts(ecoresproductcategory.getProduct());
                   for(Proposal proposal: proposalFacade.findPropolsalsByProduct(Long.valueOf(ecoresproductcategory.getProduct()))){
+                      //[STUM] Пересечение методов
                       searchproposals.add(proposal);
                   }
               }
@@ -135,7 +136,7 @@ public class EcorescategoryController {
 
     }
 
-    public void searchProposalsByAttribute(String attribute){
+   /* public void searchProposalsByAttribute(String attribute){
       searchproposals.clear();
       for(ProductAttributesvaluesView view : searchAttributeFacade.findProductByAttributeSelection(attribute)){
           for(Proposal proposal: proposalFacade.findPropolsalsByProduct(view.getProductRef())){
@@ -145,7 +146,7 @@ public class EcorescategoryController {
       }
       proposalController.searchProposals(searchproposals);
       addMessage("Поиск по атрибуту: " + attribute);
-    }
+    }*/
     public void searchProposalsByPriceRange(SlideEndEvent event){
 
             addMessage("Цена выбрана от: " + minPrice + " до " + maxPrice);
@@ -167,10 +168,39 @@ public class EcorescategoryController {
             }
         }
         proposalController.searchProposals(searchproposals);
-
     }
 
+    public void buildBreadCrumb(Long id){
+        breadCrumbModel = new DefaultMenuModel();
+        treeUp = new ArrayList<Ecorescategory>();
+        treeUp.add(ecorescategoryFacade.find(id));
+        parentCategoriesTreeUp(ecorescategoryFacade.find(id));
 
+        DefaultMenuItem catalog = new DefaultMenuItem("Каталог");
+        breadCrumbModel.addElement(catalog);
+
+        ListIterator iterator= treeUp.listIterator(treeUp.size());
+        while(iterator.hasPrevious()){
+            Ecorescategory ecorescategory = (Ecorescategory)iterator.previous();
+            DefaultMenuItem item = new DefaultMenuItem(ecorescategory.getName());
+            item.setAjax(true);
+            item.setUpdate("@form");
+            item.setParam("menuId", (ecorescategory.getRecid()));
+            item.setCommand("#{ecorescategoryController.displayList}");
+            breadCrumbModel.addElement(item);
+        }
+    }
+
+    public void parentCategoriesTreeUp(Ecorescategory ecorescategory){
+        if(findParentCategory(ecorescategory).getParentrecid() != 0){
+            treeUp.add(findParentCategory(ecorescategory));
+            parentCategoriesTreeUp(findParentCategory(ecorescategory));
+        }
+    }
+
+    public Ecorescategory findParentCategory(Ecorescategory ecorescategory){
+        return ecorescategoryFacade.find(ecorescategoryFacade.find(ecorescategory.getRecid()).getParentrecid());
+    }
     public void buildSearchButtons(){
         menuModel  = new DefaultMenuModel();
         searchcategories.clear();
@@ -228,6 +258,7 @@ public class EcorescategoryController {
     public String displayList(ActionEvent event) {
         MenuItem menuItem = ((MenuActionEvent) event).getMenuItem();
         Long id = Long.parseLong(menuItem.getParams().get("menuId").get(0));
+        buildBreadCrumb(id);
         log.info("Выбрана категория: " + id);
         this.searchProposals(id);
         return "shop_c";// + "?faces-redirect=true";
@@ -526,5 +557,13 @@ public class EcorescategoryController {
 
     public void setMenuModel(MenuModel menuModel) {
         this.menuModel = menuModel;
+    }
+
+    public MenuModel getBreadCrumbModel() {
+        return breadCrumbModel;
+    }
+
+    public void setBreadCrumbModel(MenuModel breadCrumbModel) {
+        this.breadCrumbModel = breadCrumbModel;
     }
 }
