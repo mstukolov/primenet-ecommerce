@@ -90,7 +90,7 @@ public class ItemController {
 
         filters = new HashMap<String, String>();
         productLazyDataList = new ProductsLazyDataModel(filters);
-        //selected = productLazyDataList.load(0, 0, "", SortOrder.ASCENDING, filters).get(0);
+        if(!productFacade.findAll().isEmpty()){selected = productFacade.findAll().get(0);}
         //[STUM] Объект для вывода списка продуктов в выпадающем списке
         //selectedProductsModel = new ProductDataModel(productLazyDataList);
 
@@ -105,6 +105,13 @@ public class ItemController {
 
         public ProductsLazyDataModel(Map<String, String> filtersExt) {
             this.filtersExt = filtersExt;
+        }
+        public Product getFirstElement(){
+            CriteriaBuilder criteriaBuilder = productFacade.getEntityManager().getCriteriaBuilder();
+            CriteriaQuery query = criteriaBuilder.createQuery(Product.class);
+            Root root = query.from(Product.class);
+            query.select(root);
+            return (Product)productFacade.getEntityManager().createQuery(query).getSingleResult();
         }
         @Override
         public List<Product> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String,String> filters) {
@@ -248,7 +255,7 @@ public class ItemController {
        addMessage("Атрибуты обновлены");
     }
     public String getProductName(String recid){
-            return  productFacade.find(Long.valueOf(recid)).getName();
+         return  productFacade.find(Long.valueOf(recid)) == null ? "Значений не привязано" : productFacade.find(Long.valueOf(recid)).getName() ;
     }
     public void addRelevantProducts(){
         relevantprodFacade.attachReleventProducts(selectedProductsA, selected);
@@ -265,6 +272,7 @@ public class ItemController {
         /*selectedAttribute = ecoresattributeFacade.findAll().get(0);
         ecoresvalue = ecoresproductattributevalueFacade.findEcoresValue(selected, selectedAttribute);
         */
+        log.info("Размер картинки продукта: " + selected.getPhoto().hashCode());
         long start = System.currentTimeMillis();
         if(ecoresvalue == null && ecoresvalueFacade.findAll().isEmpty() != true)
             {log.info("Атрибут в значении NULL");ecoresvalue = ecoresvalueFacade.findAll().get(0);ecoresvalue.setBooleanValue(false);}
