@@ -111,18 +111,18 @@ public class EcorescategoryController {
     public void filterChildren(Long category){
 
           if(!ecorescategoryFacade.findChildCategories(category).isEmpty()){
-          for(Ecorescategory ecorescategory: ecorescategoryFacade.findChildCategories(category)){
+              for(Ecorescategory ecorescategory: ecorescategoryFacade.findChildCategories(category)){
 
-            /*for (Ecoresproductcategory ecoresproductcategory: ecoresproductcategoryFacade.findByCategory(ecorescategory.getRecid())){
-                searchAttributeFacade.addProducts(ecoresproductcategory.getProduct());
+                /*for (Ecoresproductcategory ecoresproductcategory: ecoresproductcategoryFacade.findByCategory(ecorescategory.getRecid())){
+                    searchAttributeFacade.addProducts(ecoresproductcategory.getProduct());
 
-                for(Proposal proposal: proposalFacade.findPropolsalsByProduct(Long.valueOf(ecoresproductcategory.getProduct()))){
-                    //searchproposals.add(proposal);
-                    //addMessage("Предложение:" + proposal.getRecid().toString() + ",Товар: " + ecoresproductcategory.getProduct());
-                    }
-                }*/
-                filterChildren(ecorescategory.getRecid());
-            }
+                    for(Proposal proposal: proposalFacade.findPropolsalsByProduct(Long.valueOf(ecoresproductcategory.getProduct()))){
+                        //searchproposals.add(proposal);
+                        //addMessage("Предложение:" + proposal.getRecid().toString() + ",Товар: " + ecoresproductcategory.getProduct());
+                        }
+                    }*/
+                    filterChildren(ecorescategory.getRecid());
+                }
           }else{
               log.info("Категория является самым нижним уровнем");
               for (Ecoresproductcategory ecoresproductcategory: ecoresproductcategoryFacade.findByCategory(category)){
