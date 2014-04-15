@@ -18,10 +18,10 @@
     <custom:topbar  inputValue="Предложения"
                     currentPage="proposal.xhtml"
                     backButtonAction="#{uiController.setReference('proposal.xhtml')}"
-                    createButtonAction="#{proposalController.create}"
+                    createButtonAction="#{uiController.create('propolsal')}"
                     saveButtonAction="#{proposalController.save}"
                     editButtonAction="#{uiController.edit(uiController.editForm)}"
-                    deleteButtonAction="#{itemController.delete}"
+                    deleteButtonAction="#{proposalController.delete}"
                     refreshButtonAction="#{proposalController.refresh()}"
                     />
 
@@ -188,23 +188,30 @@
         </p:fieldset>
 
         </p:panelGrid>
-        <p:dialog id="basicDialog" header="Выбрать товары" widgetVar="dlg" style="height: 500px; width: 600px">
+        <p:dialog id="basicDialog" header="Выбрать товары" widgetVar="dlg" width="900">
 
             <p:dataTable var="data"
-                         value="#{proposalController.products}"
+                         value="#{itemController.productLazyDataList}"
                          selectionMode = "single"
                          rowKey="#{data.recid}"
                          selection="#{proposalController.selectedProduct}"
+                         lazy="true"
+                         scrollable="true"
+                         scrollHeight="600"
+                         rows ="50"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="10,25,50"
                     >
                 <p:ajax event="rowSelect" update=":form:messages, :form:selectedProposals"
                         oncomplete="dlg.hide()"
                         listener="#{proposalController.setProductForProposal(proposalController.selectedProduct)}"/>
 
-                <p:column headerText="recid">
+                <p:column headerText="Код" filterBy="#{data.recid}" filterStyle="width: 150px;" styleClass="m-text-medium" style="width:10%">
                     <h:outputText value="#{data.recid}" />
                 </p:column>
 
-                <p:column headerText="name">
+                <p:column headerText="Название товара" filterBy="#{data.name}" filterStyle="width: 500px;" filterMatchMode="contains" styleClass="m-text-medium">
                     <h:outputText value="#{data.name}" />
                 </p:column>
 

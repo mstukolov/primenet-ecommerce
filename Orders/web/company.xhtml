@@ -63,17 +63,19 @@
                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px">
                         <p:ajax event="change" listener="#{companyController.save()}" update="messages, table"/>
                     </p:inputText>
-                    <h:outputText value="#{companyController.selected.name}"
-                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
 
                     <h:outputLabel value="Телефон:" styleClass="m-text-medium"/>
                     <p:inputText value="#{companyController.selected.phone}"
                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px">
                               <p:ajax event="change" listener="#{companyController.save()}" update="messages, table, @form"/>
                     </p:inputText>
+                    <h:outputLabel value="Активно:" styleClass="m-text-medium"/>
+                    <p:selectBooleanCheckbox value="#{companyController.selected.active}"
+                                 style="font: Segoe; font-size:24px; width: 350px; height: 40px">
+                        <p:ajax event="change" listener="#{companyController.save()}" update="messages, table, @form"/>
+                    </p:selectBooleanCheckbox>
 
-
-                    <p:graphicImage value="#{companyController.image}" width="300"  id="grpImage" height="250"/>
+                    <p:graphicImage value="#{companyController.image}" width="300"  id="grpImage" height="250" cache="false"/>
 
 
                     <p:fileUpload fileUploadListener="#{companyController.handleFileUpload}"

@@ -43,12 +43,15 @@
                                           value="Between #{ecorescategoryController.minPrice}
                                                                         and #{ecorescategoryController.maxPrice}"/>
                                 <p:slider for="txt6,txt7" display="displayRange" style="width:150px" range="true"
-                                          displayTemplate="Between {min} and {max}">
+                                          displayTemplate="Between {min} and {max}" maxValue="#{ecorescategoryController.maxPrice}">
                                     <p:ajax event="slideEnd" listener="#{ecorescategoryController.searchProposalsByPriceRange}"
-                                            update="messages"/>
+                                            update="@form" process="@this,txt6,txt7"/>
+
                                 </p:slider>
                             <h:inputHidden id="txt6" value="#{ecorescategoryController.minPrice}" />
                             <h:inputHidden id="txt7" value="#{ecorescategoryController.maxPrice}" />
+                            <p:commandButton value="Search"
+                                             action="#{ecorescategoryController.getProposalsByPriceRange}" update=":shopForm:messages"/>
                         </h:panelGrid>
 
 
@@ -63,7 +66,7 @@
                         <p:column>
                                 <h:panelGrid columns="1" styleClass="proposalwindow">
                                 <h:commandLink action="#{uiController.goItemCard(proposals)}">
-                                    <p:graphicImage value="#{proposalController.getProductImage()}" styleClass="proposalimage" id="grpImage">
+                                    <p:graphicImage value="#{proposalController.getProductImage()}" styleClass="proposalimage" id="grpImage" cache="false">
                                         <f:param name="imgprod" value="#{proposals.product}" />
                                     </p:graphicImage>
                                     <br/>
