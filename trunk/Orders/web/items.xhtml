@@ -18,7 +18,7 @@
     <custom:topbar  inputValue="Товары"
                     currentPage="items.xhtml"
                     backButtonAction="#{uiController.setReference('items.xhtml')}"
-                    createButtonAction="#{itemController.create}"
+                    createButtonAction="#{uiController.create('product')}"
                     saveButtonAction="#{itemController.save}"
                     editButtonAction="#{uiController.edit(uiController.editForm)}"
                     deleteButtonAction="#{itemController.delete}"
@@ -26,12 +26,12 @@
             />
     <h:form id="mainForm">
         <p:growl id="messages"/>
-        <h:outputText id="label" value="#{itemController.selected.recid}, #{itemController.selected.name}" styleClass="m-text-large"/>
-
-
-
+        <h:panelGrid columns="2" id="label">
+            <h:outputText value="#{itemController.selected.recid}, #{itemController.selected.name}" styleClass="m-text-large"/>
+            <p:graphicImage value="#{itemController.getImage(0)}" width="50"  id="image1" height="50" rendered="true" cache="false"/>
+        </h:panelGrid>
         <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
-        <p:graphicImage value="#{itemController.getImage(0)}" width="100"  id="image1" height="150" rendered="true"/>
+
         <p:fieldset id="table" legend="Табличная часть" rendered="#{not uiController.editForm}">
                 <p:dataTable var="data"
                              value="#{itemController.productLazyDataList}"
@@ -48,7 +48,7 @@
                              paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                              rowsPerPageTemplate="10,50,100, 500, 1000, 3000">
 
-                    <p:ajax event="rowSelect" update="@form, :mainForm:reltable, :mainForm:form, :mainForm:attributeTable, :mainForm:label, :mainForm:messages"
+                    <p:ajax event="rowSelect" update=":mainForm:reltable, :mainForm:form, :mainForm:attributeTable, :mainForm:label, :mainForm:messages"
                             listener="#{itemController.productSelection()}"/>
 
                     <p:column headerText="Код" filterBy="#{data.recid}" filterStyle="width: 150px;" styleClass="m-text-medium" style="width:10%">
@@ -80,7 +80,7 @@
                     <p:panelGrid columns="1" style="border: 2px">
 
                         <h:outputText value="Главная" styleClass="m-text-medium"/>
-                        <p:graphicImage value="#{itemController.getImage(0)}" width="300"  id="main" height="250"/>
+                        <p:graphicImage value="#{itemController.getImage(0)}" width="300"  id="main" height="250" cache="false"/>
                         <p:fileUpload fileUploadListener="#{itemController.handleFileUploadDB}"
                                       mode="advanced"
                                       dragDropSupport="true"
@@ -95,7 +95,7 @@
                     </p:panelGrid>
                     <p:panelGrid columns="1" style="border: 2px">
                         <h:outputText value="Картинка 1" styleClass="m-text-medium"/>
-                        <p:graphicImage value="#{itemController.getImage(1)}" width="100"  id="image1" height="150"/>
+                        <p:graphicImage value="#{itemController.getImage(1)}" width="100"  id="image1" height="150" cache="false"/>
                         <p:fileUpload fileUploadListener="#{itemController.handleFileUploadDB}"
                                       mode="advanced"
                                       dragDropSupport="true"
@@ -110,7 +110,7 @@
                     </p:panelGrid>
                     <p:panelGrid columns="1" style="border: 2px">
                         <h:outputText value="Картинка 2" styleClass="m-text-medium"/>
-                        <p:graphicImage value="#{itemController.getImage(2)}" width="100"  id="image2" height="150"/>
+                        <p:graphicImage value="#{itemController.getImage(2)}" width="100"  id="image2" height="150" cache="false"/>
                         <p:fileUpload fileUploadListener="#{itemController.handleFileUploadDB}"
                                       mode="advanced"
                                       dragDropSupport="true"
@@ -125,7 +125,7 @@
                     </p:panelGrid>
                     <p:panelGrid columns="1" style="border: 2px">
                         <h:outputText value="Картинка 3" styleClass="m-text-medium"/>
-                        <p:graphicImage value="#{itemController.getImage(3)}" width="100"  id="image3" height="150"/>
+                        <p:graphicImage value="#{itemController.getImage(3)}" width="100"  id="image3" height="150" cache="false"/>
                         <p:fileUpload fileUploadListener="#{itemController.handleFileUploadDB}"
                                       mode="advanced"
                                       dragDropSupport="true"
@@ -139,7 +139,7 @@
                     </p:panelGrid>
                     <p:panelGrid columns="1" style="border: 2px">
                         <h:outputText value="Картинка 4" styleClass="m-text-medium"/>
-                        <p:graphicImage value="#{itemController.getImage(4)}" width="100"  id="image4" height="150"/>
+                        <p:graphicImage value="#{itemController.getImage(4)}" width="100"  id="image4" height="150" cache="false"/>
                         <p:fileUpload fileUploadListener="#{itemController.handleFileUploadDB}"
                                       mode="advanced"
                                       dragDropSupport="true"

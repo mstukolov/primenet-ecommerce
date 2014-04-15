@@ -13,30 +13,21 @@
 
     <!--<script type="text/javascript" src="resources/css/jquery.min.js"></script>-->
 
-    <!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js">
-    </script>-->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript">
+    </script>
 
-    <h:outputScript library="primefaces" name="jquery/jquery.js" />
+    <!--<h:outputScript library="primefaces" name="jquery/jquery.js" />-->
 
     <script type="text/javascript" src="resources/css/jquery.loupe.js"/>
     <script type="text/javascript" src="resources/css/jquery.loupe.min.js"/>
 
+    <link rel="stylesheet" href="resources/css/jquery/FlexSlider/flexslider.css"/>
+    <script type="text/javascript" src="resources/css/jquery/FlexSlider/jquery.flexslider.js"/>
 
     <script type="text/javascript">
         $('.demo').loupe();
     </script>
 
-
-
-
-    <!-- <script>
-         $(document).ready(function(){
-             $("#image11").hover(function(){
-                 $(this).hide();
-             });
-             $("#image12").showe();
-         });
-     </script>-->
     <style type="text/css" media="screen">
 
         .loupe { background-color:#555; background:rgba(0, 0, 0, 0.25); border:5px solid rgba(0, 0, 0, 0);
@@ -46,7 +37,7 @@
 </h:head>
 
 <h:body>
-    <f:view contentType="text/html"/>
+
     <ui:param name="root" value="#{request.contextPath}" />
     <h:form>
         <p:growl id="messages"/>
@@ -61,46 +52,25 @@
                     <h:panelGrid columns="5" style="width: 100%;padding-left: 5%; padding-top: 3%" cellpadding="1">
 
                         <h:panelGrid columns="1">
-                        <p:graphicImage value="#{itemCardController.getRelevantProductImage()}"
+                        <p:graphicImage value="#{itemCardController.getProdImage(0)}"
                                         style="height: 225px; width: 300px;margin-left: 5%"
                                         id="image0" styleClass="demo" rendered="true">
-
-                            <f:param name="relevantProd" value="#{itemCardController.current.product}" />
-
+                            <f:param name="product" value="#{itemCardController.current.product}" />
+                            <f:param name="number" value="#{0}" />
                         </p:graphicImage>
-                        <p:lightBox id="foto2" style="margin-left: 5%; margin-top: 5%;" styleClass="foto2_panel">
-                            <ui:repeat value="#{itemCardController.imgPos}" var="imgnum2">
-                                <h:outputLink value="#" >
-                                    <p:graphicImage value="#{itemCardController.getProdImage(0)}"
-                                                    style="height: 50px; width: 60px;margin-right: 2%" styleClass="demo22">
-                                        <f:param name="product" value="#{itemCardController.current.product}" />
-                                        <f:param name="number" value="#{imgnum2}" />
-                                    </p:graphicImage>
-                                </h:outputLink>
-                            </ui:repeat>
-                            <f:facet name="inline" id="ddddd">
-                                <div class="pp_Img2" id="ffffff">
-                                    <p:galleria  value="#{itemCardController.imgPos}"
-                                                 var="imgnum" panelWidth="450" panelHeight="400">
 
-                                        <p:graphicImage id="image"
-                                                        value="#{itemCardController.getProdImage(0)}">
-                                            <f:param name="product" value="#{itemCardController.current.product}" />
-                                            <f:param name="number" value="#{imgnum}" />
-                                        </p:graphicImage>
-
-                                        <!--<p:galleriaContent>
-
-                                            <p:graphicImage value="#{itemCardController.getProdImage(0)}" style="height: 400px; width: 450px">
+                            <p:lightBox iframe="true" width="510" height="590" style="margin-left: 5%; margin-top: 5%;">
+                                <h:outputLink value="http://localhost:8080/Orders_war_exploded/faces/imageslider.xhtml">
+                                    <ui:repeat value="#{itemCardController.imgPos}" var="images">
+                                            <p:graphicImage value="#{itemCardController.getProdImage(0)}"
+                                                            style="height: 50px; width: 60px;margin-right: 2%">
                                                 <f:param name="product" value="#{itemCardController.current.product}" />
-                                                <f:param name="number" value="#{imgnum}" />
+                                                <f:param name="number" value="#{images}" />
                                             </p:graphicImage>
+                                    </ui:repeat>
+                                </h:outputLink>
+                            </p:lightBox>
 
-                                        </p:galleriaContent>-->
-                                    </p:galleria>
-                                </div>
-                            </f:facet>
-                        </p:lightBox>
                         </h:panelGrid>
 
 
@@ -156,6 +126,8 @@
 
                 </div>
             </div>
+
+
             <div id="footerinformationwrapperLocation" class="container_12">
                 <div id="footerinformationLocation" class="grid_12 marginbottom">
                     <div id="columnoneLocation" class="grid_12 marginbottom">
@@ -192,6 +164,7 @@
                 </div>
             </div>
         </div>
+
     </h:form>
 </h:body>
 </html>
