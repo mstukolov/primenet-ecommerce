@@ -8,6 +8,7 @@ import com.orders.facade.EcorescategoryFacade;
 import com.orders.facade.EcoresproductcategoryFacade;
 import com.orders.facade.ProductFacade;
 import com.orders.facade.ProposalFacade;
+import com.sun.corba.se.spi.orbutil.fsm.Input;
 import org.orders.entity.*;
 import org.primefaces.event.MenuActionEvent;
 import org.primefaces.event.NodeSelectEvent;
@@ -22,6 +23,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.persistence.Tuple;
@@ -53,7 +56,7 @@ public class EcorescategoryController {
     private MenuModel menuModel, breadCrumbModel;
     private List<Ecorescategory> treeUp;
 
-    private int minPrice = 0, maxPrice = 2000;
+    private int minPrice, maxPrice;
 
     private Map<String, List<AttributeValueCount>> searchAttributes;
     @EJB
@@ -74,8 +77,13 @@ public class EcorescategoryController {
     @ManagedProperty("#{attributesController}")
     AttributesController attributesController;
 
+    private UIComponent component;
+
     @PostConstruct
     public void init(){
+        UIViewRoot viewRoot = FacesContext.getCurrentInstance().getViewRoot();
+        component = viewRoot.findComponent("txt6");
+
         ecorescategories = new ArrayList<Ecorescategory>();
         searchcategories = new ArrayList<Ecorescategory>();
         searchproposals = new ArrayList<Proposal>();
@@ -135,21 +143,18 @@ public class EcorescategoryController {
           }
 
     }
-
-   /* public void searchProposalsByAttribute(String attribute){
-      searchproposals.clear();
-      for(ProductAttributesvaluesView view : searchAttributeFacade.findProductByAttributeSelection(attribute)){
-          for(Proposal proposal: proposalFacade.findPropolsalsByProduct(view.getProductRef())){
-              searchproposals.add(proposal);
-              log.info("Предложение из метода searchProposalsByAttribute:" + proposal.getRecid().toString());
-          }
-      }
-      proposalController.searchProposals(searchproposals);
-      addMessage("Поиск по атрибуту: " + attribute);
-    }*/
     public void searchProposalsByPriceRange(SlideEndEvent event){
+            List<Proposal> cash = new ArrayList<Proposal>();
 
-            addMessage("Цена выбрана от: " + minPrice + " до " + maxPrice);
+            for(Proposal proposal : searchproposals){
+                if(proposal.getPrice().intValue() <= maxPrice && proposal.getPrice().intValue() >= minPrice){
+                    cash.add(proposal);
+                }
+            }
+            proposalController.searchProposals(cash);
+    }
+    public void getProposalsByPriceRange(){
+        addMessage("Min: " + minPrice + " ,Max: " + maxPrice);
     }
     public void searchProposals(Object _arg){
         searchproposals.clear();
@@ -166,8 +171,13 @@ public class EcorescategoryController {
                     log.info("Предложение из метода searchProposals:" + proposal.getRecid().toString());
                 }
             }
+
         }
         proposalController.searchProposals(searchproposals);
+        if(searchproposals != null && !searchproposals.isEmpty()){maxPrice = searchproposals.get(0).getPrice().intValue();}
+        for(Proposal proposal: searchproposals){
+            if(proposal.getPrice().intValue() > maxPrice){maxPrice = proposal.getPrice().intValue();}
+        }
     }
 
     public void buildBreadCrumb(Long id){

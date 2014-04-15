@@ -67,7 +67,6 @@ public class ProposalController implements Serializable {
             selected = proposalList.get(0);
         }else{selected = new Proposal();}
 
-        products = productFacade.findAll();
         error =  productFacade.find(Long.valueOf("2152"));
     }
 
@@ -183,10 +182,20 @@ public class ProposalController implements Serializable {
         proposal.setUpdatedAt(new Date());
         proposal.setVersion(Long.valueOf(1));
 
-        selected = proposal;
+        selectedProposal = proposal;
         proposalFacade.create(proposal);
         proposalList = proposalFacade.findAll();
         addMessage("Товар создан!");
+    }
+    public void delete(){
+        try{
+            proposalFacade.remove(selectedProposal);
+            _log.info("Удалено предложение: " + selected.getRecid());
+        }
+        catch (Exception ex){addMessage(ex.getCause().getMessage());}
+        proposalList = proposalFacade.findAll();
+        selectedProposal = proposalList.get(0);
+        addMessage("Удалено предложение");
     }
     public void save(){
         try{

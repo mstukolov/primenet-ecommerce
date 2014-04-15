@@ -19,6 +19,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
@@ -66,6 +67,7 @@ public class ItemController {
     private GetattributeenumlistFacade getattributeenumlistFacade;
     @EJB
     private EcoresattributetypeFacade ecoresattributetypeFacade;
+
 
     public void refresh(){
         //products = productFacade.findAll();
@@ -363,7 +365,6 @@ public class ItemController {
         return null;
     }
     public void create(){
-
         Product product = new Product();
         product.setName("Good");
         product.setProduct("dfsgdfg");
@@ -372,10 +373,9 @@ public class ItemController {
         product.setUpdatedBy("Admin");
         product.setUpdatedAt(new Date());
         product.setVersion(Long.valueOf(1));
-
         selected = product;
         productFacade.create(product);
-        products = productFacade.findAll();
+        //products = productFacade.findAll();
         addMessage("Товар создан!");
     }
     public void edit(){

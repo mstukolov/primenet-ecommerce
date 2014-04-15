@@ -41,6 +41,14 @@ public class UIController implements Serializable {
     @ManagedProperty("#{itemCardController}")
     ItemCardController itemCardController;
 
+    //[STUM][Issue 16] При создании новой записи открывать форму редактирования
+    @ManagedProperty("#{itemController}")
+    ItemController itemController;
+    @ManagedProperty("#{proposalController}")
+    ProposalController proposalController;
+
+
+
     @EJB
     private CarouselFacade carouselFacade;
     @EJB
@@ -126,7 +134,17 @@ public class UIController implements Serializable {
     public void incrementShop() {
         countShop++;
     }
-
+    //[STUM][Issue 16] При создании новой записи открывать форму редактирования
+    public void create(Object _arg){
+       if(_arg.equals("product")){
+           itemController.create();
+           this.setEditForm(true);
+       }
+        if(_arg.equals("propolsal")){
+            proposalController.create();
+            this.setEditForm(true);
+        }
+    }
     public void edit(Boolean edit){
         if(edit == false)
             {
@@ -361,5 +379,21 @@ public class UIController implements Serializable {
 
     public void setItemCardController(ItemCardController itemCardController) {
         this.itemCardController = itemCardController;
+    }
+
+    public ItemController getItemController() {
+        return itemController;
+    }
+
+    public void setItemController(ItemController itemController) {
+        this.itemController = itemController;
+    }
+
+    public ProposalController getProposalController() {
+        return proposalController;
+    }
+
+    public void setProposalController(ProposalController proposalController) {
+        this.proposalController = proposalController;
     }
 }
