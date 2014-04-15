@@ -217,11 +217,12 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, pre, a
     vertical-align: text-top;
 }
 .ui-lightbox-content-wrapper{
-    top: -200px;
+    top: 0px;
 }
 .ui-light-box .ui-widget .ui-helper-hidden .ui-corner-all .ui-shadow{
-    top: 30px;
+    top: 200px;
 }
+
 .ui-editor-toolbar1{
     background: transparent;
 }
@@ -240,6 +241,82 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, pre, a
 .ui-menuitem-active{
     background-color: greenyellow;
 }
-.myMeineClass{
+/*Стиль для хлебных крошек*/
+.ui-breadcrumb ul li .ui-menuitem-link {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    float: left;
+    margin-top: 3px;
+    font: 16px Times;
+    font-style: normal;
+    color: #f5f5f5;
+}
+/*Убрать иконку треугольника для главного меню*/
+.ui-icon {
+    background-image: none;
+}
+/*Убрать иконку треугольника для главного меню*/
+.ui-widget-content .ui-icon {
+    background-image: none;
+}
+.megaMenu{
+    padding-left: 5%;
+}
+/*.megaMenu .ui-widget-content .ui-state-hover,
+.megaMenu .ui-widget-header .ui-state-hover,{
+    background: beige;
+}*/
 
+/*Фон активного элемента меню*/
+.megaMenu .ui-state-hover, .ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover, .ui-state-focus,
+.ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus{
+        background: beige;
+}
+
+/*Стиль для слайдера изображений*/
+.scrollableContainer {
+    width: 500px;
+    height: 200px;
+}
+.scrollableContainer .content {
+    border: 2px solid #999;
+    border-radius: 5px;
+    height: 100px;
+    width: 500px;
+    overflow: hidden;
+}
+.scrollableContainer .scrollableContent {
+    font-size: 30px;
+    margin-left: 0px;
+    width: 1000px;
+}
+.scrollableContainer .scrollableContent .item {
+    font-size: 50px;
+    font-weight: bold;
+    border: 5px solid grey;
+    border-radius: 5px;
+    width: 70px;
+    height: 70px;
+    margin: 10px;
+    text-align: center;
+    float: left;
+}
+.scrollableContainer .slider {
+    width: 300px;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* overridings for jquery UI styles: */
+.scrollableContainer .slider .ui-slider-handle.ui-state-default.ui-corner-all {
+    border: 4px solid #999;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.scrollableContainer .slider.ui-slider.ui-slider-horizontal.ui-widget.ui-widget-content {
+    background: #ddd;
 }
