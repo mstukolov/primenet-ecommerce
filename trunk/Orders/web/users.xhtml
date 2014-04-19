@@ -24,11 +24,17 @@
                     saveButtonAction="#{userController.save}"
                     editButtonAction="#{uiController.edit(uiController.editForm)}"
                     deleteButtonAction="#{userController.delete(userController.selected)}"
-                    searchButtonAction="#{userController.search}"
+                    refreshButtonAction="#{userController.refresh()}"
             />
+    <p:layout style="min-width:400px;min-height:800px;"  id="layout">
+        <p:layoutUnit position="west" resizable="true" closable="true" collapsible="true" size="300" minSize="40" maxSize="400">
+            <custom:adminMenu/>
 
+        </p:layoutUnit>
 
-    <h:form id="mainForm">
+        <p:layoutUnit position="center">
+
+    <h:form id="mainForm" prependId="true">
         <p:growl id="messages"/>
         <p:hotkey bind="ctrl+s" update="@form"
                   actionListener="#{userController.save()}"/>
@@ -37,12 +43,7 @@
 
         <h:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 60%;">
             <p:column width="50">
-            <custom:crud  backButtonAction="#{uiController.setReference('users.xhtml')}"
-                          createButtonAction="#{userController.create()}"
-                          saveButtonAction="#{userController.save}"
-                          editButtonAction="#{uiController.edit(uiController.editForm)}"
-                          deleteButtonAction="#{userController.delete(userController.selected)}"
-                          searchButtonAction="#{userController.search}"/>
+
             </p:column>
 
             <p:fieldset id="table" legend="Табличная часть" rendered="#{not uiController.editForm}">
@@ -120,7 +121,8 @@
 
     </h:form>
 
-
+</p:layoutUnit>
+</p:layout>
 
 
 

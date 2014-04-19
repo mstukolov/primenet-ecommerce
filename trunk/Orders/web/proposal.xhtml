@@ -24,8 +24,14 @@
                     deleteButtonAction="#{proposalController.delete}"
                     refreshButtonAction="#{proposalController.refresh()}"
                     />
+    <p:layout style="min-width:400px;min-height:800px;"  id="layout">
+    <p:layoutUnit position="west" resizable="true" closable="true" collapsible="true" size="300" minSize="40" maxSize="400">
+        <custom:adminMenu/>
 
-    <h:form id="form">
+    </p:layoutUnit>
+
+    <p:layoutUnit position="center">
+    <h:form id="mainForm">
         <p:growl id="messages"/>
 
         <p:panelGrid columns="4" style="border: 0px" rendered="true">
@@ -44,64 +50,90 @@
         <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
         <p:fieldset legend="Табличная часть" styleClass="myFieldset" rendered="#{not uiController.editForm}">
 
-            <p:dataTable var="data"
+            <p:dataTable id="dataTable"
+                         var="data"
                          value="#{proposalController.proposalList}"
                          selectionMode = "single"
                          rowKey="#{data.recid}"
                          selection="#{proposalController.selectedProposal}"
                          scrollable="true"
-                         scrollHeight="550"
-                         filteredValue="#{proposalController.filteredProposals}">
+                         scrollHeight="650"
+                         filteredValue="#{proposalController.filteredProposals}" rendered="true">
 
                 <p:ajax event="rowSelect" update="@form"
                         listener="#{proposalController.addMessage(proposalController.selectedProposal.recid)}"/>
 
-                <p:column headerText="Block" style="width: 250px" styleClass="m-text-medium">
+                <p:column headerText="Block" style="width: 100px" styleClass="m-text-medium">
+                    <f:facet name="header">
+                        <h:outputText value="Блокировка" />
+                    </f:facet>
                     <h:selectBooleanCheckbox value="#{data.blocked}" style="width: 25px;height: 25px">
                         <p:ajax update="@form"/>
                     </h:selectBooleanCheckbox>
                 </p:column>
 
 
-                <p:column headerText="Promo" style="width: 250px" styleClass="m-text-medium">
+                <p:column headerText="Promo" style="width: 100px" styleClass="m-text-medium">
+                    <f:facet name="header">
+                        <h:outputText value="Промо" />
+                    </f:facet>
                     <h:selectBooleanCheckbox value="#{data.promo}" style="width: 25px;height: 25px">
                         <p:ajax update="@form"/>
                     </h:selectBooleanCheckbox>
                 </p:column>
 
-                <p:column headerText="Proposal" style="width: 250px" styleClass="m-text-medium" filterBy="#{data.recid}">
+                <p:column headerText="Proposal" style="width: 200px" styleClass="m-text-medium" filterBy="#{data.recid}">
+                    <f:facet name="header">
+                        <h:outputText value="Код предложения" />
+                    </f:facet>
                     <h:outputText value="#{data.recid}"/>
                 </p:column>
 
-                <p:column headerText="Good" style="width: 250px" filterBy="#{data.product}">
+                <p:column headerText="Good" style="width: 200px" filterBy="#{data.product}">
+                    <f:facet name="header">
+                        <h:outputText value="Продукт" />
+                    </f:facet>
                     <h:outputText value="#{data.product}" styleClass="m-text-large"/>
                 </p:column>
-                <p:column headerText="Price" style="width: 250px">
+                <p:column headerText="Price" style="width: 150px">
+                    <f:facet name="header">
+                        <h:outputText value="Цена" />
+                    </f:facet>
                     <h:outputText value="#{data.price}" styleClass="m-text-large"/>
                 </p:column>
-                <p:column headerText="Qty" style="width: 250px">
+                <p:column headerText="Qty" style="width: 150px">
+                    <f:facet name="header">
+                        <h:outputText value="Количество" />
+                    </f:facet>
                     <h:outputText value="#{data.qty}" styleClass="m-text-large"/>
                 </p:column>
-                <p:column headerText="Start Qty" style="width: 250px">
+                <p:column headerText="Start Qty" style="width: 150px">
+                    <f:facet name="header">
+                        <h:outputText value="Нач. кол-во" />
+                    </f:facet>
                     <h:outputText value="#{data.startQty}" styleClass="m-text-large"/>
                 </p:column>
-                <p:column headerText="Ordered" style="width: 250px">
+                <p:column headerText="Ordered" style="width: 150px">
+                    <f:facet name="header">
+                        <h:outputText value="Заказано" />
+                    </f:facet>
                     <h:outputText value="#{ordersController.getOrderedQtyOnProposal(data)}" styleClass="m-text-large"/>
                 </p:column>
-                <p:column headerText="Filling" style="width: 250px" styleClass="m-text-large">
+                <p:column headerText="Filling" style="width: 150px" styleClass="m-text-large">
+                    <f:facet name="header">
+                        <h:outputText value="Заполнение(%)" />
+                    </f:facet>
                     <h:outputText value="#{ordersController.getFillPercent(data)}">
                         <f:convertNumber type="percent" />
                     </h:outputText>
                 </p:column>
             </p:dataTable>
-
-
         </p:fieldset>
 
         <p:fieldset id="selectedProposals" legend="Form" rendered="#{uiController.editForm}">
 
             <p:panelGrid columns="2" style="border: 0px">
-                <h:outputLabel value="Блокировка:" styleClass="m-text-medium"/>
+                <h:outputLabel value="Блокировка:" styleClass="m-text-medium" style="width: 2%"/>
                 <h:selectBooleanCheckbox value="#{proposalController.selectedProposal.blocked}"
                                          style="width: 25px;height: 25px">
                     <p:ajax event="change" update="@form" listener="#{proposalController.save()}"/>
@@ -203,7 +235,7 @@
                          paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="10,25,50"
                     >
-                <p:ajax event="rowSelect" update=":form:messages, :form:selectedProposals"
+                <p:ajax event="rowSelect" update=":mainForm:messages, :mainForm:selectedProposals"
                         oncomplete="dlg.hide()"
                         listener="#{proposalController.setProductForProposal(proposalController.selectedProduct)}"/>
 
@@ -218,7 +250,8 @@
             </p:dataTable>
         </p:dialog>
     </h:form>
-
+    </p:layoutUnit>
+    </p:layout>
 
 
 

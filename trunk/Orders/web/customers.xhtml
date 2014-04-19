@@ -23,14 +23,20 @@
                     saveButtonAction="#{userController.save}"
                     editButtonAction="#{uiController.edit(uiController.editForm)}"
                     deleteButtonAction="#{userController.deleteCustomer}"
-                    refreshButtonAction="#{userController.refresh}"
-            />
+                    refreshButtonAction="#{userController.refresh}"/>
+
+    <p:layout style="min-width:400px;min-height:800px;"  id="layout">
+        <p:layoutUnit position="west" resizable="true" closable="true" collapsible="true" size="300" minSize="40" maxSize="400">
+            <custom:adminMenu/>
+        </p:layoutUnit>
+        <p:layoutUnit position="center">
     <h:form id="mainForm">
         <p:growl id="messages"/>
 
         <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
             <p:fieldset id="table" legend="Табличная часть" rendered="#{not uiController.editForm}">
-                <p:dataTable var="data"
+                <p:dataTable id="dataTable"
+                             var="data"
                              value="#{userController.customerList}"
                              selectionMode = "single"
                              rowKey="#{data.recid}"
@@ -39,17 +45,29 @@
                     <p:ajax event="rowSelect" update=":mainForm:messages, :mainForm:form"
                             listener="#{userController.addMessage(userController.selectedCustomer.recid)}"/>
 
-                    <p:column headerText="Код" style="width: 10%">
+                    <p:column headerText="Код клиента" style="width: 10%">
+                        <f:facet name="header">
+                            <h:outputText value="Код клиента" />
+                        </f:facet>
                         <h:outputText value="#{data.recid}" styleClass="m-text-large"/>
                     </p:column>
 
                     <p:column headerText="Фамилия">
+                        <f:facet name="header">
+                            <h:outputText value="Фамилия" />
+                        </f:facet>
                         <h:outputText value="#{data.surname}" styleClass="m-text-large"/>
                     </p:column>
-                    <p:column headerText="Имя">
+                    <p:column headerText="Имя клиента">
+                        <f:facet name="header">
+                            <h:outputText value="Имя клиента" />
+                        </f:facet>
                         <h:outputText value="#{data.name}" styleClass="m-text-large"/>
                     </p:column>
                     <p:column headerText="Логин">
+                        <f:facet name="header">
+                            <h:outputText value="Логин" />
+                        </f:facet>
                         <h:outputText value="#{data.user}" styleClass="m-text-large"/>
                     </p:column>
                    <!-- <p:column headerText="Кол-во баллов" rendered="false">
@@ -90,18 +108,12 @@
 
                     <h:outputLabel value="Накоплено Баллов:" styleClass="m-text-medium"/>
                     <h:outputText value="#{bonusController.getBallsByCustomer(userController.selectedCustomer.user)}"
-                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px"
-                                  />
-
-
+                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
                 </p:panelGrid>
             </p:fieldset>
         </p:panelGrid>
     </h:form>
-
-
-
-
-
+    </p:layoutUnit>
+    </p:layout>
 </h:body>
 </html>

@@ -28,13 +28,20 @@
                     refreshButtonAction="#{attributesController.refreshEcoresattributes()}"
             />
 
+    <p:layout style="min-width:400px;min-height:800px;"  id="layout">
+    <p:layoutUnit position="west" resizable="true" closable="true" collapsible="true" size="300" minSize="40" maxSize="400">
+        <custom:adminMenu/>
 
+    </p:layoutUnit>
+
+    <p:layoutUnit position="center">
     <h:form id="mainForm">
         <p:growl id="messages"/>
 
             <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
             <p:fieldset id="table" legend="Атрибуты товара" rendered="#{not uiController.editForm}">
-                <p:dataTable var="data"
+                <p:dataTable id="dataTable"
+                             var="data"
                              value="#{attributesController.ecoresattributes}"
                              selectionMode = "single"
                              rowKey="#{data.recid}"
@@ -52,7 +59,7 @@
 
                 </p:dataTable>
                 </p:fieldset>
-                <p:fieldset id="items" legend="Значение атрибута" rendered="#{not uiController.editForm}">
+                <p:fieldset id="items" legend="Значение атрибута" rendered="false">
                     <p:commandButton id="addAttr" value="Добавить"  action="#{attributesController.createEcoresattribute}"/>
                     <p:commandButton id="deleteAttr" action="#{attributesController.deleteEcoresattribute}"
                                      value="Удалить" update="@form"/>
@@ -91,5 +98,7 @@
                 </p:fieldset>
             </p:panelGrid>
         </h:form>
+    </p:layoutUnit>
+    </p:layout>
 </h:body>
 </html>
