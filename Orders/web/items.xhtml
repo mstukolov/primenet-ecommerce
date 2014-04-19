@@ -24,23 +24,35 @@
                     deleteButtonAction="#{itemController.delete}"
                     refreshButtonAction="#{itemController.refresh()}"
             />
+    <p:layout style="min-width:400px;min-height:800px;"  id="layout">
+    <p:layoutUnit position="west" resizable="true" closable="true" collapsible="true" size="300" minSize="40" maxSize="400">
+        <custom:adminMenu/>
+
+    </p:layoutUnit>
+
+    <p:layoutUnit position="center">
+
     <h:form id="mainForm">
+
+
         <p:growl id="messages"/>
         <h:panelGrid columns="2" id="label">
             <h:outputText value="#{itemController.selected.recid}, #{itemController.selected.name}" styleClass="m-text-large"/>
             <p:graphicImage value="#{itemController.getImage(0)}" width="50"  id="image1" height="50" rendered="true" cache="false"/>
         </h:panelGrid>
+
         <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
 
         <p:fieldset id="table" legend="Табличная часть" rendered="#{not uiController.editForm}">
-                <p:dataTable var="data"
+                <p:dataTable id="dataTable"
+                             var="data"
                              value="#{itemController.productLazyDataList}"
                              selectionMode = "single"
                              rowKey="#{data.recid}"
                              selection="#{itemController.selected}"
                              filteredValue="#{itemController.filteredProducts}"
                              scrollable="true"
-                             scrollHeight="800"
+                             scrollHeight="600"
                              style="width: 100%"
                              lazy="true"
                              rows ="100"
@@ -51,11 +63,17 @@
                     <p:ajax event="rowSelect" update=":mainForm:reltable, :mainForm:form, :mainForm:attributeTable, :mainForm:label, :mainForm:messages"
                             listener="#{itemController.productSelection()}"/>
 
-                    <p:column headerText="Код" filterBy="#{data.recid}" filterStyle="width: 150px;" styleClass="m-text-medium" style="width:10%">
+                    <p:column headerText="Код продукта" filterBy="#{data.recid}" filterStyle="width: 150px;" styleClass="m-text-medium" style="width:10%">
+                        <f:facet name="header">
+                            <h:outputText value="Код продукта" />
+                        </f:facet>
                         <h:outputText value="#{data.recid}" />
                     </p:column>
 
-                    <p:column headerText="Название товара" filterBy="#{data.name}" filterStyle="width: 500px;" filterMatchMode="contains" styleClass="m-text-medium">
+                    <p:column headerText="Имя продукта" filterBy="#{data.name}" filterStyle="width: 500px;" filterMatchMode="contains" styleClass="m-text-medium">
+                        <f:facet name="header">
+                            <h:outputText value="Имя продукта" />
+                        </f:facet>
                         <h:outputText value="#{data.name}" />
                     </p:column>
 
@@ -75,7 +93,7 @@
                         <p:ajax event="change" listener="#{itemController.edit()}" update="@form"/>
                     </p:inputText>
                 </p:panelGrid>
-                <p:panelGrid columns="6" style="border: 2px">
+                <p:panelGrid columns="1" style="border: 2px">
 
                     <p:panelGrid columns="1" style="border: 2px">
 
@@ -405,6 +423,7 @@
 
 
     </h:form>
-
+    </p:layoutUnit>
+    </p:layout>
 </h:body>
 </html>

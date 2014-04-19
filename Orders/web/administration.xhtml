@@ -20,7 +20,13 @@
                     currentPage="administration.xhtml"
                     backButtonAction="#{uiController.setReference('administration.xhtml')}"
             />
+    <p:layout style="min-width:400px;min-height:800px;"  id="layout">
+        <p:layoutUnit position="west" resizable="true" closable="true" collapsible="true" size="300" minSize="40" maxSize="400">
+            <custom:adminMenu/>
 
+        </p:layoutUnit>
+
+        <p:layoutUnit position="center">
     <h:form id="mainForm">
         <p:growl id="messages"/>
 
@@ -31,7 +37,8 @@
                          update="@form"/>
     </h:form>
 
-
+</p:layoutUnit>
+</p:layout>
 
 
 

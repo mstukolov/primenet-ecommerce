@@ -67,6 +67,7 @@ body, textarea, input {
 .inputform{
     border-right-width: 5px;
     width: 250px;
+    background: red;
 }
 .proposalwindow {
     background: #291c19;
@@ -241,6 +242,10 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, pre, a
 .ui-menuitem-active{
     background-color: greenyellow;
 }
+/*Стиль для главного меню в админ-панели*/
+.adminMenu{
+    font: bold 16px Times;font-style:normal;color: coral;
+}
 /*Стиль для хлебных крошек*/
 .ui-breadcrumb ul li .ui-menuitem-link {
     display: block;
@@ -263,15 +268,9 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, pre, a
 .megaMenu{
     padding-left: 5%;
 }
-/*.megaMenu .ui-widget-content .ui-state-hover,
-.megaMenu .ui-widget-header .ui-state-hover,{
-    background: beige;
-}*/
-
 /*Фон активного элемента меню*/
-.megaMenu .ui-state-hover, .ui-widget-content .ui-state-hover,
-.ui-widget-header .ui-state-hover, .ui-state-focus,
-.ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus{
+.megaMenu .ui-state-hover,
+.megaMenu .ui-widget-content .ui-state-focus, .megaMenu .ui-widget-header .ui-state-focus{
         background: beige;
 }
 

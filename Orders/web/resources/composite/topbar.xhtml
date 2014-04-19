@@ -31,55 +31,34 @@
 <composite:implementation>
     <h:form id="menuForm">
         <p:growl id="messages"/>
-        <p:menubar>
-            <p:menuitem value="HOME"  update="messages"/>
-            <p:menuitem value="Магазин" action="#{uiController.goShop_C()}" update="messages"/>
-            <p:menuitem value="Личный кабинет" action="#{uiController.goPersonalAccount}" update="messages" rendered="#{loginController.user}"/>
-            <p:menuitem style="width: 1300px"/>
 
-                <p:menuitem action="#{uiController.changeAdmin()}" update="@form">
-                    <p:lightBox id="internalLightBox" widgetVar="lightBox" iframe="true" width="200%" height="30%" >
-                        <h:outputLink id="internalLink" value="login.xhtml">
-                            <h:outputText value="#{loginController.menuTxt}" styleClass="m-text-large"/>
-                        </h:outputLink>
+        <p:menubar style="background-color: coral" rendered="false">
 
-                    </p:lightBox>
-                </p:menuitem>
+        <p:submenu label="File" icon="ui-icon-document">
+            <p:submenu label="New" icon="ui-icon-contact">
+                <p:menuitem value="Project" url="#" />
+                <p:menuitem value="Other" url="#" />
+            </p:submenu>
+            <p:menuitem value="Open" url="#" />
+            <p:separator />
+            <p:menuitem value="Quit" url="#" />
+        </p:submenu>
+
+        <p:submenu label="Edit" icon="ui-icon-pencil">
+            <p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+            <p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+        </p:submenu>
         </p:menubar>
 
-        <div id="label" class="ui-form-label">
-         <h:outputText value="#{cc.attrs.inputValue}"/>
+         <div id="label" class="ui-form-label">
+         <h:outputText value="#{cc.attrs.inputValue}" style="margin-top: 25px"/>
         </div>
 
-        <p:tabMenu activeIndex="0">
 
-            <p:menuitem value="Товары" url="/faces/items.xhtml" rendered="true"/>
-            <p:menuitem value="Заказы"  url="/faces/orders.xhtml" rendered="true" />
-            <p:menuitem value="Предложения" url="/faces/proposal.xhtml" rendered="true"/>
-            <p:menuitem value="Клиенты" url="/faces/customers.xhtml" rendered="#{loginController.admin}"/>
-            <p:menuitem value="Пользователи" action="#{uiController.goUsers}"  rendered="#{loginController.admin}" update="@form"/>
-            <p:menuitem value="Бонусы" url="/faces/bonus.xhtml" rendered="#{loginController.admin}"/>
-            <p:menuitem value="Компания" url="/faces/company.xhtml" rendered="#{loginController.admin}"/>
-            <p:menuitem value="Карусель" action="#{uiController.goCarousel()}"  rendered="#{loginController.admin}" update="@form"/>
-            <p:menuitem value="Классификатор" action="#{uiController.goCategories()}"  rendered="#{loginController.admin}" update="@form"/>
-
-            <p:menuitem value="Атрибуты" action="#{uiController.goAttributes()}"  rendered="#{loginController.admin}" update="@form"/>
-            <p:menuitem value="Группы Атрибутов" action="#{uiController.goAttributeGroups()}"  rendered="#{loginController.admin}" update="@form"/>
-            <p:menuitem value="Типы Атрибутов" action="#{uiController.goAttributTypes()}"  rendered="#{loginController.admin}" update="@form"/>
-
-            <p:menuitem value="Администрирование" action="#{uiController.goAdministration()}"  rendered="#{loginController.admin}" update="@form"/>
-            <p:menuitem value="Мои заказы" url="/faces/myorders.xhtml" rendered="#{loginController.user}"/>
-            <p:menuitem value="Личные данные"  url="/faces/myinfo.xhtml" rendered="#{loginController.user}"/>
-            <p:menuitem value="Профили доставок" url="/faces/mydelivery.xhtml" rendered="false"/>
-            <p:menuitem value="История" url="/faces/myhistory.xhtml" rendered="false"/>
-
-
-        </p:tabMenu>
-
-        <h:panelGrid columns="7"  border="0"
+        <h:panelGrid columns="15"  border="0"
                      cellpadding="0" cellspacing="0" style="border: 10px"
                      rendered="#{uiController.admin and cc.attrs.currentPage != 'shop.xhtml'
-                                                    and cc.attrs.currentPage != 'users.xhtml'
+
                                                     and cc.attrs.currentPage != 'personal.xhtml'
                                                     and cc.attrs.currentPage != 'itemcard.xhtml'}">
 
@@ -134,11 +113,48 @@
             </h:column>
             <h:column>
                 <p:spacer width="10" height="10" />
-
+                <p:commandButton value="Export" ajax="false" styleClass="m-btn-metro m-btn-small m-light-blue m-icon-export">
+                    <p:dataExporter type="xls" target=":mainForm:dataTable" fileName="export"/>
+                </p:commandButton>
 
 
             </h:column>
+            <h:column>
+                <p:spacer width="10" height="10" />
+                <p:commandButton value="Обработка"
+                                 action="#{ordersController.setStatusSelectedOrders('Обработка')}"
+                                 styleClass="m-btn-metro m-btn-small m-light-blue process-accept-icon"
+                                 update=":mainForm:dataTable" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
 
+            </h:column>
+            <h:column>
+                <p:commandButton value="Оплачен"
+                                 action="#{ordersController.setStatusSelectedOrders('Оплачен')}"
+                                 styleClass="m-btn-metro m-btn-small m-light-blue payment-accept-icon"
+                                 update="@form" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
+
+            </h:column>
+            <h:column>
+                <p:commandButton value="Оплатить бонусами"
+                                 action="#{bonusController.payOrderByBonus(ordersController.selectedOrders)}"
+                                 styleClass="m-btn-metro m-btn-small m-light-blue payment-bonus-icon"
+                                 update="@form" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
+
+            </h:column>
+            <h:column>
+                <p:commandButton value="В пути"
+                                 action="#{ordersController.setStatusSelectedOrders('В пути')}"
+                                 styleClass="m-btn-metro m-btn-small m-light-blue transit-icon"
+                                 update="@form" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
+
+            </h:column>
+            <h:column>
+                <p:commandButton value="Доставлен"
+                                 action="#{ordersController.setStatusSelectedOrders('Доставлен')}"
+                                 styleClass="m-btn-metro m-btn-small m-light-blue delivered-icon"
+                                 update="@form" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
+
+            </h:column>
             <h:column rendered="false">
                 <p:spacer width="100" height="10" />
                 <p:commandButton value="Color"

@@ -59,7 +59,7 @@
                             <f:param name="number" value="#{0}" />
                         </p:graphicImage>
 
-                            <p:lightBox iframe="true" width="510" height="590" style="margin-left: 5%; margin-top: 5%;">
+                            <p:lightBox iframe="true" width="710" height="590" style="margin-left: 5%; margin-top: 5%;">
                                 <h:outputLink value="http://localhost:8080/Orders_war_exploded/faces/imageslider.xhtml">
                                     <ui:repeat value="#{itemCardController.imgPos}" var="images">
                                             <p:graphicImage value="#{itemCardController.getProdImage(0)}"
@@ -79,6 +79,7 @@
                                                 (Артикул: #{proposalController.findProduct(itemCardController.current.product).recid})"
                                           style="border-right-width: 10px;font-size:18;text-decoration: underline;"
                                           styleClass="outputlink"/>
+                            <h:outputText value="#{itemCardController.current.recid}" rendered="false"/>
 
                             <h:outputText value="#{itemCardController.current.price} РУБ."  styleClass="pricetext"/>
 

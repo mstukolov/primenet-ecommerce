@@ -468,6 +468,73 @@ element.style {
     background-position:25px 10px;
     background-repeat:no-repeat;
 }
+.m-icon-export{
+    background-image:url(img/m-ui-export.png);
+    background-position:25px 10px;
+    background-repeat:no-repeat;
+}
+
+.m-icon-export:hover{
+    background-image:url(img/m-ui-export.png);
+    background-position:25px 10px;
+    background-repeat:no-repeat;
+}
+/*Стили для группы кнопок обработки заказов на продажу*/
+.process-accept-icon{
+    background-image:url(img/process-accept-icon.png);
+    background-position:25px 10px;
+    background-repeat:no-repeat;
+}
+
+.process-accept-icon:hover{
+    background-image:url(img/process-accept-icon.png);
+    background-position:25px 10px;
+    background-repeat:no-repeat;
+}
+.payment-accept-icon{
+    background-image:url(img/payment-accept-icon.png);
+    background-position:25px 10px;
+    background-repeat:no-repeat;
+}
+
+.payment-accept-icon:hover{
+    background-image:url(img/payment-accept-icon.png);
+    background-position:25px 10px;
+    background-repeat:no-repeat;
+}
+.payment-bonus-icon{
+    background-image:url(img/payment-bonus-icon.png);
+    background-position:25px 10px;
+    background-repeat:no-repeat;
+}
+
+.payment-bonus-icon:hover{
+    background-image:url(img/payment-bonus-icon.png);
+    background-position:25px 10px;
+    background-repeat:no-repeat;
+}
+.transit-icon{
+    background-image:url(img/transit-icon.png);
+    background-position:25px 10px;
+    background-repeat:no-repeat;
+}
+
+.transit-icon:hover{
+    background-image:url(img/transit-icon.png);
+    background-position:25px 10px;
+    background-repeat:no-repeat;
+}
+.delivered-icon{
+    background-image:url(img/delivered-icon.png);
+    background-position:25px 10px;
+    background-repeat:no-repeat;
+}
+
+.delivered-icon:hover{
+    background-image:url(img/delivered-icon.png);
+    background-position:25px 10px;
+    background-repeat:no-repeat;
+}
 .m-text-small{
     font: bold 12px Times;font-style:normal;
 }
@@ -499,9 +566,9 @@ element.style {
     /*background: yellowgreen;*/
 }
 .ui-menuitem-text{
-    font: 24px Segoe;
+    font: 18px Segoe;
     font-style:normal;
-    color: #ffffff;
+    color: #000000;
 }
 
 /*Background all 6табменю*/
@@ -517,8 +584,9 @@ element.style {
 }
 .ui-form-label{
     font: bold 32px Segoe;font-style:normal;color: #ffffff;
-    background: #ffc425;
+    background: coral;
     width: 100%;
+    height: 75px;
 }
 .ui-chkbox-box .ui-widget .ui-corner-all .ui-state-default{
     background: red;

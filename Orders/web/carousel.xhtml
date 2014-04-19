@@ -26,7 +26,13 @@
                     deleteButtonAction="#{carouselController.delete(carouselController.selected)}"
                     searchButtonAction="#{carouselController.search}"
             />
+    <p:layout style="min-width:400px;min-height:800px;"  id="layout">
+    <p:layoutUnit position="west" resizable="true" closable="true" collapsible="true" size="300" minSize="40" maxSize="400">
+        <custom:adminMenu/>
 
+    </p:layoutUnit>
+
+    <p:layoutUnit position="center">
     <h:form id="mainForm">
         <p:growl id="messages"/>
         <p:hotkey bind="ctrl+s" update="@form"
@@ -50,7 +56,8 @@
         </p:carousel>
         <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
             <p:fieldset id="table" legend="Табличная часть" rendered="#{not uiController.editForm}">
-                <p:dataTable var="data"
+                <p:dataTable id="dataTable"
+                             var="data"
                              value="#{carouselController.carouselList}"
                              selectionMode = "single"
                              rowKey="#{data.recid}"
@@ -107,9 +114,8 @@
 
     </h:form>
 
-
-
-
+    </p:layoutUnit>
+    </p:layout>
 
 </h:body>
 </html>

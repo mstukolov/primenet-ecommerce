@@ -25,6 +25,13 @@
                     deleteButtonAction="#{userController.delete}"
                     refreshButtonAction="#{bonusController.accrualBonusTrans('Оплачен')}"
             />
+    <p:layout style="min-width:400px;min-height:800px;"  id="layout">
+        <p:layoutUnit position="west" resizable="true" closable="true" collapsible="true" size="300" minSize="40" maxSize="400">
+            <custom:adminMenu/>
+
+        </p:layoutUnit>
+
+        <p:layoutUnit position="center">
     <h:form id="mainForm">
         <p:growl id="messages"/>
 
@@ -73,7 +80,8 @@
             </p:fieldset>
             <p:fieldset id="sumtable" legend="Баланс клиентов по бонусам"
                         style="width: 900px" rendered="#{not uiController.editForm}">
-                <p:dataTable var="data"
+                <p:dataTable id="dataTable"
+                             var="data"
                              value="#{bonusController.bsumList}"
                              selectionMode = "single"
                              rowKey="#{data.recid}">
@@ -115,7 +123,8 @@
         </p:panelGrid>
     </h:form>
 
-
+</p:layoutUnit>
+</p:layout>
 
 
 

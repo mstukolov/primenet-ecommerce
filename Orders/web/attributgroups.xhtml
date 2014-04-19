@@ -27,14 +27,18 @@
                     refreshButtonAction="#{attributesController.refreshEcoresattributegroups()}"
             />
 
-
+    <p:layout style="min-width:400px;min-height:800px;"  id="layout">
+    <p:layoutUnit position="west" resizable="true" closable="true" collapsible="true" size="300" minSize="40" maxSize="400">
+        <custom:adminMenu/>
+    </p:layoutUnit>
+    <p:layoutUnit position="center">
     <h:form id="mainForm">
         <p:growl id="messages"/>
-       Attributes Form Manage
 
             <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
             <p:fieldset id="table" legend="Группы атрибутов" rendered="#{not uiController.editForm}">
-                <p:dataTable var="data"
+                <p:dataTable id="dataTable"
+                             var="data"
                              value="#{attributesController.ecoresattributegroups}"
                              selectionMode = "single"
                              rowKey="#{data.recid}"
@@ -131,10 +135,7 @@
                              update="@form" style="height: 50px; width: 150px"/>
         </p:dialog>
         </h:form>
-
-
-
-
-
+    </p:layoutUnit>
+    </p:layout>
 </h:body>
 </html>
