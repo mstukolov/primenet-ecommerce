@@ -7,7 +7,7 @@ import javax.faces.model.ListDataModel;
 import java.util.List;
 
 
-public class ProductDataModel extends ListDataModel<Product> implements SelectableDataModel<Product> {
+    public class ProductDataModel extends ListDataModel<Product> implements SelectableDataModel<Product> {
     public ProductDataModel() {
     }
     public ProductDataModel(List<Product> data) {

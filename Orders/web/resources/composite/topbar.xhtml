@@ -123,6 +123,7 @@
                 <p:spacer width="10" height="10" />
                 <p:commandButton value="Обработка"
                                  action="#{ordersController.setStatusSelectedOrders('Обработка')}"
+                                 ajax="false"
                                  styleClass="m-btn-metro m-btn-small m-light-blue process-accept-icon"
                                  update=":mainForm:dataTable" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
 
@@ -130,29 +131,33 @@
             <h:column>
                 <p:commandButton value="Оплачен"
                                  action="#{ordersController.setStatusSelectedOrders('Оплачен')}"
+                                 ajax="false"
                                  styleClass="m-btn-metro m-btn-small m-light-blue payment-accept-icon"
-                                 update="@form" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
+                                 update=":mainForm:dataTable" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
 
             </h:column>
             <h:column>
                 <p:commandButton value="Оплатить бонусами"
                                  action="#{bonusController.payOrderByBonus(ordersController.selectedOrders)}"
+                                 ajax="false"
                                  styleClass="m-btn-metro m-btn-small m-light-blue payment-bonus-icon"
-                                 update="@form" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
+                                 update=":mainForm:dataTable" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
 
             </h:column>
             <h:column>
                 <p:commandButton value="В пути"
                                  action="#{ordersController.setStatusSelectedOrders('В пути')}"
+                                 ajax="false"
                                  styleClass="m-btn-metro m-btn-small m-light-blue transit-icon"
-                                 update="@form" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
+                                 update=":mainForm:dataTable" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
 
             </h:column>
             <h:column>
                 <p:commandButton value="Доставлен"
                                  action="#{ordersController.setStatusSelectedOrders('Доставлен')}"
+                                 ajax="false"
                                  styleClass="m-btn-metro m-btn-small m-light-blue delivered-icon"
-                                 update="@form" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
+                                 update=":mainForm:dataTable" style="width: 200px" rendered="#{cc.attrs.currentPage == 'orders.xhtml'}"/>
 
             </h:column>
             <h:column rendered="false">

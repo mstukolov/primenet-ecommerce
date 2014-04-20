@@ -61,8 +61,11 @@ public class BonusController {
     }
 
     public void payOrderByBonus(Orders[] orders){
-        addMessage(bonusFacade.payOrderByBonus(orders));
-        bsumList = bonusSumFacade.findAll();
+        if(orders != null){
+            addMessage(bonusFacade.payOrderByBonus(orders));
+            bsumList = bonusSumFacade.findAll();
+        }else
+            {addMessageError("Выберите строки для обновления!");}
     }
 
     public void accrualBonusTrans(String status){
@@ -112,6 +115,10 @@ public class BonusController {
 
     public void addMessage(String summary) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
+    public void addMessageError(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary,  null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }
