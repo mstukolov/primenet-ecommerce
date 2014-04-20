@@ -21,7 +21,7 @@
                     backButtonAction="#{uiController.setReference('orders.xhtml')}"
                     createButtonAction="#{userController.create}"
                     saveButtonAction="#{userController.save}"
-                    editButtonAction="#{uiController.edit}"
+                    editButtonAction="#{uiController.edit(uiController.editForm)}"
                     deleteButtonAction="#{userController.delete}"
                     refreshButtonAction="#{ordersController.refreshOrders()}"
             />
@@ -37,11 +37,29 @@
                 listener="#{uiController.increment}" update="@form" />
         <p:panelGrid columns="2" columnClasses="alignTop,alignTop" style="width: 100%;">
 
-            <p:fieldset id="table" legend="Табличная часть">
+            <p:fieldset id="table" legend="Табличная часть" rendered="#{not uiController.editForm}">
+                <p:panelGrid columns="4" style="border: 0px" rendered="false">
 
+                    <p:commandButton value="Обработка"
+                                     action="#{ordersController.setStatusSelectedOrders('Обработка')}"
+                                     update="@form" style="width: 200px"/>
+                    <p:commandButton value="Оплачен"
+                                     action="#{ordersController.setStatusSelectedOrders('Оплачен')}"
+                                     update="@form" style="width: 200px"/>
+                    <p:commandButton value="Оплатить бонусами"
+                                     action="#{bonusController.payOrderByBonus(ordersController.selectedOrders)}"
+                                     update="@form" style="width: 200px"/>
+                    <p:commandButton value="В пути"
+                                     action="#{ordersController.setStatusSelectedOrders('В пути')}"
+                                     update="@form" style="width: 200px"/>
+                    <p:commandButton value="Доставлен"
+                                     action="#{ordersController.setStatusSelectedOrders('Доставлен')}"
+                                     update="@form" style="width: 200px"/>
+                </p:panelGrid>
                 <p:dataTable id="dataTable"
                              var="data"
-                             value="#{ordersController.orderList}"
+                             value="#{ordersController.ordersModel}"
+                             filteredValue = "#{ordersController.filteredOrders}"
                              selectionMode = "multiple"
                              rowKey="#{data.recid}"
                              selection="#{ordersController.selectedOrders}"
@@ -50,9 +68,20 @@
                              style="width: 1650px"
                         >
                     <p:ajax event="rowSelect" update=":mainForm:messages, :mainForm:form"
-                            listener="#{ordersController.addMessage('Selected')}"/>
-
-                   <p:column headerText="Дата заказа" style="width: 150px" styleClass="m-text-medium">
+                            listener="#{ordersController.viewSelected}"/>
+                    <p:column headerText="Код заказа" style="width: 100px" filterBy="#{data.salesId}" filterMatchMode="contains" styleClass="m-text-medium">
+                        <f:facet name="header">
+                            <h:outputText value="Код заказа" />
+                        </f:facet>
+                        <h:outputText value="#{data.salesId}" />
+                    </p:column>
+                    <p:column headerText="Код записи" style="width: 100px" filterBy="#{data.recid}" filterMatchMode="contains" styleClass="m-text-medium">
+                        <f:facet name="header">
+                            <h:outputText value="Код записи" />
+                        </f:facet>
+                        <h:outputText value="#{data.recid}" />
+                    </p:column>
+                    <p:column headerText="Дата заказа" style="width: 150px" styleClass="m-text-medium">
                        <f:facet name="header">
                            <h:outputText value="Дата заказа" />
                        </f:facet>
@@ -67,12 +96,6 @@
                         <h:outputText value="#{data.proposal}" />
                     </p:column>
 
-                    <p:column headerText="Код заказа" style="width: 100px" filterBy="#{data.recid}" filterMatchMode="contains" styleClass="m-text-medium">
-                        <f:facet name="header">
-                            <h:outputText value="Код заказа" />
-                        </f:facet>
-                        <h:outputText value="#{data.recid}" />
-                    </p:column>
                     <p:column headerText="Клиент" style="width: 150px" filterBy="#{data.customer}" filterMatchMode="contains" styleClass="m-text-medium">
                         <f:facet name="header">
                             <h:outputText value="Код клиента" />
@@ -86,7 +109,7 @@
                         </f:facet>
                         <h:outputText value="#{data.product}" />
                     </p:column>
-                    <p:column headerText="Название продукта" style="width: 15%">
+                    <p:column headerText="Название продукта" style="width: 15%" rendered="false">
                         <f:facet name="header">
                             <h:outputText value="Название продукта" />
                         </f:facet>
@@ -125,28 +148,63 @@
                     </p:column>
                 </p:dataTable>
             </p:fieldset>
-            <p:fieldset id="form" legend="Управление" rendered="true">
-                <p:panelGrid columns="1" style="border: 0px" rendered="true">
+            <p:fieldset id="form" legend="Форма" rendered="#{uiController.editForm}">
+                <p:panelGrid columns="2" style="border: 0px">
 
-                    <p:commandButton value="Обработка"
-                                     action="#{ordersController.setStatusSelectedOrders('Обработка')}"
-                                     update="@form" style="width: 200px"/>
-                    <p:commandButton value="Оплачен"
-                                     action="#{ordersController.setStatusSelectedOrders('Оплачен')}"
-                                     update="@form" style="width: 200px"/>
-                    <p:commandButton value="Оплатить бонусами"
-                                     action="#{bonusController.payOrderByBonus(ordersController.selectedOrders)}"
-                                     update="@form" style="width: 200px"/>
-                    <p:commandButton value="В пути"
-                                     action="#{ordersController.setStatusSelectedOrders('В пути')}"
-                                     update="@form" style="width: 200px"/>
-                    <p:commandButton value="Доставлен"
-                                     action="#{ordersController.setStatusSelectedOrders('Доставлен')}"
-                                     update="@form" style="width: 200px"/>
+                    <h:outputLabel value="Код записи:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{ordersController.selectedOrders[0].recid}" readonly="true"
+                                 style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                    <h:outputLabel value="Код заказа:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{ordersController.selectedOrders[0].salesId}" readonly="true"
+                                 style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                    <h:outputLabel value="Дата заказа:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{ordersController.selectedOrders[0].createdAt}" readonly="true"
+                                 style="font: Segoe; font-size:24px; width: 350px; height: 40px">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                    </p:inputText>
+
+                    <h:outputLabel value="Предложение:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{ordersController.selectedOrders[0].proposal}" readonly="true"
+                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                    <h:outputLabel value="Клиент:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{ordersController.selectedOrders[0].customer}" readonly="true"
+                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                    <h:outputLabel value="Код продукта:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{ordersController.selectedOrders[0].product}" readonly="true"
+                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                    <h:outputLabel value="Имя продукта:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{proposalController.findProduct(ordersController.selectedOrders[0].product).name}" readonly="true"
+                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                    <h:outputLabel value="Кол-во:" styleClass="m-text-medium"/>
+                    <p:inputText  value="#{ordersController.selectedOrders[0].qty}" readonly="true"
+                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                    <h:outputLabel value="Цена:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{ordersController.selectedOrders[0].price}" readonly="true"
+                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                    <h:outputLabel value="Сумма:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{ordersController.selectedOrders[0].amount}" readonly="true"
+                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                    <h:outputLabel value="Статус:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{ordersController.selectedOrders[0].status}"  readonly="true"
+                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                    <h:outputLabel value="Бонусы:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{ordersController.selectedOrders[0].bonus}"
+                                 style="font: Segoe; font-size:24px; width: 350px; height: 40px" readonly="true"/>
 
 
                 </p:panelGrid>
             </p:fieldset>
+
         </p:panelGrid>
     </h:form>
     </p:layoutUnit>

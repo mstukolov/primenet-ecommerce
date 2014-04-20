@@ -10,13 +10,6 @@ import javax.ejb.EJB;
 import javax.persistence.criteria.*;
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: STUM
- * Date: 31.03.14
- * Time: 23:03
- * To change this template use File | Settings | File Templates.
- */
 
 public class ProductsLazyDataModel extends LazyDataModel<Product> {
     private Map<String,String> filtersExt;

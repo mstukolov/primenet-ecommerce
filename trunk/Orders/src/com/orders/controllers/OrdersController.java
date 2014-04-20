@@ -13,6 +13,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -23,11 +24,14 @@ public class OrdersController {
 
     private List<Orders> orderList;
     //Добавление множественного выбора строк заказов
-    private List<Orders> selectedOrderList, activeCustOrders, histCustOrders;
+    private List<Orders> selectedOrderList, activeCustOrders, histCustOrders, filteredOrders;
     private Orders[] selectedOrders;
-    private OrderDataModel mediumOrdersModel;
+    private OrderDataModel ordersModel;
     private SelectItem[] statusOptions;
     private  String[] statusValues;
+
+    //[Issue 21]{Добавить общий группирующий признак строк заказов: Код заказа(SalesID)}
+    private Integer salesId;
 
     private Order selectedOrder;
     @ManagedProperty("#{proposalController}")
@@ -48,8 +52,7 @@ public class OrdersController {
         orderList = new ArrayList<Orders>();
         orderList = ordersFacade.findAll();
 
-
-        mediumOrdersModel = new OrderDataModel(orderList);
+        ordersModel = new OrderDataModel(orderList);
 
         statusValues = new String[4];
         statusValues[0] = "Обработка";
@@ -64,6 +67,7 @@ public class OrdersController {
     public void refreshOrders(){
         orderList.clear();
         orderList = ordersFacade.findAll();
+        ordersModel = new OrderDataModel(orderList);
     }
 
     public void setBonusTrue(Orders order){
@@ -105,9 +109,13 @@ public class OrdersController {
         if(loginController.getCustomer().getUser() != null){
             _log.info("Началось создание строк заказов.....");
 
-           for(ShopingCartItem item: shopingCart.getShopingCartItemList()){
+            //[Issue 21]{Добавить общий группирующий признак строк заказов: Код заказа(SalesID)}
+            salesId = (int) (Math.random()*1000000) + (int) (Math.random()*1000000);
+
+            for(ShopingCartItem item: shopingCart.getShopingCartItemList()){
 
                Orders order = new Orders();
+               order.setSalesId(salesId.longValue());
                order.setProduct(item.getProposal().getProduct());
                order.setProposal(item.getProposal().getRecid());
 
@@ -136,17 +144,30 @@ public class OrdersController {
     }
     public void viewSelected(){
         for(Orders order : selectedOrders){
-            //addMessage(order.getOrderId().toString());
+            addMessage(order.getRecid().toString());
         }
     }
 
     public void setStatusSelectedOrders(String status){
-        for(Orders order : selectedOrders){
-            order.setStatus(status);
-            ordersFacade.edit(order);
-        }
-        refreshOrders();
-        addMessage("Статус установлен");
+        try{
+            for(Orders order : selectedOrders){
+                order.setStatus(status);
+                ordersFacade.edit(order);
+            }
+            selectedOrders = new Orders[1];
+
+            //[Issue 21]{Добавить общий группирующий признак строк заказов: Код заказа(SalesID)}
+            //Кэширование отфильтрованных строк заказов
+            ArrayList<Orders> filter = new ArrayList<Orders>();
+            Iterator iterator = filteredOrders.iterator();
+                while(iterator.hasNext()){
+                    filter.add(ordersFacade.find(((Orders)iterator.next()).getRecid()));
+                }
+                filteredOrders.clear();
+                filteredOrders = filter;
+            refreshOrders();
+            addMessage("Статус установлен");
+        }catch (NullPointerException ex){ addMessageError("Строки для смены статусов не выбраны");}
     }
 
     public Double getFillPercent(Proposal proposal){
@@ -223,12 +244,12 @@ public class OrdersController {
         this.selectedOrderList = selectedOrderList;
     }
 
-    public OrderDataModel getMediumOrdersModel() {
-        return mediumOrdersModel;
+    public OrderDataModel getOrdersModel() {
+        return ordersModel;
     }
 
-    public void setMediumOrdersModel(OrderDataModel mediumOrdersModel) {
-        this.mediumOrdersModel = mediumOrdersModel;
+    public void setOrdersModel(OrderDataModel ordersModel) {
+        this.ordersModel = ordersModel;
     }
 
     public Orders[] getSelectedOrders() {
@@ -255,6 +276,14 @@ public class OrdersController {
         this.histCustOrders = histCustOrders;
     }
 
+    public List<Orders> getFilteredOrders() {
+        return filteredOrders;
+    }
+
+    public void setFilteredOrders(List<Orders> filteredOrders) {
+        this.filteredOrders = filteredOrders;
+    }
+
     public LoginController getLoginController() {
         return loginController;
     }
@@ -275,6 +304,9 @@ public class OrdersController {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
-
+    public void addMessageError(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, summary,  null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
+    }
 
 }

@@ -9,6 +9,7 @@ import java.sql.Date;
 @AttributeOverride(name = "recid", column = @Column(name = "recid",
         nullable = false, columnDefinition = "BIGINT UNSIGNED"))
 public class Orders extends BaseEntityAudit{
+    private Long salesId;
     private Long proposal;
     private Long product;
     private Long price;
@@ -26,6 +27,16 @@ public class Orders extends BaseEntityAudit{
     private Boolean promo;
     private String description;
     private String customer;
+
+    @javax.persistence.Column(name = "SalesId")
+    @Basic
+    public Long getSalesId() {
+        return salesId;
+    }
+
+    public void setSalesId(Long salesId) {
+        this.salesId = salesId;
+    }
 
     @javax.persistence.Column(name = "customer")
     @Basic
