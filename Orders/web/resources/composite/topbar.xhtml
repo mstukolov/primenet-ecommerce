@@ -76,7 +76,8 @@
                                  action="#{cc.attrs.createButtonAction}"
                                  ajax="false"
                                  styleClass="m-btn-metro m-btn-small m-light-blue m-icon-create"
-                                 rendered="#{uiController.admin and cc.attrs.currentPage != 'bonus.xhtml'}"
+                                 rendered="#{uiController.admin and cc.attrs.currentPage != 'bonus.xhtml'
+                                                                and cc.attrs.currentPage != 'orders.xhtml'}"
                         />
             </h:column>
             <h:column>
