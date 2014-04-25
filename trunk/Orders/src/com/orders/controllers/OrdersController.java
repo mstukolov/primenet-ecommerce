@@ -54,20 +54,42 @@ public class OrdersController {
 
         ordersModel = new OrderDataModel(orderList);
 
-        statusValues = new String[4];
-        statusValues[0] = "Обработка";
-        statusValues[1] = "Оплачен";
-        statusValues[2] = "В пути";
-        statusValues[3] = "Доставлен";
+        statusValues = new String[6];
+        statusValues[0] = "Оформлен";
+        statusValues[1] = "Обработка";
+        statusValues[2] = "Оплачен";
+        statusValues[3] = "В пути";
+        statusValues[4] = "Доставлен";
+        statusValues[5] = "Отменено";
         statusOptions = createFilterOptions(statusValues);
 
     }
 
+    public void save(Integer value){
+        if(value == 0){
+            Double qty = selectedOrders[0].getQty();
+            Long price = selectedOrders[0].getPrice();
+            selectedOrders[0].setAmount(qty * price);
+        } else if (value == 1){
+            Double price = selectedOrders[0].getAmount()/ selectedOrders[0].getQty();
+            selectedOrders[0].setPrice(price.longValue());
+        }
+        ordersFacade.edit(selectedOrders[0]);
+        selectedOrders[0] = ordersFacade.find(selectedOrders[0].getRecid());
 
-    public void refreshOrders(){
+        //refreshOrders(0);
+        addMessage("Заказ сохранен");
+    }
+    public void refreshOrders(Integer mode){
         orderList.clear();
         orderList = ordersFacade.findAll();
         ordersModel = new OrderDataModel(orderList);
+        if(mode == 1){
+            if(filteredOrders != null){
+                filteredOrders.clear();
+                filteredOrders  = orderList;
+            }
+        }
     }
 
     public void setBonusTrue(Orders order){
@@ -165,7 +187,7 @@ public class OrdersController {
                 }
                 filteredOrders.clear();
                 filteredOrders = filter;
-            refreshOrders();
+            refreshOrders(0);
             addMessage("Статус установлен");
         }catch (NullPointerException ex){ addMessageError("Строки для смены статусов не выбраны");}
     }

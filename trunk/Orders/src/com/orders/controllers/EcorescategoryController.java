@@ -87,25 +87,14 @@ public class EcorescategoryController {
         ecorescategories = new ArrayList<Ecorescategory>();
         searchcategories = new ArrayList<Ecorescategory>();
         searchproposals = new ArrayList<Proposal>();
-
+        searchAttributes = new HashMap<String, List<AttributeValueCount>>();
         selectedProducts = new ArrayList<SelectedProduct>();
         ecoresproductcategories = new ArrayList<Ecoresproductcategory>();
 
-        /*if(!productFacade.findAll().isEmpty()){
-            for(Product product : productFacade.findAll()){
-                SelectedProduct selectedProduct = new SelectedProduct();
-                selectedProduct.setProduct(product);
-                selectedProduct.setSelected(false);
-                selectedProducts.add(selectedProduct);
-            }
-
-        }*/
         if(!ecorescategoryFacade.findAll().isEmpty()){
             ecorescategories = ecorescategoryFacade.findAll();
             selected = ecorescategories.get(0);
         }else{selected = new Ecorescategory();}
-
-        /*if(!productFacade.findAll().isEmpty()){products = productFacade.findAll();}*/
 
         productsDataModel = new ProductsDataModel(ecoresproductcategories);
 
@@ -120,15 +109,6 @@ public class EcorescategoryController {
 
           if(!ecorescategoryFacade.findChildCategories(category).isEmpty()){
               for(Ecorescategory ecorescategory: ecorescategoryFacade.findChildCategories(category)){
-
-                /*for (Ecoresproductcategory ecoresproductcategory: ecoresproductcategoryFacade.findByCategory(ecorescategory.getRecid())){
-                    searchAttributeFacade.addProducts(ecoresproductcategory.getProduct());
-
-                    for(Proposal proposal: proposalFacade.findPropolsalsByProduct(Long.valueOf(ecoresproductcategory.getProduct()))){
-                        //searchproposals.add(proposal);
-                        //addMessage("Предложение:" + proposal.getRecid().toString() + ",Товар: " + ecoresproductcategory.getProduct());
-                        }
-                    }*/
                     filterChildren(ecorescategory.getRecid());
                 }
           }else{
@@ -136,8 +116,8 @@ public class EcorescategoryController {
               for (Ecoresproductcategory ecoresproductcategory: ecoresproductcategoryFacade.findByCategory(category)){
                   searchAttributeFacade.addProducts(ecoresproductcategory.getProduct());
                   for(Proposal proposal: proposalFacade.findPropolsalsByProduct(Long.valueOf(ecoresproductcategory.getProduct()))){
-                      //[STUM] Пересечение методов
-                      searchproposals.add(proposal);
+                      //[Issue 13]	Поиск по атрибутам с учетом действующих предложений
+                      if(proposal.getBlocked() == false) searchproposals.add(proposal);
                   }
               }
           }
@@ -158,11 +138,12 @@ public class EcorescategoryController {
     }
     public void searchProposals(Object _arg){
         searchproposals.clear();
+        searchAttributes.clear();
         if(_arg instanceof Long){
             log.info("Поиск продуктов по КАТЕГОРИИ: " + _arg);
             searchAttributeFacade.clearProducts();
             filterChildren((Long) _arg);
-            searchAttributes = searchAttributeFacade.buildSearchAttributes();
+            if(!searchproposals.isEmpty())searchAttributes = searchAttributeFacade.buildSearchAttributes();
         } else if(_arg instanceof String){
             log.info("Поиск продуктов по АТРИБУТУ: " + _arg);
             for(ProductAttributesvaluesView view : searchAttributeFacade.findProductByAttributeSelection(_arg)){
