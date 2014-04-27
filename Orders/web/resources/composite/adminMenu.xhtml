@@ -1,0 +1,71 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:composite="http://java.sun.com/jsf/composite">
+
+<composite:interface>
+    <composite:attribute name="inputValue"/>
+</composite:interface>
+
+<composite:implementation>
+    <h:form id="form">
+        <p:growl id="messages"/>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $(".ui-panelmenu-content").css("display","block"); //shows the menuitems
+                $(".ui-panelmenu-header").addClass("ui-state-active"); //sets the submenu header to active state
+                $(".ui-icon-triangle-1-e").removeClass("ui-icon-triangle-1-e").addClass("ui-icon-triangle-1-s"); //sets the triangle icon to "expaned" version
+            });
+        </script>
+        <p:panelMenu style="width:100%" rendered="true">
+            <p:submenu label="Избранное" icon="ui-icon-heart" style="width: 100%">
+                <p:menuitem value="Магазин" action="#{uiController.goShop_C()}" update="messages" icon="ui-icon-heart"/>
+            </p:submenu>
+            <p:submenu label="Личный кабинет" style="width: 100%">
+                <p:menuitem value="Мой профиль" action="#{uiController.goPersonalAccount}" update="messages"/>
+                <p:menuitem value="Мои заказы" url="/faces/myorders.xhtml" rendered="#{loginController.user}"/>
+                <p:menuitem value="Личные данные"  url="/faces/myinfo.xhtml" rendered="#{loginController.user}"/>
+                <p:menuitem value="Профили доставок" url="/faces/mydelivery.xhtml" rendered="false"/>
+                <p:menuitem value="История" url="/faces/myhistory.xhtml" rendered="false"/>
+            </p:submenu>
+            <p:submenu label="Сведения о продуктах" style="width: 100%">
+                <p:menuitem value="Товары" url="/faces/items.xhtml" rendered="true"/>
+                <p:menuitem value="Классификатор" action="#{uiController.goCategories()}"  update="@form"/>
+                <p:submenu label="Атрибуты продуктов" icon="ui-icon-extlink">
+                    <p:menuitem value="Атрибуты" action="#{uiController.goAttributes()}"  update="@form"/>
+                    <p:menuitem value="Группы Атрибутов" action="#{uiController.goAttributeGroups()}"  update="@form"/>
+                    <p:menuitem value="Типы Атрибутов" action="#{uiController.goAttributTypes()}"  update="@form"/>
+                </p:submenu>
+            </p:submenu>
+            <p:submenu label="Расчеты с клиентами" style="width: 100%">
+                <p:menuitem value="Клиенты" url="/faces/customers.xhtml" rendered="true"/>
+                <p:menuitem value="Заказы на продажу"  url="/faces/orders.xhtml" rendered="true" />
+            </p:submenu>
+            <p:submenu label="Маркетинг и продажи" style="width: 100%">
+                <p:menuitem value="Предложения(Прайс-лист)" url="/faces/proposal.xhtml" rendered="true"/>
+                <p:menuitem value="Бонусы" url="/faces/bonus.xhtml"/>
+                <p:menuitem value="Главный банер(Карусель)" action="#{uiController.goCarousel()}"  rendered="true" update="@form"/>
+            </p:submenu>
+            <p:submenu label="Администрирование" style="width: 100%">
+                <p:menuitem value="Индексация" action="#{uiController.goAdministration()}"  update="@form"/>
+                <p:menuitem value="Настройки компании" url="/faces/company.xhtml" rendered="true"/>
+                <p:menuitem value="Пользователи" action="#{uiController.goUsers}"  rendered="true" update="@form"/>
+                <p:menuitem value="Почтовый сервер" action="#{uiController.goMail()}"  rendered="true" update="@form"/>
+            </p:submenu>
+            <p:submenu label="Вход\Выход" style="width: 100%">
+                <p:menuitem action="#{uiController.changeAdmin()}" update="@form">
+                    <p:lightBox widgetVar="lightBox" iframe="true" width="200%"  >
+                        <h:outputLink value="login.xhtml">
+                            <h:outputText value="#{loginController.menuTxt}" styleClass="ui-menuitem-text"/>
+                        </h:outputLink>
+                    </p:lightBox>
+                </p:menuitem>
+            </p:submenu>
+        </p:panelMenu>
+    </h:form>
+
+</composite:implementation>
+
+</html>
