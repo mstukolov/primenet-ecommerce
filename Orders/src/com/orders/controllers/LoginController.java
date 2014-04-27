@@ -1,6 +1,7 @@
 package com.orders.controllers;
 
 import com.orders.facade.OrdersFacade;
+import mail.controllers.MailFacade;
 import org.orders.entity.Customer;
 import org.orders.entity.Orders;
 import org.orders.entity.UsersE;
@@ -48,6 +49,10 @@ public class LoginController {
 
     @EJB
     private OrdersFacade ordersFacade;
+
+    @EJB
+    private MailFacade mailFacade;
+
     @PostConstruct
     public void init(){
         FacesContext.getCurrentInstance().getExternalContext().getSession(true);
@@ -75,6 +80,7 @@ public class LoginController {
             userFacade.create(curUser);
             warning = "Пользователь сохранен";
             addMessage("Регистрация прошла успешно!");
+            mailFacade.sendRegistrationInfo(customer);
         }catch (Exception ex){
             warning = "Пользователь существует";
             addMessage("Пользователь существует");

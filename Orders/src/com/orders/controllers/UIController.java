@@ -241,6 +241,10 @@ public class UIController implements Serializable {
         addMessage("Go to users");
         return "users" + "?faces-redirect=true";
     }
+    public String goMail(){
+        doAction();
+        return "mail" + "?faces-redirect=true";
+    }
     public String goCustomers(){
         doAction();
         return "customers" + "?faces-redirect=true";

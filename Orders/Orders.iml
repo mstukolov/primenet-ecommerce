@@ -40,6 +40,8 @@
     <orderEntry type="library" name="lucene-analyzers-3.1.0" level="project" />
     <orderEntry type="library" name="Java EE 6-Java EE 6 (2)" level="project" />
     <orderEntry type="library" name="poi-3.10-FINAL-20140208" level="project" />
+    <orderEntry type="library" name="mail" level="project" />
+    <orderEntry type="library" name="velocity-1.7" level="project" />
   </component>
 </module>
 
