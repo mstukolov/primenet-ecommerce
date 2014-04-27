@@ -1,6 +1,7 @@
 package com.orders.controllers;
 
 import com.orders.facade.OrdersFacade;
+import mail.controllers.MailFacade;
 import org.datamodel.OrderDataModel;
 import org.orders.entity.*;
 
@@ -45,6 +46,8 @@ public class OrdersController {
 
     @EJB
     private OrdersFacade ordersFacade;
+    @EJB
+    private MailFacade mailFacade;
 
     @PostConstruct
     public void init(){
@@ -175,6 +178,8 @@ public class OrdersController {
             for(Orders order : selectedOrders){
                 order.setStatus(status);
                 ordersFacade.edit(order);
+                /*[Issue 28]:	Автоматическая рассылка при изменении статуса заказа*/
+                mailFacade.sendOrderStatusToCustomer(order);
             }
             selectedOrders = new Orders[1];
 
