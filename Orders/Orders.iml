@@ -42,6 +42,7 @@
     <orderEntry type="library" name="poi-3.10-FINAL-20140208" level="project" />
     <orderEntry type="library" name="mail" level="project" />
     <orderEntry type="library" name="velocity-1.7" level="project" />
+    <orderEntry type="library" name="ehcache" level="project" />
   </component>
 </module>
 

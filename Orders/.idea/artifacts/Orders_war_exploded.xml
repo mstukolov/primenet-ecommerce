@@ -15,6 +15,7 @@
           <element id="library" level="project" name="poi-3.10-FINAL-20140208" />
           <element id="library" level="project" name="mail" />
           <element id="library" level="project" name="velocity-1.7" />
+          <element id="library" level="project" name="ehcache" />
         </element>
       </element>
     </root>

@@ -28,8 +28,125 @@
     <p:layoutUnit position="center">
     <h:form id="mainForm">
         <p:growl id="messages"/>
-         Форма для личного кабинета в разработке
+         <p:tabView id="tabView">
+         <p:tab id="tab1" title="Обзор">
+            <p:panelGrid columns="2" style="border: 0px" rendered="true">
+            <h:outputLabel value="Пользователь:" styleClass="m-text-medium"/>
+            <h:outputText value="#{loginController.curUser.login}"
+                              style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
 
+            <h:outputLabel value="Пароль:" styleClass="m-text-medium"/>
+            <p:inputText value="#{loginController.curUser.password}"
+                              style="font: Segoe; font-size:24px; width: 350px; height: 40px">
+                <p:ajax event="change" listener="#{loginController.saveUser()}" update=":mainForm:messages"/>
+            </p:inputText>
+
+            <h:outputLabel value="Имя:" styleClass="m-text-medium"/>
+            <p:inputText value="#{loginController.customer.name}"
+                              style="font: Segoe; font-size:24px; width: 350px; height: 40px">
+                <p:ajax event="change" listener="#{loginController.saveCustomer()}" update=":mainForm:messages"/>
+            </p:inputText>
+            <h:outputLabel value="Фамилия:" styleClass="m-text-medium"/>
+            <p:inputText value="#{loginController.customer.surname}"
+                              style="font: Segoe; font-size:24px; width: 350px; height: 40px">
+                <p:ajax event="change" listener="#{loginController.saveCustomer()}" update=":mainForm:messages"/>
+            </p:inputText>
+                <h:outputLabel value="День рождения:" styleClass="m-text-medium"/>
+            <p:inputText value="#{loginController.customer.birth}"
+                            style="font: Segoe; font-size:24px; width: 350px; height: 40px">
+                <p:ajax event="change" listener="#{loginController.saveCustomer()}" update=":mainForm:messages"/>
+            </p:inputText>
+            <h:outputLabel value="Телефон:" styleClass="m-text-medium"/>
+            <p:inputText value="#{loginController.customer.phone}"
+                             style="font: Segoe; font-size:24px; width: 350px; height: 40px">
+                    <p:ajax event="change" listener="#{loginController.saveCustomer()}" update=":mainForm:messages"/>
+            </p:inputText>
+            </p:panelGrid>
+
+        </p:tab>
+        <p:tab id="tab2" title="Мои заказы">
+            <p:dataTable id="dataTable"
+                         var="data"
+                         value="#{loginController.activeCustOrders}"
+                         selectionMode = "single"
+                         rowKey="#{data.recid}"
+                         selection="#{ordersController.selectedOrders}"
+                         scrollable="true"
+                         scrollHeight="650"
+                         style="width: 1650px"
+                    >
+
+                <p:column headerText="Код заказа" style="width: 100px" filterBy="#{data.salesId}" filterMatchMode="contains" styleClass="m-text-medium">
+                    <f:facet name="header">
+                        <h:outputText value="Код заказа" />
+                    </f:facet>
+                    <h:outputText value="#{data.salesId}" />
+                </p:column>
+
+                <p:column headerText="Дата заказа" style="width: 150px" styleClass="m-text-medium">
+                    <f:facet name="header">
+                        <h:outputText value="Дата заказа" />
+                    </f:facet>
+                    <h:outputText value="#{data.createdAt}">
+                        <f:convertDateTime pattern="dd.MM.yyyy HH:mm" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Предложение"   style="width: 150px" styleClass="m-text-medium">
+                    <f:facet name="header">
+                        <h:outputText value="Предложение" />
+                    </f:facet>
+                    <h:outputText value="#{data.proposal}" />
+                </p:column>
+
+                <p:column headerText="Клиент" style="width: 150px" filterBy="#{data.customer}" filterMatchMode="contains" styleClass="m-text-medium">
+                    <f:facet name="header">
+                        <h:outputText value="Код клиента" />
+                    </f:facet>
+                    <h:outputText value="#{data.customer}" />
+                </p:column>
+
+                <p:column headerText="Код продукта" style="width: 150px" filterBy="#{data.product}" filterMatchMode="contains" styleClass="m-text-medium">
+                    <f:facet name="header">
+                        <h:outputText value="Код продукта" />
+                    </f:facet>
+                    <h:outputText value="#{data.product}" />
+                </p:column>
+                <p:column headerText="Название продукта" style="width: 15%" rendered="true">
+                    <f:facet name="header">
+                        <h:outputText value="Название продукта" />
+                    </f:facet>
+                    <h:outputText value="#{proposalController.findProduct(data.product).name}" styleClass="m-text-medium"/>
+                </p:column>
+                <p:column headerText="Кол-во" style="width: 100px" styleClass="m-text-medium">
+                    <f:facet name="header">
+                        <h:outputText value="Кол-во" />
+                    </f:facet>
+                    <h:outputText value="#{data.qty}" />
+                </p:column>
+                <p:column headerText="Цена" style="width: 100px" styleClass="m-text-medium">
+                    <f:facet name="header">
+                        <h:outputText value="Цена" />
+                    </f:facet>
+                    <h:outputText value="#{data.price}" />
+                </p:column>
+                <p:column headerText="Сумма" style="width: 100px" styleClass="m-text-medium">
+                    <f:facet name="header">
+                        <h:outputText value="Сумма" />
+                    </f:facet>
+                    <h:outputText value="#{data.amount}" />
+                </p:column>
+                <p:column headerText="Статус" style="width: 100px" filterBy="#{data.status}" filterOptions="#{ordersController.statusOptions}"
+                          filterMatchMode="exact" styleClass="m-text-medium">
+                    <f:facet name="header">
+                        <h:outputText value="Статус" />
+                    </f:facet>
+                    <h:outputText value="#{data.status}" />
+                </p:column>
+
+            </p:dataTable>
+        </p:tab>
+
+        </p:tabView>
     </h:form>
 
     </p:layoutUnit>

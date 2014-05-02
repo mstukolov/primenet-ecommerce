@@ -140,6 +140,14 @@
                         </f:facet>
                         <h:outputText value="#{data.status}" />
                     </p:column>
+                    <p:column headerText="Доставка" style="width: 100px" filterBy="#{data.deliveryTerms}"
+                              filterOptions="#{ordersController.deliveryOptions}"
+                              filterMatchMode="exact" styleClass="m-text-medium">
+                        <f:facet name="header">
+                            <h:outputText value="Доставка" />
+                        </f:facet>
+                        <h:outputText value="#{data.deliveryTerms == 1 ? 'Самовывоз':'Доставка'}" />
+                    </p:column>
                     <p:column headerText="Бонусы" style="width: 100px" styleClass="m-text-medium">
                         <f:facet name="header">
                             <h:outputText value="Бонусы" />
