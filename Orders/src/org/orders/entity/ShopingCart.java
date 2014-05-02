@@ -13,6 +13,7 @@ public class ShopingCart {
     private Users user;
     private ShopingCartItem shopingCartItem;
     private Double cartBalance;
+    private Integer deliveryOptions = 1;
 
 
     public Boolean isEmpty(){
@@ -121,5 +122,11 @@ public class ShopingCart {
         this.user = user;
     }
 
+    public Integer getDeliveryOptions() {
+        return deliveryOptions;
+    }
 
+    public void setDeliveryOptions(Integer deliveryOptions) {
+        this.deliveryOptions = deliveryOptions;
+    }
 }

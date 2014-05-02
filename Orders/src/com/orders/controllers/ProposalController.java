@@ -242,7 +242,7 @@ public class ProposalController implements Serializable {
                 selectedShopingCartItem = shopingCart.getLastItem();
                 addMessage("Добавлено в корзину:" + proposal.getQty());
             }else{
-                addMessage("Количесво меньше чем минимальное по предложению");
+                addMessage("Количество меньше чем минимальное по предложению");
             }
     }
 

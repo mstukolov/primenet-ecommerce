@@ -27,12 +27,12 @@ public class OrdersFacade extends AbstractFacade<Orders>{
 
     public List<Orders> findCustOrders(String customer) {
 
-        _log.info("Начинается поиск по клиенту " + customer);
+        _log.info("Начинается поиск заказов по клиенту " + customer);
         javax.persistence.criteria.CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
         javax.persistence.criteria.CriteriaQuery cq = criteriaBuilder.createQuery(Orders.class);
         Root<Orders> root = cq.from(Orders.class);
 
-        Predicate cust = criteriaBuilder.equal(root.get("customer"), "smb@yandex.ru");
+        Predicate cust = criteriaBuilder.equal(root.get("customer"), customer);
         cq.select(root).where(cust);
 
         return getEntityManager().createQuery(cq).getResultList();
