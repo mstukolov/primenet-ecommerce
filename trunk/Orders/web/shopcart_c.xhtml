@@ -27,7 +27,11 @@
                                   styleClass="pricetext" style="padding-left: 220px"/>
 
                     <custom:buy_c id="buyForm" buyValue="Предложения" shoppingCart="#{proposalController.shopingCart}"/>
-
+                    <h:outputText value="Способ доставки: " styleClass="outputlink"/>
+                    <p:selectOneRadio id="deliveryOptions" value="#{proposalController.shopingCart.deliveryOptions}" styleClass="outputlink" columns="1">
+                        <f:selectItem itemLabel="Самовывоз" itemValue="1"/>
+                        <f:selectItem itemLabel="Доставка" itemValue="2"/>
+                    </p:selectOneRadio>
                     <p:dataTable id= "table"
                                  var="data"
                                  value="#{proposalController.shopingCart.shopingCartItemList}"

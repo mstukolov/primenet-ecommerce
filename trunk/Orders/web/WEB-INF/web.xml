@@ -47,4 +47,17 @@
         <extension>jpg</extension>
         <mime-type>image/jpg</mime-type>
     </mime-mapping>
+    <!--<filter>
+        <filter-name>SimplePageCachingFilter</filter-name>
+        <filter-class>net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter</filter-class>
+        <init-param>
+            <param-name>cacheName</param-name>
+            <param-value>simplePageCachingFilter</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>SimplePageCachingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>-->
+
 </web-app>

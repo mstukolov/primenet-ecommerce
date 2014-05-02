@@ -22,6 +22,7 @@
         <p:panelMenu style="width:100%" rendered="true">
             <p:submenu label="Избранное" icon="ui-icon-heart" style="width: 100%">
                 <p:menuitem value="Магазин" action="#{uiController.goShop_C()}" update="messages" icon="ui-icon-heart"/>
+                <p:menuitem value="DashBoard" action="#{uiController.goDashBoard()}" update="messages"/>
             </p:submenu>
             <p:submenu label="Личный кабинет" style="width: 100%">
                 <p:menuitem value="Мой профиль" action="#{uiController.goPersonalAccount}" update="messages"/>
