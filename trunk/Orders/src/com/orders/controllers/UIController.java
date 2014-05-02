@@ -289,6 +289,10 @@ public class UIController implements Serializable {
         doAction();
         return "shop_c" + "?faces-redirect=true";
     }
+    public String goDashBoard(){
+        doAction();
+        return "dashboard" + "?faces-redirect=true";
+    }
     public String goProposal(){
         doAction();
         return "proposal" + "?faces-redirect=true";

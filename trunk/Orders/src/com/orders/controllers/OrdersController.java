@@ -28,8 +28,8 @@ public class OrdersController {
     private List<Orders> selectedOrderList, activeCustOrders, histCustOrders, filteredOrders;
     private Orders[] selectedOrders;
     private OrderDataModel ordersModel;
-    private SelectItem[] statusOptions;
-    private  String[] statusValues;
+    private SelectItem[] statusOptions, deliveryOptions;
+    private  String[] statusValues, deliveryValues;
 
     //[Issue 21]{Добавить общий группирующий признак строк заказов: Код заказа(SalesID)}
     private Integer salesId;
@@ -66,6 +66,11 @@ public class OrdersController {
         statusValues[5] = "Отменено";
         statusOptions = createFilterOptions(statusValues);
 
+        deliveryValues = new String[2];
+        deliveryValues[0] = "1";
+        deliveryValues[1] = "2";
+
+        deliveryOptions = createFilterOptions(deliveryValues);
     }
 
     public void save(Integer value){
@@ -143,6 +148,9 @@ public class OrdersController {
                order.setSalesId(salesId.longValue());
                order.setProduct(item.getProposal().getProduct());
                order.setProposal(item.getProposal().getRecid());
+
+                /*[Issue 27]	Форма для личного кабинета + Профиль доставки*/
+                order.setDeliveryTerms(shopingCart.getDeliveryOptions().toString());
 
                        //Заглушка до создания аутентификации
                        order.setCreatedBy(loginController.getCustomer().getUser());
@@ -325,6 +333,14 @@ public class OrdersController {
 
     public void setUiController(UIController uiController) {
         this.uiController = uiController;
+    }
+
+    public SelectItem[] getDeliveryOptions() {
+        return deliveryOptions;
+    }
+
+    public void setDeliveryOptions(SelectItem[] deliveryOptions) {
+        this.deliveryOptions = deliveryOptions;
     }
 
     public void addMessage(String summary) {
