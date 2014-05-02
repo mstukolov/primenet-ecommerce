@@ -59,6 +59,12 @@ public class LoginController {
 
     }
 
+    public void saveUser(){
+        _log.info("Сохранение пользователя");
+        userFacade.edit(curUser);
+        curUser = userFacade.find(curUser.getRecid());
+        this.addMessage("Пользователь сохранен!");
+    }
     public void createNewCustomer(){
         customer = new Customer();
         customer.setSurname(this.surname);
@@ -149,17 +155,15 @@ public class LoginController {
         _log.info("Идет поиск заказов клиента:" + customer.getName() + " " +customer.getSurname() + "--Юзер: " + customer.getUser());
 
         activeCustOrders = ordersFacade.findCustOrders(customer.getUser());
-        for(Orders order: activeCustOrders) {
-            _log.info(order.getRecid() + " : " + order.getCreatedBy());
-        }
-        _log.info("Найден строк:" + activeCustOrders.size());
-
-        histCustOrders = ordersFacade.findCustOrders(customer.getName());
+        _log.info("Найдено строк заказов:" + activeCustOrders.size());
     }
 
     public void saveCustomer(){
         customerFacade.edit(customer);
         userFacade.edit(curUser);
+
+        customer = customerFacade.find(customer.getRecid());
+        curUser = userFacade.find(curUser.getRecid());
 
         addMessage("Данные сохранены");
     }
