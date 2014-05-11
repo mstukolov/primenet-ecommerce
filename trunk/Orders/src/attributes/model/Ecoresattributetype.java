@@ -45,11 +45,6 @@ public class Ecoresattributetype extends BaseEntityAudit {
     public void setDataType(String dataType) {
         this.dataType = dataType;
     }
-
-
-
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
