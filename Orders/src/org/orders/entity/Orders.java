@@ -28,6 +28,18 @@ public class Orders extends BaseEntityAudit{
     private String description;
     private String customer;
 
+    @Column(name = "processing_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private java.util.Date processingAt;
+
+    public java.util.Date getProcessingAt() {
+        return processingAt;
+    }
+
+    public void setProcessingAt(java.util.Date processingAt) {
+        this.processingAt = processingAt;
+    }
+
     @javax.persistence.Column(name = "SalesId")
     @Basic
     public Long getSalesId() {

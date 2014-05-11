@@ -14,6 +14,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
@@ -184,6 +185,7 @@ public class OrdersController {
     public void setStatusSelectedOrders(String status){
         try{
             for(Orders order : selectedOrders){
+                order.setProcessingAt(new Date());
                 order.setStatus(status);
                 ordersFacade.edit(order);
                 /*[Issue 28]:	Автоматическая рассылка при изменении статуса заказа*/
