@@ -8,12 +8,13 @@
         <class>attributes.model.Ecoresvalue</class>
         <class>attributes.model.Ecoresproductattributevalue</class>
         <class>attributes.model.Getattributeenumlist</class>
+        <class>com.orders.reportmodel.GettopproductEntity</class>
 
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="eclipselink.temporal.mutable"
                       value="true" />
-            <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/sakila"/>
+            <property name="toplink.jdbc.url" value="jdbc:mysql://localhost:3306/orders"/>
             <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
             <property name="toplink.jdbc.user" value="root"/>
             <property name="toplink.jdbc.password" value="java"/>

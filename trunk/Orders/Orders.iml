@@ -20,7 +20,7 @@
         <setting name="provider-name" value="TopLink" />
         <datasource-mapping>
           <factory-entry name="&lt;anonymous&gt;a.xml@0" value="eb164ed7-c06d-4123-88a6-ad44cca682ff" />
-          <factory-entry name="OrdersPU" />
+          <factory-entry name="OrdersPU" value="eb164ed7-c06d-4123-88a6-ad44cca682ff" />
         </datasource-mapping>
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/META-INF/persistence.xml" />
       </configuration>
