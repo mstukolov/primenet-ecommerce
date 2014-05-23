@@ -117,6 +117,8 @@
 
             </p:fieldset>
 
+            <p:commandButton value="GET" action="#{loginController.getActiveUsers()}"
+                             ajax="false" update="@form"/>
         </h:panelGrid>
 
     </h:form>

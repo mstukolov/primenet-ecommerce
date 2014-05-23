@@ -7,14 +7,8 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_0.xsd">
 
-    <navigation-rule>
-
-        <navigation-case>
-            <from-outcome>index</from-outcome>
-            <to-view-id>/index.xhtml</to-view-id>
-            <redirect/>
-        </navigation-case>
-
-    </navigation-rule>
+    <lifecycle>
+        <phase-listener>security.LoginErrorPhaseListener</phase-listener>
+    </lifecycle>
 
 </faces-config>

@@ -63,10 +63,13 @@
                                     value="#{reportController.model}"
                                     style="height:500px; width: 750px"  legendPosition="e" title="Топ 5 продуктов"
                                     diameter="400" showDataLabels="true"/>
-                        <p:lineChart value="#{reportController.salesLineModel}" style="height:500px; width: 800px"
+                        <p:lineChart value="#{reportController.salesLineModel}"
+
+                                     style="height:500px; width: 800px"
                                      title="Продажи за месяц"/>
                         </h:panelGrid>
                 </p:fieldset>
+            <p:commandButton value="Test" action="#{reportController.buildGraphData}" rendered="false"/>
             </h:form>
 
         </p:layoutUnit>

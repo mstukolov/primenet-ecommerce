@@ -51,28 +51,21 @@
 
                         </h:panelGrid>
 
-                        <h:panelGrid columns="2" cellpadding="5" style="padding-left: 100px;padding-top: 10px">
-                            <h:outputLabel for="username" value="Логин:" styleClass="outputlink"/>
-                            <p:inputText value="#{loginController.username}"
-                                         id="username" required="false" label="username"
-                                         styleClass="inputform"/>
+                            <h:panelGrid columns="2" style="padding-left: 100px;padding-top: 10px">
+                                <h:outputLabel value="Логин: " for="j_username" styleClass="outputlink"/>
+                                <h:inputText id="j_username"
+                                             value="#{loginBean.username}"
+                                             required="false" styleClass="inputform"/>
+                                <h:outputLabel value="Пароль: " for="j_password" styleClass="outputlink"/>
+                                <h:inputSecret id="j_password"
+                                               value="#{loginBean.password}"
+                                               required="false" styleClass="inputform"/>
+                                <p:commandButton action="#{loginBean.doLogin}" value="Войти"
+                                                 ajax="false"
+                                                 styleClass="commandButton" update="@form" style="width: 150px;"/>
+                                <h:messages style="color: red;"/>
+                            </h:panelGrid>
 
-                            <h:outputLabel for="password" value="Пароль:" styleClass="outputlink"/>
-                            <p:password value="#{loginController.password}"
-                                           id="password" label="password"  styleClass="inputform"/>
-
-                            <f:facet name="footer">
-                                <p:commandButton id="loginButton" value="Войти"  styleClass="commandButton"
-                                                 actionListener="#{loginController.auth(loginController.username)}"
-                                                 update="@form"
-                                        />
-
-                                <p:commandButton id="logoutButton" value="Уйти"  styleClass="commandButton"
-                                                 actionListener="#{loginController.logout()}"
-                                                 update="messages"
-                                        />
-                            </f:facet>
-                        </h:panelGrid>
 
                     </h:panelGrid>
                     <h:outputText value="#{loginController.warning}" styleClass="pricetext"/>

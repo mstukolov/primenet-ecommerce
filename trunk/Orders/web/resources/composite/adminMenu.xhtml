@@ -21,7 +21,7 @@
         </script>
         <p:panelMenu style="width:100%" rendered="true">
             <p:submenu label="Избранное" icon="ui-icon-heart" style="width: 100%">
-                <p:menuitem value="Магазин" action="#{uiController.goShop_C()}" update="messages" icon="ui-icon-heart"/>
+                <p:menuitem value="Магазин" action="#{uiController.goIndex()}" update="messages" icon="ui-icon-heart"/>
                 <p:menuitem value="DashBoard" action="#{uiController.goDashBoard()}" update="messages"/>
             </p:submenu>
             <p:submenu label="Личный кабинет" style="width: 100%">
@@ -55,15 +55,7 @@
                 <p:menuitem value="Пользователи" action="#{uiController.goUsers}"  rendered="true" update="@form"/>
                 <p:menuitem value="Почтовый сервер" action="#{uiController.goMail()}"  rendered="true" update="@form"/>
             </p:submenu>
-            <p:submenu label="Вход\Выход" style="width: 100%">
-                <p:menuitem action="#{uiController.changeAdmin()}" update="@form">
-                    <p:lightBox widgetVar="lightBox" iframe="true" width="200%"  >
-                        <h:outputLink value="login.xhtml">
-                            <h:outputText value="#{loginController.menuTxt}" styleClass="ui-menuitem-text"/>
-                        </h:outputLink>
-                    </p:lightBox>
-                </p:menuitem>
-            </p:submenu>
+
         </p:panelMenu>
     </h:form>
 
