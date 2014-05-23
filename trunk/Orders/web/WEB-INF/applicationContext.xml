@@ -87,4 +87,16 @@
         </sec:authentication-provider>
     </sec:authentication-manager>
 
+    <!--<sec:authentication-manager alias="authenticationManagerMySQL">
+        <sec:authentication-provider>
+            &lt;!&ndash;<sec:password-encoder hash="sha-256" />&ndash;&gt;
+            <sec:jdbc-user-service data-source-ref="dataSourceMySQL"
+                                   users-by-username-query="
+                      select login, password, enabled
+                      from users where login=?"
+                                   authorities-by-username-query="
+                     select login, authority from authorites where login =?  "
+                    />
+        </sec:authentication-provider>
+    </sec:authentication-manager>-->
 </beans>
