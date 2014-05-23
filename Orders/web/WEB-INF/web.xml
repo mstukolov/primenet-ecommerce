@@ -2,12 +2,8 @@
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
-   <!-- <context-param>
-        <param-name>com.sun.faces.disableUnicodeEscaping</param-name>
-        <param-value>true</param-value>
-    </context-param>-->
 
-    <context-param>
+    <!--<context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Production</param-value>
     </context-param>
@@ -32,8 +28,8 @@
         </session-timeout>
     </session-config>
     <welcome-file-list>
-        <welcome-file>faces/shop_c.xhtml</welcome-file>
-    </welcome-file-list>
+    <welcome-file>faces/index.xhtml</welcome-file>
+</welcome-file-list>
     <filter>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>
         <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
@@ -46,18 +42,62 @@
     <mime-mapping>
         <extension>jpg</extension>
         <mime-type>image/jpg</mime-type>
-    </mime-mapping>
-    <!--<filter>
-        <filter-name>SimplePageCachingFilter</filter-name>
-        <filter-class>net.sf.ehcache.constructs.web.filter.SimplePageCachingFilter</filter-class>
-        <init-param>
-            <param-name>cacheName</param-name>
-            <param-value>simplePageCachingFilter</param-value>
-        </init-param>
+    </mime-mapping>-->
+
+    <!--SPRING SECURITY SETUP-->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>SimplePageCachingFilter</filter-name>
+        <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
-    </filter-mapping>-->
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <!--
+       We configure a listener to load the context of the web application at start up.
+       This will load our applicationContext-security.xml file.
+       The application context is then available via
+       WebApplicationContextUtils.getWebApplicationContext(servletContext).
+   -->
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+    </listener>
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/applicationContext.xml
+            /WEB-INF/dispatcher-servlet.xml
+        </param-value>
+    </context-param>
 
+    <!--======================FACES SETUP=============================-->
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>/faces/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>faces/index.xhtml</welcome-file>
+    </welcome-file-list>
 </web-app>

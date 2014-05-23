@@ -52,6 +52,17 @@
 
          <div id="label" class="ui-form-label">
          <h:outputText value="#{cc.attrs.inputValue}" style="margin-top: 25px"/>
+
+         <h:panelGrid columns="2" style="float: right;">
+             <h:outputText value="#{loginBean.ssUserName()}"
+                           style="float: right; font-size: 24px"
+                           styleClass="outputlink" rendered="#{loginBean.isAuthenticated()}"/>
+             <h:outputLink value="${request.contextPath}/j_spring_security_logout"
+                           rendered="#{loginBean.isAuthenticated()}"
+                           styleClass="outputlink" style="float: right;text-decoration: underline;font-size: 24px">
+                 Выйти
+             </h:outputLink>
+         </h:panelGrid>
         </div>
 
 

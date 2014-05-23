@@ -9,6 +9,7 @@
         <class>attributes.model.Ecoresproductattributevalue</class>
         <class>attributes.model.Getattributeenumlist</class>
         <class>com.orders.reportmodel.GettopproductEntity</class>
+        <class>com.orders.reportmodel.GetsaleslastmonthView</class>
 
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>

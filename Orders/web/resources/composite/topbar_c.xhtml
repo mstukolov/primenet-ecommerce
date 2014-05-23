@@ -20,13 +20,15 @@
 
     <div id="headbandLocation" class="grid_12" >
         <div id="useraccountLocation" class="marginbottom float-right">
-            <h:commandLink value="Авторизация" styleClass="outputlink" style="text-decoration: underline;"
-                           action="#{uiController.goAuthPage()}" update="@form" rendered="#{not loginController.auth}"/>
+            <p:commandLink value="Авторизация" styleClass="outputlink" style="text-decoration: underline;"
+                           action="#{uiController.goAuthPage()}" ajax="false" update="@form" rendered="#{not loginBean.isAuthenticated()}"/>
 
-            <h:outputText value="#{loginController.menuTxt}" styleClass="outputlink" rendered="#{loginController.auth}"/>
-            <p:commandButton id="logoutButton" value="Выйти"  styleClass="commandButton"
-                             actionListener="#{loginController.logout()}"
-                             update="@form" rendered="#{loginController.auth}"/>
+            <h:outputText value="#{loginBean.ssUserName()}" styleClass="outputlink" rendered="#{loginBean.isAuthenticated()}"/>
+            <h:outputLink value="${request.contextPath}/j_spring_security_logout"
+                          rendered="#{loginBean.isAuthenticated()}"
+                          styleClass="outputlink" style="text-decoration: underline;">
+                    Выйти
+            </h:outputLink>
         </div>
 
     </div>
@@ -44,7 +46,13 @@
             </div>
 
             <div id="userInfoLocation" class="tar" >
-                <p:commandLink action="#{uiController.goItems()}" value="Админ-Панель" styleClass="outputlink" rendered="#{loginController.admin}"/>
+                <p:commandLink action="#{uiController.goItems()}" value="Админ-Панель"
+                               styleClass="outputlink"
+                               rendered="#{loginController.hasRole('ROLE_ADMIN')
+                                                        or loginController.hasRole('ROLE_MANAGER')}"/>
+                <p:commandLink action="#{uiController.goItems()}" value="Личный кабинет"
+                               styleClass="outputlink" rendered="#{loginController.hasRole('ROLE_USER')}"/>
+
                 <div style="padding-bottom: 20px;">
                     <p:commandLink action="#{uiController.goShopcart}" styleClass="outputlink">Ваша корзина
                         (

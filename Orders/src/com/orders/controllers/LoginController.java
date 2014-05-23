@@ -5,13 +5,33 @@ import mail.controllers.MailFacade;
 import org.orders.entity.Customer;
 import org.orders.entity.Orders;
 import org.orders.entity.UsersE;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationContext;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+import org.springframework.web.jsf.FacesContextUtils;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -41,6 +61,7 @@ public class LoginController {
     private Customer customer;
     private List<Orders> activeCustOrders, histCustOrders;
 
+    private List<User> activeUsers;
     @EJB
     private com.orders.facade.UserFacade userFacade;
 
@@ -53,12 +74,83 @@ public class LoginController {
     @EJB
     private MailFacade mailFacade;
 
+
     @PostConstruct
     public void init(){
         FacesContext.getCurrentInstance().getExternalContext().getSession(true);
-
+        //System.out.println(sessionRegistry);
     }
+    /*==========SPRING SECURITY Authentication[Issue 24]=============*/
+    public void getActiveUsers(){
+        List<String> usersNamesList = new ArrayList<String>();
 
+        ApplicationContext ac = FacesContextUtils.getWebApplicationContext(FacesContext.getCurrentInstance());
+        SessionRegistry sReg = (SessionRegistry) ac.getBean("sessionRegistry");
+
+        for (Object principal: sReg.getAllPrincipals()) {
+            if (principal instanceof User) {
+                usersNamesList.add(((User) principal).getUsername());
+            }
+        }
+        for(String usr : usersNamesList){
+            addMessage(usr);
+        }
+        addMessage("ok!");
+    }
+    public String doLogin() throws IOException, ServletException {
+        ExternalContext context = FacesContext.getCurrentInstance()
+                .getExternalContext();
+
+        RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
+                .getRequestDispatcher("/j_spring_security_check?j_username=" + username
+                        + "&j_password=" + password);
+
+        dispatcher.forward((ServletRequest) context.getRequest(),
+                (ServletResponse) context.getResponse());
+
+        FacesContext.getCurrentInstance().responseComplete();
+        // It's OK to return null here because Faces is just going to exit.
+
+        return null;
+    }
+    public Boolean isAuthenticated(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+    }
+    public Boolean hasRole(String role){
+        // get security context from thread local
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context == null)
+            return false;
+
+        Authentication authentication = context.getAuthentication();
+        if (authentication == null)
+            return false;
+
+        for (GrantedAuthority auth : authentication.getAuthorities()) {
+            if (role.equals(auth.getAuthority()))
+                return true;
+        }
+        return false;
+    }
+    public String ssUserName(){
+        /*Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return principal.toString();*/
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
+    }
+    public void logout(){
+        username = "";
+        password = "";
+        setMenuTxt("Вход");
+        setMsg("Выход выполнен");
+        setAdmin(false);
+        setAuth(false);
+        curUser = new UsersE();
+        customer = new Customer();
+        addMessage(msg + ": " + isAuth);
+    }
+    /*========================================================================*/
     public void saveUser(){
         _log.info("Сохранение пользователя");
         userFacade.edit(curUser);
@@ -94,7 +186,8 @@ public class LoginController {
 
     }
 
-    public void auth(String login){
+
+    /*public void auth(String login){
         for(UsersE usr : userFacade.findAll()){
             _log.info("Сравниваем: " + usr.getLogin().trim() + "  ___c__   " + login.trim());
 
@@ -129,9 +222,9 @@ public class LoginController {
             }
         }
         addMessage(msg + ": " + isAuth);
-    }
+    }*/
 
-    public void logout(){
+    /*public void logout(){
         username = "";
         password = "";
         setMenuTxt("Вход");
@@ -141,15 +234,15 @@ public class LoginController {
         curUser = new UsersE();
         customer = new Customer();
         addMessage(msg + ": " + isAuth);
-    }
-    public void setRole(String role){
+    }*/
+    /*public void setRole(String role){
        if(role.equals("Admin")){
            setAdmin(true);
        }
         if(role.equals("User")){
             setUser(true);
         }
-    }
+    }*/
 
     public void findCustOrders(){
         _log.info("Идет поиск заказов клиента:" + customer.getName() + " " +customer.getSurname() + "--Юзер: " + customer.getUser());

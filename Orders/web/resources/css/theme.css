@@ -180,7 +180,7 @@ element.style {
     background: lightblue;
 }
 .ui-datatable tr:hover {
-    background: #e3a21a;
+    background: #dbe7ff;
     border-width: 4;
     border-color:black;
     opacity:.9;
