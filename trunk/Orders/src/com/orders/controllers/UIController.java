@@ -46,7 +46,8 @@ public class UIController implements Serializable {
     ItemController itemController;
     @ManagedProperty("#{proposalController}")
     ProposalController proposalController;
-
+    @ManagedProperty("#{loginController}")
+    LoginController loginController;
 
 
     @EJB
@@ -270,6 +271,7 @@ public class UIController implements Serializable {
     }
     public String goPersonalAccount(){
         doAction();
+        loginController.setCurrentUser();
         return "personal" + "?faces-redirect=true";
     }
 
@@ -403,5 +405,13 @@ public class UIController implements Serializable {
 
     public void setProposalController(ProposalController proposalController) {
         this.proposalController = proposalController;
+    }
+
+    public LoginController getLoginController() {
+        return loginController;
+    }
+
+    public void setLoginController(LoginController loginController) {
+        this.loginController = loginController;
     }
 }

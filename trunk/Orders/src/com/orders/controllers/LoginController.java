@@ -139,6 +139,13 @@ public class LoginController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getName();
     }
+    public void setCurrentUser(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String login = ((User)principal).getUsername();
+        _log.info("Поиск пользователя по спрингу :" + login);
+        curUser = userFacade.findUserByLogin(login);
+        customer = customerFacade.findCustomer(login);
+    }
     public void logout(){
         username = "";
         password = "";

@@ -54,7 +54,7 @@
                      selection="#{userController.selected}"
                      >
             <p:ajax event="rowSelect" update=":mainForm:messages, :mainForm:form"
-                    listener="#{userController.addMessage(userController.selected.password)}"/>
+                    listener="#{userController.userSelection()}"/>
 
             <p:column headerText="Код" styleClass="m-text-medium">
                 <h:outputText value="#{data.recid}" />
@@ -76,7 +76,9 @@
 
         </p:dataTable>
         </p:fieldset>
-            <p:fieldset id="form" legend="Форма" rendered="#{uiController.editForm}">
+
+
+            <p:fieldset id="form" legend="Общее" rendered="#{uiController.editForm}">
              <p:panelGrid columns="2" style="border: 0px">
 
                  <h:outputLabel value="Пользователь:" styleClass="m-text-medium"/>
@@ -112,13 +114,27 @@
                                style="font: Segoe; font-size:24px; width: 350px; height: 40px"
                                rendered="#{not uiController.editForm}"  />
 
+                 <h:outputLabel value="Права доступа:" styleClass="m-text-medium"/>
+                 <p:dataTable var="data"
+                              value="#{userController.authoriteses}"
+                              rowKey="#{data.recid}">
+
+                     <p:column headerText="Код" styleClass="m-text-medium">
+                        <h:commandButton value="Создать" actionListener="#{userController.createAuthority}"/>
+                     </p:column>
+                     <p:column headerText="Код" styleClass="m-text-medium">
+                         <h:outputText value="#{data.login}" />
+                     </p:column>
+
+                     <p:column headerText="Логин"  styleClass="m-text-medium">
+                         <p:inputText value="#{data.authority}" />
+                     </p:column>
+
+                 </p:dataTable>
 
              </p:panelGrid>
-
             </p:fieldset>
 
-            <p:commandButton value="GET" action="#{loginController.getActiveUsers()}"
-                             ajax="false" update="@form"/>
         </h:panelGrid>
 
     </h:form>

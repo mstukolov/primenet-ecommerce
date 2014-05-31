@@ -86,6 +86,9 @@ public class BaseEntityAudit{
     @PrePersist
     public void setCreationDate() {
         this.createdAt = new Date();
+        this.createdBy = "Admin";
+        this.updatedAt = new Date();
+        this.updatedBy = "Admin";
     }
 
     /**

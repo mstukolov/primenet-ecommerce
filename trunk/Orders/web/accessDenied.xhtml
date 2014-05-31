@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<h:head>
+
+    <title><ui:insert name="title">Spring security Example</ui:insert></title>
+
+</h:head>
+
+<h:body>
+
+    <h:form id="mainForm">
+        <p:growl id="messages"/>
+        <h:outputLabel value="Доступ запрещен" style="font-size: 44px; background-color: orangered"/>
+
+        <br/>
+        <h:commandLink value="Назад" action="#{uiController.goDashBoard()}"/>
+        <br/>
+        <a href="#{request.contextPath}/j_spring_security_logout">Exit</a>
+    </h:form>
+
+
+
+
+
+</h:body>
+</html>

@@ -19,17 +19,11 @@
     <custom:topbar  inputValue="Личный кабинет"
                     currentPage="personal.xhtml"
     />
-    <p:layout style="min-width:400px;min-height:800px;"  id="layout">
-    <p:layoutUnit position="west" resizable="true" closable="true" collapsible="true" size="300" minSize="40" maxSize="400">
-        <custom:adminMenu/>
 
-    </p:layoutUnit>
-
-    <p:layoutUnit position="center">
     <h:form id="mainForm">
         <p:growl id="messages"/>
          <p:tabView id="tabView">
-         <p:tab id="tab1" title="Обзор">
+         <p:tab id="tab1" title="Персональная информация">
             <p:panelGrid columns="2" style="border: 0px" rendered="true">
             <h:outputLabel value="Пользователь:" styleClass="m-text-medium"/>
             <h:outputText value="#{loginController.curUser.login}"
@@ -148,11 +142,6 @@
 
         </p:tabView>
     </h:form>
-
-    </p:layoutUnit>
-    </p:layout>
-
-
 
 </h:body>
 </html>

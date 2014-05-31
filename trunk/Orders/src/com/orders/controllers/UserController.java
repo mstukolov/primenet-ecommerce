@@ -1,8 +1,10 @@
 package com.orders.controllers;
 
 
+import com.orders.facade.AuthoritesFacade;
 import com.orders.facade.CustomerFacade;
 import com.orders.facade.UserFacade;
+import org.orders.entity.Authorites;
 import org.orders.entity.Customer;
 import org.orders.entity.UsersE;
 
@@ -29,15 +31,15 @@ public class UserController {
     private List<Customer> customerList;
     private Customer selectedCustomer;
     private static Logger log = Logger.getLogger(UserController.class.getName());
+    private List<Authorites>  authoriteses;
 
     @EJB
     private com.orders.facade.UserFacade userFacade;
 
     @EJB
     private CustomerFacade customerFacade;
-
-    @Resource
-    UserTransaction utx;
+    @EJB
+    private AuthoritesFacade authoritesFacade;
 
     public UserController() {
     }
@@ -45,6 +47,11 @@ public class UserController {
     public void init(){
         //FacesContext.getCurrentInstance().getExternalContext().getSession(true);
         usersList = new ArrayList<UsersE>();
+        authoriteses = new ArrayList<Authorites>();
+        if(!authoritesFacade.findAll().isEmpty()){
+            authoriteses = authoritesFacade.findAll();
+        }
+
         if(!userFacade.findAll().isEmpty()){
             usersList = userFacade.findAll();
             selected = usersList.get(0);
@@ -53,6 +60,16 @@ public class UserController {
             customerList = customerFacade.findAll();
             selectedCustomer = customerList.get(0);
         }else{selectedCustomer = new Customer();}
+    }
+    public void userSelection(){
+        authoriteses = authoritesFacade.findAuthoritesByLogin(selected.getLogin());
+    }
+    public void createAuthority(){
+        Authorites authority = new Authorites();
+        authority.setLogin(selected.getLogin());
+        authority.setAuthority("ROLE_USER");
+        authoritesFacade.create(authority);
+        userSelection();
     }
     public void refresh(){
         customerList = customerFacade.findAll();
@@ -181,6 +198,14 @@ public class UserController {
 
     public void setUsersList(List<UsersE> usersList) {
         this.usersList = usersList;
+    }
+
+    public List<Authorites> getAuthoriteses() {
+        return authoriteses;
+    }
+
+    public void setAuthoriteses(List<Authorites> authoriteses) {
+        this.authoriteses = authoriteses;
     }
 
     public void addMessage(String summary) {
