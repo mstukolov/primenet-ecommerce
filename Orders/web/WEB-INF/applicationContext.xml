@@ -17,6 +17,7 @@
               entry-point-ref="authenticationProcessingFilterEntryPoint">
 
         <sec:custom-filter position="FORM_LOGIN_FILTER" ref="usernamePasswordFilter" />
+        <!--<sec:custom-filter before="FILTER_SECURITY_INTERCEPTOR" ref="blacklistFilter"/>-->
 
         <sec:intercept-url pattern="/login.xhtml" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
         <sec:intercept-url pattern="/index.xhtml" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
@@ -61,7 +62,7 @@
     <bean id="usernamePasswordFilter" class=
             "org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
         <property name="sessionAuthenticationStrategy" ref="sas" />
-        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="authenticationManager" ref="authenticationManagerSQL" />
         <property name="authenticationFailureHandler" ref="loginFailureHandler"/>
         <property name="authenticationSuccessHandler" ref="loginSuccessHandler"/>
     </bean>
@@ -74,7 +75,7 @@
     <bean id="loginFailureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" >
         <property name="defaultFailureUrl" value="/auth_c.xhtml?loginError=1" />
     </bean>
-
+    <bean id="blacklistFilter" class="security.BlacklistFilter" />
 
 
     <sec:authentication-manager alias="authenticationManager">
@@ -87,10 +88,9 @@
         </sec:authentication-provider>
     </sec:authentication-manager>
 
-    <!--<sec:authentication-manager alias="authenticationManagerMySQL">
+    <sec:authentication-manager alias="authenticationManagerSQL">
         <sec:authentication-provider>
-            &lt;!&ndash;<sec:password-encoder hash="sha-256" />&ndash;&gt;
-            <sec:jdbc-user-service data-source-ref="dataSourceMySQL"
+        <sec:jdbc-user-service data-source-ref="dataSourceMySQL"
                                    users-by-username-query="
                       select login, password, enabled
                       from users where login=?"
@@ -98,5 +98,12 @@
                      select login, authority from authorites where login =?  "
                     />
         </sec:authentication-provider>
-    </sec:authentication-manager>-->
+    </sec:authentication-manager>
+    <bean id="dataSourceMySQL" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/orders" />
+        <property name="username" value="root" />
+        <property name="password" value="java" />
+    </bean>
+
 </beans>

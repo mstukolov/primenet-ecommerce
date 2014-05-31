@@ -50,7 +50,8 @@
                                styleClass="outputlink"
                                rendered="#{loginController.hasRole('ROLE_ADMIN')
                                                         or loginController.hasRole('ROLE_MANAGER')}"/>
-                <p:commandLink action="#{uiController.goItems()}" value="Личный кабинет"
+                <br/>
+                <p:commandLink action="#{uiController.goPersonalAccount()}" value="Личный кабинет"
                                styleClass="outputlink" rendered="#{loginController.hasRole('ROLE_USER')}"/>
 
                 <div style="padding-bottom: 20px;">

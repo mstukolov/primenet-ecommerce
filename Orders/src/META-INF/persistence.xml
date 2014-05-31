@@ -10,6 +10,8 @@
         <class>attributes.model.Getattributeenumlist</class>
         <class>com.orders.reportmodel.GettopproductEntity</class>
         <class>com.orders.reportmodel.GetsaleslastmonthView</class>
+        <class>org.orders.entity.AuthoritesView</class>
+        <class>org.orders.entity.Authorites</class>
 
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
