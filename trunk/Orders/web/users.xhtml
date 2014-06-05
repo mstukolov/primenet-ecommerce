@@ -47,34 +47,54 @@
             </p:column>
 
             <p:fieldset id="table" legend="Табличная часть" rendered="#{not uiController.editForm}">
-            <p:dataTable var="data"
-                     value="#{userController.usersList}"
-                     selectionMode = "single"
-                     rowKey="#{data.recid}"
-                     selection="#{userController.selected}"
-                     >
-            <p:ajax event="rowSelect" update=":mainForm:messages, :mainForm:form"
-                    listener="#{userController.userSelection()}"/>
 
-            <p:column headerText="Код" styleClass="m-text-medium">
-                <h:outputText value="#{data.recid}" />
-            </p:column>
+            <p:tabView id="tabView" rendered="#{not uiController.editForm}">
+            <p:tab id="tab1" title="Все пользователи">
 
-            <p:column headerText="Логин"  styleClass="m-text-medium">
-                <h:outputText value="#{data.login}" />
-            </p:column>
+                <p:dataTable var="data"
+                         value="#{userController.usersList}"
+                         selectionMode = "single"
+                         rowKey="#{data.recid}"
+                         selection="#{userController.selected}"
+                         >
+                <p:ajax event="rowSelect" update=":mainForm:messages, :mainForm:form"
+                        listener="#{userController.userSelection()}"/>
 
-            <p:column headerText="Права доступа" styleClass="m-text-medium">
-                <h:outputText value="#{data.role}" />
-            </p:column>
-            <p:column headerText="Пароль" styleClass="m-text-medium">
-                <h:outputText value="#{data.password}" />
-            </p:column>
-                <!--<p:column headerText="dataareaid">
-                    <h:outputText value="#{data.dataareaid}" />
-                </p:column>-->
+                <p:column headerText="Код" styleClass="m-text-medium">
+                    <h:outputText value="#{data.recid}" />
+                </p:column>
 
-        </p:dataTable>
+                <p:column headerText="Логин"  styleClass="m-text-medium">
+                    <h:outputText value="#{data.login}" />
+                </p:column>
+
+                <p:column headerText="Права доступа" styleClass="m-text-medium">
+                    <h:outputText value="#{data.role}" />
+                </p:column>
+                <p:column headerText="Пароль" styleClass="m-text-medium">
+                    <h:outputText value="#{data.password}" />
+                </p:column>
+                    <!--<p:column headerText="dataareaid">
+                        <h:outputText value="#{data.dataareaid}" />
+                    </p:column>-->
+                </p:dataTable>
+            </p:tab>
+            <p:tab id="tab2" title="Активные пользователи">
+                <h:commandButton value="Обновить" actionListener="#{loginController.refreshActiveUsers}"/>
+                <p:dataTable var="data"
+                             value="#{loginController.getActiveUsers()}">
+
+                    <p:column headerText="Пользователь" styleClass="m-text-medium">
+                        <h:outputText value="#{data.username}" />
+                    </p:column>
+
+                    <p:column headerText="Права доступа"  styleClass="m-text-medium">
+                        <h:outputText value="#{data.authorities}"/>
+                    </p:column>
+
+                </p:dataTable>
+            </p:tab>
+            </p:tabView>
         </p:fieldset>
 
 
@@ -115,19 +135,28 @@
                                rendered="#{not uiController.editForm}"  />
 
                  <h:outputLabel value="Права доступа:" styleClass="m-text-medium"/>
+                 <br/>
+
+                     <p:commandButton value="Создать" actionListener="#{userController.createAuthority}"
+                                      style="height: 100px"
+                                      update="@form"/>
+
+
                  <p:dataTable var="data"
                               value="#{userController.authoriteses}"
                               rowKey="#{data.recid}">
 
-                     <p:column headerText="Код" styleClass="m-text-medium">
-                        <h:commandButton value="Создать" actionListener="#{userController.createAuthority}"/>
+                     <p:column headerText="Действие" styleClass="m-text-medium">
+                         <p:commandButton value="Удалить" actionListener="#{userController.deleteAuthority(data)}" update="@form"/>
                      </p:column>
                      <p:column headerText="Код" styleClass="m-text-medium">
                          <h:outputText value="#{data.login}" />
                      </p:column>
 
                      <p:column headerText="Логин"  styleClass="m-text-medium">
-                         <p:inputText value="#{data.authority}" />
+                         <p:inputText value="#{data.authority}">
+                            <p:ajax event="change" listener="#{userController.saveAuthority(data)}" update="@form"/>
+                         </p:inputText>
                      </p:column>
 
                  </p:dataTable>
@@ -136,7 +165,7 @@
             </p:fieldset>
 
         </h:panelGrid>
-
+        <h:commandButton value="Save log" actionListener="#{loginController.saveLogevents}" update="@form"/>
     </h:form>
 
 </p:layoutUnit>

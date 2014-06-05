@@ -71,6 +71,14 @@ public class UserController {
         authoritesFacade.create(authority);
         userSelection();
     }
+    public void deleteAuthority(Authorites authority){
+        authoritesFacade.remove(authoritesFacade.find(authority.getRecid()));
+        userSelection();
+    }
+    public void saveAuthority(Authorites authority){
+        authoritesFacade.edit(authority);
+        addMessage("Сохранено");
+    }
     public void refresh(){
         customerList = customerFacade.findAll();
         usersList = userFacade.findAll();
