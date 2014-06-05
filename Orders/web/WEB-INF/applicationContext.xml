@@ -4,12 +4,13 @@
        xmlns:sec="http://www.springframework.org/schema/security"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
         http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
         http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
-        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
+        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- ========================= SECURITY ======================== -->
 
@@ -64,7 +65,7 @@
         <property name="sessionAuthenticationStrategy" ref="sas" />
         <property name="authenticationManager" ref="authenticationManagerSQL" />
         <property name="authenticationFailureHandler" ref="loginFailureHandler"/>
-        <property name="authenticationSuccessHandler" ref="loginSuccessHandler"/>
+        <property name="authenticationSuccessHandler" ref="myAuthenticationSuccessHandler"/>
     </bean>
 
     <!-- Обработчики успешного / неуспешного логина. Стандартные -->
@@ -77,7 +78,30 @@
     </bean>
     <bean id="blacklistFilter" class="security.BlacklistFilter" />
 
+    <!--=============================================-->
+    <context:annotation-config/>
+    <context:component-scan base-package="security"/>
 
+    <bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor">
+        <property name="alwaysUseJndiLookup" value="true" />
+    </bean>
+    <bean class="security.LogeventsFacade" name="logeventsFacadeImpl"/>
+
+    <bean id="entityManagerFactory"  class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="OrdersPU" />
+    </bean>
+    <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+    <!--<tx:annotation-driven/>-->
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+
+    <bean id="myAuthenticationSuccessHandler"
+          class="security.MySimpleUrlAuthenticationSuccessHandler"/>
+
+
+    <!--====================================================-->
     <sec:authentication-manager alias="authenticationManager">
         <sec:authentication-provider>
             <sec:user-service>

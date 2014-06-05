@@ -18,6 +18,8 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.jsf.FacesContextUtils;
+import security.LogeventsFacade;
+import security.LogeventsImpl;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -32,6 +34,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -74,6 +77,8 @@ public class LoginController {
     @EJB
     private MailFacade mailFacade;
 
+    @EJB(name="logeventsFacadeImpl")
+    private LogeventsImpl logeventsFacade;
 
     @PostConstruct
     public void init(){
@@ -81,38 +86,31 @@ public class LoginController {
         //System.out.println(sessionRegistry);
     }
     /*==========SPRING SECURITY Authentication[Issue 24]=============*/
-    public void getActiveUsers(){
-        List<String> usersNamesList = new ArrayList<String>();
 
+    public void saveLogevents(){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        logeventsFacade.logUserEvents((User)principal, "Logged IN", new Date(), "127.0.0.1");
+        addMessage("Лог в базу данных записан!");
+    }
+    public List<User> getActiveUsers(){
+        return activeUsers;
+    }
+    public void refreshActiveUsers(){
+        List<String> usersNamesList = new ArrayList<String>();
+        activeUsers = new ArrayList<User>();
         ApplicationContext ac = FacesContextUtils.getWebApplicationContext(FacesContext.getCurrentInstance());
         SessionRegistry sReg = (SessionRegistry) ac.getBean("sessionRegistry");
 
         for (Object principal: sReg.getAllPrincipals()) {
             if (principal instanceof User) {
+                activeUsers.add(((User) principal));
                 usersNamesList.add(((User) principal).getUsername());
             }
         }
-        for(String usr : usersNamesList){
-            addMessage(usr);
-        }
+
         addMessage("ok!");
     }
-    public String doLogin() throws IOException, ServletException {
-        ExternalContext context = FacesContext.getCurrentInstance()
-                .getExternalContext();
 
-        RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
-                .getRequestDispatcher("/j_spring_security_check?j_username=" + username
-                        + "&j_password=" + password);
-
-        dispatcher.forward((ServletRequest) context.getRequest(),
-                (ServletResponse) context.getResponse());
-
-        FacesContext.getCurrentInstance().responseComplete();
-        // It's OK to return null here because Faces is just going to exit.
-
-        return null;
-    }
     public Boolean isAuthenticated(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication != null && !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
@@ -133,16 +131,10 @@ public class LoginController {
         }
         return false;
     }
-    public String ssUserName(){
-        /*Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return principal.toString();*/
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.getName();
-    }
+
     public void setCurrentUser(){
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String login = ((User)principal).getUsername();
-        _log.info("Поиск пользователя по спрингу :" + login);
         curUser = userFacade.findUserByLogin(login);
         customer = customerFacade.findCustomer(login);
     }

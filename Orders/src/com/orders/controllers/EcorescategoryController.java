@@ -227,7 +227,7 @@ public class EcorescategoryController {
                                 item.setCommand("#{ecorescategoryController.displayList}");
                                 subMenu2.addElement(item);
                                 column.addElement(subMenu2);
-                                log.info("Категория 2 уровня: " + ecorescategory1.getName() + " не имеет детей!");
+                                //log.info("Категория 2 уровня: " + ecorescategory1.getName() + " не имеет детей!");
                              }
                         }
 

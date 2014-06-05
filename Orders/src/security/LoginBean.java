@@ -24,7 +24,6 @@ public class LoginBean {
     private String username;
     private String password;
 
-
     public LoginBean() {
     }
 
