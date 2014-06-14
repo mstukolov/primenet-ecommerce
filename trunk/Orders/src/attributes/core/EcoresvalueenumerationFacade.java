@@ -29,8 +29,6 @@ public class EcoresvalueenumerationFacade extends AbstractFacade<Ecoresvalueenum
     }
     public List<Ecoresvalueenumeration> findTypeEnumerationList(Ecoresattributetype ecoresattributetype){
         try{
-            _log.info("Поиск списка фиксированного типа " + ecoresattributetype.getRecid());
-
             javax.persistence.criteria.CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
             javax.persistence.criteria.CriteriaQuery cq = criteriaBuilder.createQuery(Ecoresvalueenumeration.class);
             Root<Ecoresvalueenumeration> root = cq.from(Ecoresvalueenumeration.class);

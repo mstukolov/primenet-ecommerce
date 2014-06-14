@@ -17,6 +17,32 @@ public class ProductAttributesvaluesView {
     private Timestamp dateTimeValue;
     private Float floatValue;
     private Boolean booleanValue;
+    private boolean inItemCardFill;
+    private boolean inItemCardShow;
+    private boolean isFilterBuild;
+
+    private boolean isEnumeration;
+    private long attributeTypeRecid;
+
+    @javax.persistence.Column(name = "isEnumeration")
+    @Basic
+    public boolean isEnumeration() {
+        return isEnumeration;
+    }
+
+    public void setEnumeration(boolean enumeration) {
+        isEnumeration = enumeration;
+    }
+
+    @javax.persistence.Column(name = "attributeTypeRecid")
+    @Basic
+    public long getAttributeTypeRecid() {
+        return attributeTypeRecid;
+    }
+
+    public void setAttributeTypeRecid(long attributeTypeRecid) {
+        this.attributeTypeRecid = attributeTypeRecid;
+    }
 
     @javax.persistence.Column(name = "recid")
     @Basic
@@ -96,6 +122,35 @@ public class ProductAttributesvaluesView {
 
     public void setBooleanValue(Boolean booleanValue) {
         this.booleanValue = booleanValue;
+    }
+    @javax.persistence.Column(name = "InItemCardFill")
+    @Basic
+    public boolean isInItemCardFill() {
+        return inItemCardFill;
+    }
+
+    public void setInItemCardFill(boolean inItemCardFill) {
+        this.inItemCardFill = inItemCardFill;
+    }
+
+    @javax.persistence.Column(name = "InItemCardShow")
+    @Basic
+    public boolean isInItemCardShow() {
+        return inItemCardShow;
+    }
+
+    public void setInItemCardShow(boolean inItemCardShow) {
+        this.inItemCardShow = inItemCardShow;
+    }
+
+    @javax.persistence.Column(name = "IsFilterBuild")
+    @Basic
+    public boolean isFilterBuild() {
+        return isFilterBuild;
+    }
+
+    public void setFilterBuild(boolean filterBuild) {
+        isFilterBuild = filterBuild;
     }
 
     @Override

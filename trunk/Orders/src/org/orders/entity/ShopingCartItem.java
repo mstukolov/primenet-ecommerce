@@ -7,9 +7,19 @@ public class ShopingCartItem {
     private Double Qty;
     private Double price;
     private Double Amount;
+    private String configuration;
+
 
     public ShopingCartItem() {
         this.cartItemId = Math.random();
+    }
+
+    public String getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(String configuration) {
+        this.configuration = configuration;
     }
 
     public Double getCartItemId() {

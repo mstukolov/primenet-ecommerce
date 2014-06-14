@@ -5,15 +5,18 @@ import org.orders.entity.BaseEntityAudit;
 import javax.persistence.*;
 
 @Entity
-@javax.persistence.Table(name = "Ecoresattribute", schema = "", catalog = "orders")
+@Table(name = "Ecoresattribute", schema = "", catalog = "orders")
 @AttributeOverride(name = "recid", column = @Column(name = "recid",
         nullable = false, columnDefinition = "BIGINT UNSIGNED"))
 public class Ecoresattribute extends BaseEntityAudit {
     private String attributeName;
     private long attributeGroupRef;
     private long attributeTypeRef;
+    private boolean inItemCardFill;
+    private boolean inItemCardShow;
+    private boolean isFilterBuild;
 
-    @javax.persistence.Column(name = "attributeName")
+    @Column(name = "attributeName")
     @Basic
     public String getAttributeName() {
         return attributeName;
@@ -23,7 +26,7 @@ public class Ecoresattribute extends BaseEntityAudit {
         this.attributeName = attributeName;
     }
 
-    @javax.persistence.Column(name = "attributeGroupRef")
+    @Column(name = "attributeGroupRef")
     @Basic
     public long getAttributeGroupRef() {
         return attributeGroupRef;
@@ -33,7 +36,7 @@ public class Ecoresattribute extends BaseEntityAudit {
         this.attributeGroupRef = attributeGroupRef;
     }
 
-    @javax.persistence.Column(name = "attributeTypeRef")
+    @Column(name = "attributeTypeRef")
     @Basic
     public long getAttributeTypeRef() {
         return attributeTypeRef;
@@ -66,5 +69,35 @@ public class Ecoresattribute extends BaseEntityAudit {
         result = 31 * result + (int) (attributeGroupRef ^ (attributeGroupRef >>> 32));
         result = 31 * result + (int) (attributeTypeRef ^ (attributeTypeRef >>> 32));
         return result;
+    }
+
+    @Column(name = "InItemCardFill")
+    @Basic
+    public boolean isInItemCardFill() {
+        return inItemCardFill;
+    }
+
+    public void setInItemCardFill(boolean inItemCardFill) {
+        this.inItemCardFill = inItemCardFill;
+    }
+
+    @Column(name = "InItemCardShow")
+    @Basic
+    public boolean isInItemCardShow() {
+        return inItemCardShow;
+    }
+
+    public void setInItemCardShow(boolean inItemCardShow) {
+        this.inItemCardShow = inItemCardShow;
+    }
+
+    @Column(name = "IsFilterBuild")
+    @Basic
+    public boolean isFilterBuild() {
+        return isFilterBuild;
+    }
+
+    public void setFilterBuild(boolean filterBuild) {
+        isFilterBuild = filterBuild;
     }
 }

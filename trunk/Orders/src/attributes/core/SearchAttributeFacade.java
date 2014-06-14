@@ -76,12 +76,10 @@ public class SearchAttributeFacade extends AbstractFacade<ProductAttributesvalue
 
             if(searchAttributeValues.containsKey((String) tuple.get("ATTRIBUTE")))
                 {
-                    _log.info("Атрибут в выборке присутствует: " + (String) tuple.get("ATTRIBUTE"));
                     searchAttributeValues.get((String) tuple.get("ATTRIBUTE")).add(valueCount);
                 }
             else
                 {
-                    _log.info("Атрибут в выборке нет, создается новый список: " + (String) tuple.get("ATTRIBUTE"));
                     List<AttributeValueCount> list = new ArrayList<AttributeValueCount>();
                     list.add(valueCount);
                     searchAttributeValues.put((String) tuple.get("ATTRIBUTE"), list);
@@ -105,7 +103,6 @@ public class SearchAttributeFacade extends AbstractFacade<ProductAttributesvalue
             //Формирование списка продуктов для передачи в запрос
             List<Predicate> predicates = new ArrayList<Predicate>();
             for(Long product : products){
-                _log.info("В фильтр добавлен продукт: " + product);
                 predicates.add(criteriaBuilder.equal(root.get("productRef"), product));
             }
             cq.multiselect(attributeName.alias("ATTRIBUTE"), textValue.alias("VALUE"), count.alias("CNT"));
@@ -136,14 +133,27 @@ public class SearchAttributeFacade extends AbstractFacade<ProductAttributesvalue
             return null;
         }
     }
-    public List<ProductAttributesvaluesView> findProductAttributeValues(Long product){
+    //[Issue 34]	Добавление возможности выбрать атрибут в карточке товара
+    public List<ProductAttributesvaluesView> findProductAttributeValues(Long _recId,
+                                                                        Boolean _inItemCardShow,
+                                                                        Boolean _isFilterBuild,
+                                                                        Boolean _inItemCardFill
+                                                                        ){
         try{
-            _log.info("Поиск значений атрибутов продукта: " + product);
             javax.persistence.criteria.CriteriaBuilder criteriaBuilder = getEntityManager().getCriteriaBuilder();
             javax.persistence.criteria.CriteriaQuery cq = criteriaBuilder.createQuery(ProductAttributesvaluesView.class);
             Root<ProductAttributesvaluesView> root = cq.from(ProductAttributesvaluesView.class);
-            Predicate predicate = criteriaBuilder.equal(root.get("productRef"), product);
-            cq.select(root).where(predicate);
+            Predicate predicate = criteriaBuilder.equal(root.get("productRef"), _recId);
+            Predicate InItemCardShow =  criteriaBuilder.equal(root.get("inItemCardShow"), _inItemCardShow);
+            Predicate IsFilterBuild =  criteriaBuilder.equal(root.get("isFilterBuild"), _isFilterBuild);
+            Predicate InItemCardFill =  criteriaBuilder.equal(root.get("inItemCardFill"), _inItemCardFill);
+
+
+            cq.select(root).where(predicate,
+                                    criteriaBuilder.and(InItemCardShow),
+                                    criteriaBuilder.and(IsFilterBuild),
+                                    criteriaBuilder.and(InItemCardFill));
+
             return getEntityManager().createQuery(cq).getResultList();
         }catch(NoResultException e) {
             return null;

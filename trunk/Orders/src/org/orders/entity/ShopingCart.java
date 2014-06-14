@@ -2,7 +2,9 @@ package org.orders.entity;
 
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 public class ShopingCart {
@@ -20,11 +22,21 @@ public class ShopingCart {
         if(shopingCartItemList.isEmpty()) {return true;}
         else return false;
     }
-    public void insertItem(Proposal proposal, Double orderQty){
+    public void insertItem(Proposal proposal, Double orderQty, Map<String, String> _configuration){
         shopingCartItem = new ShopingCartItem();
         shopingCartItem.setProposal(proposal);
         shopingCartItem.setQty(orderQty);
         shopingCartItem.setAmount(orderQty * proposal.getPrice());
+        //[Issue 34]	Добавление возможности выбрать атрибут в карточке товара
+            Iterator iterator = _configuration.entrySet().iterator();
+            String configuration = "";
+            while (iterator.hasNext()) {
+                Map.Entry pairs = (Map.Entry)iterator.next();
+                configuration += pairs.getKey() + " = " + pairs.getValue() + ";";
+                //it.remove(); // avoids a ConcurrentModificationException
+            }
+            shopingCartItem.setConfiguration(configuration);
+
         shopingCartItemList.add(shopingCartItem);
         calcBalance();
     }
