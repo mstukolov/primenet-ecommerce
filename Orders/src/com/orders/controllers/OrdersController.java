@@ -166,6 +166,10 @@ public class OrdersController {
                order.setBlocked(item.getProposal().getBlocked());
                order.setFullFilled(item.getProposal().getFullFilled());
                order.setPromo(item.getProposal().getPromo());
+
+               //[Issue 34]	Указание конфигурация продукта(Определение размера, веса и т.д.)
+               order.setConfiguration(item.getConfiguration());
+
                ordersFacade.create(order);
 
            }

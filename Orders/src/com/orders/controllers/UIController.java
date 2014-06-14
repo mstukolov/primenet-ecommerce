@@ -255,6 +255,12 @@ public class UIController implements Serializable {
         itemCardController.setCurrent(proposal);
         itemCardController.calcRating();
         itemCardController.buildRelevantProposals(proposal);
+
+        //[Issue 34]	Добавление возможности выбрать атрибут в карточке товара
+        itemCardController.buildProductAttributesToFill(proposal);
+        itemCardController.buildProductAttributesToShow(proposal);
+        //=============================================================
+
         return "itemcard_c" + "?faces-redirect=true";
     }
     public String goBonus(){

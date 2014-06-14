@@ -27,6 +27,17 @@ public class Orders extends BaseEntityAudit{
     private Boolean promo;
     private String description;
     private String customer;
+    private String configuration;
+
+    @javax.persistence.Column(name = "configuration")
+    @Basic
+    public String getConfiguration() {
+        return configuration;
+    }
+
+    public void setConfiguration(String configuration) {
+        this.configuration = configuration;
+    }
 
     @Column(name = "processing_at")
     @Temporal(TemporalType.TIMESTAMP)

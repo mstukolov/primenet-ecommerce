@@ -1,5 +1,11 @@
 package com.orders.controllers;
 
+import attributes.core.AttributeValueCount;
+import attributes.core.EcoresattributetypeFacade;
+import attributes.core.EcoresvalueenumerationFacade;
+import attributes.core.SearchAttributeFacade;
+import attributes.model.Ecoresvalueenumeration;
+import attributes.model.ProductAttributesvaluesView;
 import com.orders.facade.ProductFacade;
 import com.orders.facade.ProposalFacade;
 import com.orders.facade.RelevantprodFacade;
@@ -10,15 +16,19 @@ import org.primefaces.model.StreamedContent;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.PhaseId;
+import javax.faces.event.ValueChangeEvent;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @ManagedBean(name="itemCardController")
@@ -32,12 +42,24 @@ public class ItemCardController {
     private  List<StreamedContent> productImages;
     private Integer rating;
 
+    //[Issue 34]	Добавление возможности выбрать атрибут в карточке товара
+    private List<ProductAttributesvaluesView> currentProductAttributesValues, currentProductAttributesValueFill;
+    private String currentProductAttributesVariables;
+    private Map<String, List<Ecoresvalueenumeration>> fillAttributeValues;
+    private Map<String, String>  productConfiguration;
+    //=====================================================================
     @EJB
     private ProductFacade productFacade;
     @EJB
     private ProposalFacade proposalFacade;
     @EJB
     private RelevantprodFacade relevantprodFacade;
+    @EJB
+    private SearchAttributeFacade searchAttributeFacade;
+    @EJB
+    private EcoresattributetypeFacade ecoresattributetypeFacade;
+    @EJB
+    private EcoresvalueenumerationFacade ecoresvalueenumerationFacade;
 
     @ManagedProperty("#{proposalController}")
     ProposalController proposalController;
@@ -59,6 +81,10 @@ public class ItemCardController {
         imgPos.add(4);
 
         productImages = new ArrayList<StreamedContent>();
+        currentProductAttributesValues = new ArrayList<ProductAttributesvaluesView>();
+        currentProductAttributesValueFill = new ArrayList<ProductAttributesvaluesView>();
+        fillAttributeValues = new HashMap<String, List<Ecoresvalueenumeration>>();
+        productConfiguration = new HashMap<String, String>();
 
         rating = 0;
     }
@@ -67,6 +93,31 @@ public class ItemCardController {
         rating = Math.round((current.getQty() * 5)/current.getStartQty());
     }
 
+    //[Issue 34]	Добавление возможности выбрать атрибут в карточке товара
+    public void buildProductAttributesToShow(Proposal proposal){
+
+        currentProductAttributesValues = searchAttributeFacade.findProductAttributeValues(proposal.getProduct(), true, false, false);
+        currentProductAttributesValueFill = searchAttributeFacade.findProductAttributeValues(proposal.getProduct(), true, false, true);
+
+        for(ProductAttributesvaluesView attributesvalue : currentProductAttributesValueFill){
+            if(attributesvalue.isEnumeration() == true){
+               List<Ecoresvalueenumeration> values = new ArrayList();
+               values = ecoresvalueenumerationFacade.findTypeEnumerationList(ecoresattributetypeFacade.find(attributesvalue.getAttributeTypeRecid()));
+
+                fillAttributeValues.put(attributesvalue.getAttributeName(), values);
+            }
+        }
+    }
+    public void setProductAttributeValue(String _key, String _value){
+        productConfiguration.put(_key, _value);
+        _log.info("Для продукта установлено: ");
+    }
+
+    public void buildProductAttributesToFill(Proposal proposal){
+               // currentProductAttributesValueFill = searchAttributeFacade.findProductAttributeValues(proposal.getProduct(), true, false, true);
+    }
+
+    //==================================================================
     public void buildRelevantProposals(Proposal proposal){
         relevantPropolsals = relevantprodFacade.findRelevantProposals(proposal, relevantPropolsals);
     }
@@ -192,5 +243,50 @@ public class ItemCardController {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+    }
+
+    public List<ProductAttributesvaluesView> getCurrentProductAttributesValues() {
+        return currentProductAttributesValues;
+    }
+
+    public void setCurrentProductAttributesValues(List<ProductAttributesvaluesView> currentProductAttributesValues) {
+        this.currentProductAttributesValues = currentProductAttributesValues;
+    }
+
+    public String getCurrentProductAttributesVariables() {
+        return currentProductAttributesVariables;
+    }
+
+    public void setCurrentProductAttributesVariables(String currentProductAttributesVariables) {
+        this.currentProductAttributesVariables = currentProductAttributesVariables;
+    }
+
+    public List<ProductAttributesvaluesView> getCurrentProductAttributesValueFill() {
+        return currentProductAttributesValueFill;
+    }
+
+    public void setCurrentProductAttributesValueFill(List<ProductAttributesvaluesView> currentProductAttributesValueFill) {
+        this.currentProductAttributesValueFill = currentProductAttributesValueFill;
+    }
+
+    public Map<String, List<Ecoresvalueenumeration>> getFillAttributeValues() {
+        return fillAttributeValues;
+    }
+
+    public void setFillAttributeValues(Map<String, List<Ecoresvalueenumeration>> fillAttributeValues) {
+        this.fillAttributeValues = fillAttributeValues;
+    }
+
+    public Map<String, String> getProductConfiguration() {
+        return productConfiguration;
+    }
+
+    public void setProductConfiguration(Map<String, String> productConfiguration) {
+        this.productConfiguration = productConfiguration;
+    }
+
+    public void addMessage(String summary) {
+        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 }

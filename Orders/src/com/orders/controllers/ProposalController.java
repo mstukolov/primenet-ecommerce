@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @ManagedBean(name="proposalController")
@@ -128,7 +129,7 @@ public class ProposalController implements Serializable {
             _log.info("Фильтр пустой");
         } else {
             for(Proposal pr : proposals){
-               _log.info("Фильтр содержит: " + pr.getRecid());
+               //_log.info("Фильтр содержит: " + pr.getRecid());
             }
         }
         proposalList.addAll(proposals);
@@ -235,12 +236,12 @@ public class ProposalController implements Serializable {
         this.selectedProposal = selectedProposal;
     }
 
-    public void addItemShoppingCart(Proposal proposal){
+    public void addItemShoppingCart(Proposal _proposal, Map<String, String> _configuration){
 
-            if(proposal.getQty() >= proposal.getMinQty()){
-                shopingCart.insertItem(proposal, proposal.getMinQty().doubleValue());
+            if(_proposal.getQty() >= _proposal.getMinQty()){
+                shopingCart.insertItem(_proposal, _proposal.getMinQty().doubleValue(), _configuration);
                 selectedShopingCartItem = shopingCart.getLastItem();
-                addMessage("Добавлено в корзину:" + proposal.getQty());
+                addMessage("Добавлено в корзину:" + _proposal.getQty());
             }else{
                 addMessage("Количество меньше чем минимальное по предложению");
             }
@@ -282,7 +283,7 @@ public class ProposalController implements Serializable {
     }
     public void onProposalDrop(DragDropEvent ddEvent) {
         Proposal proposal = ((Proposal) ddEvent.getData());
-        addItemShoppingCart(proposal);
+        //addItemShoppingCart(proposal);
     }
     public void addMessage(String summary) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, summary,  null);

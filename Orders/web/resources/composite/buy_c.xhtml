@@ -28,7 +28,7 @@
                 <p:commandButton value="Оформить заказ" styleClass="commandbutton"
                                  action="#{ordersController.Checkout(cc.attrs.shoppingCart)}"
                                  update="@all">
-                    <f:param name="isauth" value="#{loginController.auth}" />
+                    <f:param name="isauth" value="#{loginBean.isAuthenticated()}" />
                 </p:commandButton>
 
                 <p:commandButton value="Очистить корзину"

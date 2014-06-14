@@ -52,9 +52,15 @@
                                 <p:column headerText="Артикул" style="width: 10%">
                                     <h:outputText value="#{data.proposal.product}" styleClass="outputlink"/>
                                 </p:column>
+
                                 <p:column headerText="Название" style="width: 40%">
                                     <h:outputText value="#{proposalController.findProduct(data.proposal.product).name}" styleClass="outputlink"/>
                                 </p:column>
+
+                                <p:column headerText="Конфигурация" style="width: 10%">
+                                    <h:outputText value="#{data.configuration}" styleClass="outputlink"/>
+                                </p:column>
+
                                 <p:column headerText="цена" style="width: 150px">
                                     <h:outputText value="#{data.proposal.price}" styleClass="outputlink">
                                         <f:convertNumber groupingUsed="true" minFractionDigits="2"/>

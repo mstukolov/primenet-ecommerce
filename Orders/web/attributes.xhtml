@@ -94,6 +94,21 @@
                             </p:column>
                         </p:selectOneMenu>
                         </h:form>
+                        <h:outputLabel value="Участвует в построении фильтра: " styleClass="m-text-medium"/>
+                        <p:selectBooleanCheckbox value="#{attributesController.ecoresattribute.filterBuild}">
+                            <p:ajax event="change" listener="#{attributesController.saveEcoresattribute()}" update="messages"/>
+                        </p:selectBooleanCheckbox>
+
+                        <h:outputLabel value="Показывать в карточке продукта: " styleClass="m-text-medium"/>
+                        <p:selectBooleanCheckbox value="#{attributesController.ecoresattribute.inItemCardShow}">
+                            <p:ajax event="change" listener="#{attributesController.saveEcoresattribute()}" update="messages"/>
+                        </p:selectBooleanCheckbox>
+
+                        <h:outputLabel value="Определять в карточке продукта: " styleClass="m-text-medium"/>
+                        <p:selectBooleanCheckbox value="#{attributesController.ecoresattribute.inItemCardFill}">
+                            <p:ajax event="change" listener="#{attributesController.saveEcoresattribute()}" update="messages"/>
+                        </p:selectBooleanCheckbox>
+
                     </p:panelGrid>
                 </p:fieldset>
             </p:panelGrid>

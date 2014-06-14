@@ -92,10 +92,56 @@
                             <p:inputTextarea value="#{itemCardController.current.description}"  readonly="true"  rendered="false"
                                              style="font-size:18px; width: 480px;" styleClass="outputlink"/>
 
+                            <!--[Issue 34]	Добавление возможности выбрать атрибут в карточке товара-->
+
+                            <ui:repeat value="#{itemCardController.fillAttributeValues.entrySet().toArray()}" var="entry" varStatus="itemIndex">
+                                <br/>
+                                <h:outputLabel value="#{entry.key}:" styleClass="groupattributelink"/>
+                                <br/>
+                                <div id="dvc#{itemIndex.index}">
+                                <ui:repeat value="#{entry.value}" var="entryValue">
+                                     <p:commandButton value="#{entryValue.textValue}"
+                                                         action="#{itemCardController.setProductAttributeValue(entry.key, entryValue.textValue)}"
+                                                         onclick="refreshButtons(this);"
+                                                         styleClass="configurationButtons#{itemIndex.index}" style="background-color: #523833"/>
+                                </ui:repeat>
+                                </div>
+                                <script type="text/javascript">
+                                    function refreshButtons(element) {
+                                        var parent = element.parentNode;
+                                        var children = parent.childNodes;
+
+                                        for(var i=0;i&lt;children.length; i++) {
+                                            var child = children[i];
+                                            if(child.id != null) {child.style.background = "#523833";}
+                                        }
+                                        element.style.backgroundColor='coral';
+                                    }
+                                </script>
+
+                            </ui:repeat>
+
+                            <h:outputLabel value="Характеристики товара: " styleClass="groupattributelink" />
+
+                            <p:dataGrid id="productFeatures"
+                                        var="features"
+                                        value="#{itemCardController.currentProductAttributesValues}"
+                                        columns="1"
+                                        rows="12">
+
+                                <p:column>
+                                    <h:panelGrid columns="2">
+
+                                        <h:outputText value="#{features.attributeName}: " styleClass="outputlink"/>
+                                        <h:outputText value="#{features.textValue} " styleClass="outputlink"/>
+                                    </h:panelGrid>
+                                </p:column>
+
+                            </p:dataGrid>
 
 
                             <p:commandButton value="КУПИТЬ"
-                                             action="#{proposalController.addItemShoppingCart(itemCardController.current)}"
+                                             action="#{proposalController.addItemShoppingCart(itemCardController.current, itemCardController.productConfiguration)}"
                                              update="@all"
                                              style="height: 75px; width: 450px;float:left;margin-top: 5%"/>
 
