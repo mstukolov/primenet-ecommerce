@@ -109,6 +109,7 @@
                         </f:facet>
                         <h:outputText value="#{data.product}" />
                     </p:column>
+
                     <p:column headerText="Название продукта" style="width: 15%" rendered="false">
                         <f:facet name="header">
                             <h:outputText value="Название продукта" />
@@ -188,6 +189,12 @@
                     <h:outputLabel value="Имя продукта:" styleClass="m-text-medium"/>
                     <h:outputLabel value="#{proposalController.findProduct(ordersController.selectedOrders[0].product).name}" readonly="true"
                                   style="font: Segoe; font-size:24px; width: 350px; height: 40px"/>
+
+                    <h:outputLabel value="Конфигурация продукта:" styleClass="m-text-medium"/>
+                    <p:inputText  value="#{ordersController.selectedOrders[0].configuration}" readonly="false"
+                                  style="font: Segoe; font-size:24px; width: 350px; height: 40px">
+                        <p:ajax event="change" listener="#{ordersController.save(0)}" update=":mainForm:messages, :mainForm:form"/>
+                    </p:inputText>
 
                     <h:outputLabel value="Кол-во:" styleClass="m-text-medium"/>
                     <p:inputText  value="#{ordersController.selectedOrders[0].qty}" readonly="false"
