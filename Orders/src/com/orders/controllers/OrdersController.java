@@ -4,6 +4,7 @@ import com.orders.facade.OrdersFacade;
 import mail.controllers.MailFacade;
 import org.datamodel.OrderDataModel;
 import org.orders.entity.*;
+import security.LoginBean;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -42,6 +43,8 @@ public class OrdersController {
     UserController userController;
     @ManagedProperty("#{loginController}")
     LoginController loginController;
+    @ManagedProperty("#{loginBean}")
+    LoginBean loginBean;
     @ManagedProperty("#{uiController}")
     UIController uiController;
 
@@ -137,7 +140,7 @@ public class OrdersController {
     }
     //Создание строк заказов из корзины покупателя на форме shop.xhtml
     public void addOrders(ShopingCart shopingCart){
-        if(loginController.getCustomer().getUser() != null){
+        if(loginBean.isAuthenticated() == true){
             _log.info("Началось создание строк заказов.....");
 
             //[Issue 21]{Добавить общий группирующий признак строк заказов: Код заказа(SalesID)}
@@ -153,9 +156,9 @@ public class OrdersController {
                 /*[Issue 27]	Форма для личного кабинета + Профиль доставки*/
                 order.setDeliveryTerms(shopingCart.getDeliveryOptions().toString());
 
-                       //Заглушка до создания аутентификации
-                       order.setCreatedBy(loginController.getCustomer().getUser());
-                       order.setCustomer(loginController.getCustomer().getUser());
+                       //Запись данных о пользователе из контекста аутентификации Spring Security
+                       order.setCreatedBy(loginBean.getUsername());
+                       order.setCustomer(loginBean.getUsername());
                        //---------------
 
                order.setQty(item.getQty());
@@ -347,6 +350,14 @@ public class OrdersController {
 
     public void setDeliveryOptions(SelectItem[] deliveryOptions) {
         this.deliveryOptions = deliveryOptions;
+    }
+
+    public LoginBean getLoginBean() {
+        return loginBean;
+    }
+
+    public void setLoginBean(LoginBean loginBean) {
+        this.loginBean = loginBean;
     }
 
     public void addMessage(String summary) {
