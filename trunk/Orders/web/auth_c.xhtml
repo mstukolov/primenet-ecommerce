@@ -45,9 +45,13 @@
                             <p:password id="pwd1" value="#{loginController.pwd}" styleClass="inputform"/>
 
 
-                            <p:commandButton value="Регистрация" action="#{loginController.createNewCustomer()}"
-                                             styleClass="commandButton" update="@form" style="width: 150px;"/>
-
+                            <p:commandButton value="Регистрация"
+                                             actionListener="#{loginController.createNewCustomer()}"
+                                             action="shopcart_c"
+                                             styleClass="commandButton"
+                                             ajax="false"
+                                             immediate="false"
+                                             style="width: 150px;"/>
 
                         </h:panelGrid>
 
@@ -60,9 +64,11 @@
                                 <h:inputSecret id="j_password"
                                                value="#{loginBean.password}"
                                                required="false" styleClass="inputform"/>
-                                <p:commandButton action="#{loginBean.doLogin}" value="Войти"
+                                <p:commandButton action="#{loginBean.doLogin}"
+                                                 value="Войти"
                                                  ajax="false"
-                                                 styleClass="commandButton" update="@form" style="width: 150px;"/>
+                                                 styleClass="commandButton"
+                                                 style="width: 150px;"/>
                                 <h:messages style="color: red;"/>
                             </h:panelGrid>
 

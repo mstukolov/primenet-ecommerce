@@ -144,6 +144,7 @@ public class EcorescategoryController {
             searchAttributeFacade.clearProducts();
             filterChildren((Long) _arg);
             if(!searchproposals.isEmpty())searchAttributes = searchAttributeFacade.buildSearchAttributes();
+            log.info(String.valueOf(searchAttributes.size()));
         } else if(_arg instanceof String){
             log.info("Поиск продуктов по АТРИБУТУ: " + _arg);
             for(ProductAttributesvaluesView view : searchAttributeFacade.findProductByAttributeSelection(_arg)){

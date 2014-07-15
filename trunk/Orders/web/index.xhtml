@@ -9,6 +9,8 @@
 
     <title><ui:insert name="title">Orders</ui:insert></title>
     <link rel="stylesheet" href="resources/css/css.css" />
+    <script type="text/javascript"
+            src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.6/angular.min.js"></script>
 </h:head>
 
 <h:body style="LEFTMARGIN:0; TOPMARGIN:0; MARGINWIDTH:0; MARGINHEIGHT:0;">
@@ -16,7 +18,6 @@
   <p:growl id="messages"/>
     <div id="globalwrapperLocation" class="container_12 marginbottom">
         <div id="headerwrapperLocation" class="container_12">
-
             <custom:topbar_c/>
             <div id="carouselLocation" class="grid_12 marginbottom">
                 <p:carousel id="basicCarousel" value="#{carouselController.carouselList}" var="item"

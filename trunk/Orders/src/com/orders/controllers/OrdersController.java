@@ -92,6 +92,10 @@ public class OrdersController {
         //refreshOrders(0);
         addMessage("Заказ сохранен");
     }
+    public void refreshCustomerOrders(String _login){
+        activeCustOrders = ordersFacade.findCustOrders(_login);
+        addMessage("Заказы обновлены");
+    }
     public void refreshOrders(Integer mode){
         orderList.clear();
         orderList = ordersFacade.findAll();
@@ -169,7 +173,7 @@ public class OrdersController {
                order.setBlocked(item.getProposal().getBlocked());
                order.setFullFilled(item.getProposal().getFullFilled());
                order.setPromo(item.getProposal().getPromo());
-
+               order.setProcessingAt(new Date());
                //[Issue 34]	Указание конфигурация продукта(Определение размера, веса и т.д.)
                order.setConfiguration(item.getConfiguration());
 

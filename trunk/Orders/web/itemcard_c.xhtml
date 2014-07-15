@@ -60,7 +60,7 @@
                         </p:graphicImage>
 
                             <p:lightBox iframe="true" width="710" height="590" style="margin-left: 5%; margin-top: 5%;">
-                                <h:outputLink value="http://localhost:8080/Orders_war_exploded/faces/imageslider.xhtml">
+                                <h:outputLink value="#{root}/faces/imageslider.xhtml">
                                     <ui:repeat value="#{itemCardController.imgPos}" var="images">
                                             <p:graphicImage value="#{itemCardController.getProdImage(0)}"
                                                             style="height: 50px; width: 60px;margin-right: 2%">

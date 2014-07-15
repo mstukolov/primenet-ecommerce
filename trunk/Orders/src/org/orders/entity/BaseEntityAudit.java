@@ -7,7 +7,7 @@ import java.util.Date;
 public class BaseEntityAudit{
 
     @Id
-    @TableGenerator(name="TABLEGEN", table="ORDERS.SEQUENCE_TABLE", pkColumnName="SEQ_NAME",
+    @TableGenerator(name="TABLEGEN", table="sequence_table", pkColumnName="SEQ_NAME",
             valueColumnName="COUNT", pkColumnValue="COMP_SEQ")
     @GeneratedValue(strategy=GenerationType.TABLE, generator="TABLEGEN")
     @javax.persistence.Column(name = "recid")

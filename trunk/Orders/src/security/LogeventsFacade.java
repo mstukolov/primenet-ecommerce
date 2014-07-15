@@ -37,7 +37,8 @@ public class LogeventsFacade extends AbstractFacade<Logevents> implements Logeve
     @Override
     public void logUserEvents(User user, String action, Date date, String ipAddress){
         // JDBC driver name and database URL
-        final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+
+        //final String DB_URL = "jdbc:mysql://mysql-env-4411800.jelasticloud.com:3306/orders";
         final String DB_URL = "jdbc:mysql://localhost:3306/orders";
         // Database credentials
         final String USER = "root";

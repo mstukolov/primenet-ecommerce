@@ -100,13 +100,16 @@ public class SearchAttributeFacade extends AbstractFacade<ProductAttributesvalue
             Expression<Long> productRef = root.get("productRef");
             Expression<Long> count = criteriaBuilder.count(productRef);
 
+            Predicate isFilterBuild = criteriaBuilder.equal(root.get("isFilterBuild"), true);
+
             //Формирование списка продуктов для передачи в запрос
             List<Predicate> predicates = new ArrayList<Predicate>();
             for(Long product : products){
                 predicates.add(criteriaBuilder.equal(root.get("productRef"), product));
             }
+
             cq.multiselect(attributeName.alias("ATTRIBUTE"), textValue.alias("VALUE"), count.alias("CNT"));
-            cq.where(criteriaBuilder.or(predicates.toArray(new Predicate[]{})));
+            cq.where(criteriaBuilder.or(predicates.toArray(new Predicate[]{})), criteriaBuilder.and(isFilterBuild));
             cq.groupBy(textValue);
             cq.orderBy(criteriaBuilder.desc(count));
             return getEntityManager().createQuery(cq).getResultList();

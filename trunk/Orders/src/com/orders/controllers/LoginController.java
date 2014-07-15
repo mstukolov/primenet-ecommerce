@@ -1,7 +1,9 @@
 package com.orders.controllers;
 
+import com.orders.facade.AuthoritesFacade;
 import com.orders.facade.OrdersFacade;
 import mail.controllers.MailFacade;
+import org.orders.entity.Authorites;
 import org.orders.entity.Customer;
 import org.orders.entity.Orders;
 import org.orders.entity.UsersE;
@@ -20,11 +22,13 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import org.springframework.web.jsf.FacesContextUtils;
 import security.LogeventsFacade;
 import security.LogeventsImpl;
+import security.LoginBean;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -56,6 +60,8 @@ public class LoginController {
     private String warning;
 
     private UsersE curUser;
+    private Authorites authorites;
+
     private Boolean isAuth = false;
     private String msg;
     private String menuTxt = "Вход";
@@ -77,8 +83,14 @@ public class LoginController {
     @EJB
     private MailFacade mailFacade;
 
+    @EJB
+    private AuthoritesFacade authoritesFacade;
+
     @EJB(name="logeventsFacadeImpl")
     private LogeventsImpl logeventsFacade;
+
+    @ManagedProperty("#{loginBean}")
+    LoginBean loginBean;
 
     @PostConstruct
     public void init(){
@@ -156,7 +168,7 @@ public class LoginController {
         curUser = userFacade.find(curUser.getRecid());
         this.addMessage("Пользователь сохранен!");
     }
-    public void createNewCustomer(){
+    public void createNewCustomer() throws IOException, ServletException {
         customer = new Customer();
         customer.setSurname(this.surname);
         customer.setName(this.name);
@@ -172,12 +184,25 @@ public class LoginController {
         curUser.setRole("client");
         curUser.setCreatedBy(customer.getUser());
         curUser.setUpdatedBy(customer.getUser());
+        curUser.setEnabled(true);
+
+        authorites = new Authorites();
+        authorites.setLogin(customer.getUser());
+        authorites.setAuthority("ROLE_USER");
+
+
         try {
             customerFacade.create(customer);
             userFacade.create(curUser);
+            authoritesFacade.create(authorites);
+
             warning = "Пользователь сохранен";
             addMessage("Регистрация прошла успешно!");
             mailFacade.sendRegistrationInfo(customer);
+            //[Issue 31] Автоматический вход в систему после регистрации нового пользователя
+                loginBean.doLogin(curUser.getLogin(), curUser.getPassword());
+                loginBean.setUsername(curUser.getLogin());
+            //=========================================
         }catch (Exception ex){
             warning = "Пользователь существует";
             addMessage("Пользователь существует");
@@ -402,6 +427,14 @@ public class LoginController {
 
     public void setWarning(String warning) {
         this.warning = warning;
+    }
+
+    public LoginBean getLoginBean() {
+        return loginBean;
+    }
+
+    public void setLoginBean(LoginBean loginBean) {
+        this.loginBean = loginBean;
     }
 
     public void addMessage(String summary) {

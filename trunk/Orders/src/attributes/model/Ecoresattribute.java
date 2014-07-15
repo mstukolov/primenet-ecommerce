@@ -5,7 +5,7 @@ import org.orders.entity.BaseEntityAudit;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Ecoresattribute", schema = "", catalog = "orders")
+@Table(name = "ecoresattribute")
 @AttributeOverride(name = "recid", column = @Column(name = "recid",
         nullable = false, columnDefinition = "BIGINT UNSIGNED"))
 public class Ecoresattribute extends BaseEntityAudit {
