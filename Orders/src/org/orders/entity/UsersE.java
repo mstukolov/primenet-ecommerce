@@ -13,10 +13,21 @@ public class UsersE extends BaseEntityAudit implements Serializable {
     private String login;
     private String password;
     private String role;
+    private Boolean enabled;
 
     public UsersE() {
         this.setCreatedBy("Admin");
         this.setUpdatedBy("Admin");
+    }
+
+    @javax.persistence.Column(name = "enabled")
+    @Basic
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     @javax.persistence.Column(name = "login")

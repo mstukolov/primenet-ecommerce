@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @Entity
-@javax.persistence.Table(name = "Authorites", schema = "", catalog = "orders")
+@javax.persistence.Table(name = "authorites", schema = "", catalog = "orders")
 @AttributeOverride(name = "recid", column = @Column(name = "recid",
         nullable = false, columnDefinition = "BIGINT UNSIGNED"))
 public class Authorites extends BaseEntityAudit{

@@ -1,5 +1,6 @@
 package security;
 
+import com.orders.controllers.UIController;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -51,7 +52,23 @@ public class LoginBean {
         // It's OK to return null here because Faces is just going to exit.
         return null;
     }
+    public String doLogin(String _username, String _password) throws IOException, ServletException {
+        ExternalContext context = FacesContext.getCurrentInstance()
+                .getExternalContext();
 
+        RequestDispatcher dispatcher = ((ServletRequest) context.getRequest())
+                .getRequestDispatcher("/j_spring_security_check?j_username=" + _username
+                        + "&j_password=" + _password);
+
+        dispatcher.forward((ServletRequest) context.getRequest(),
+                (ServletResponse) context.getResponse());
+
+        FacesContext.getCurrentInstance().responseComplete();
+        // It's OK to return null here because Faces is just going to exit.
+
+        return null;
+
+    }
     public String getPassword() {
         return password;
     }
@@ -67,6 +84,5 @@ public class LoginBean {
     public void setUsername(String username) {
         this.username = username;
     }
-
 
 }

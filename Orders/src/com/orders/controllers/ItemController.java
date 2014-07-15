@@ -281,7 +281,6 @@ public class ItemController {
         selectedProductsA = null;
         relevantproductes =  relevantprodFacade.findRelevantProducts(selected.getRecid());
         getProdAttributes();
-
         long elapsed = System.currentTimeMillis() - start;
         log.info("Затраченное время на выборку: " + elapsed);
     }

@@ -4,6 +4,9 @@
     <entry_points version="2.0" />
   </component>
   <component name="IdProvider" IDEtalkID="0AF8D2E09CD08DBE22D5812678E78FF1" />
+  <component name="JsfProjectComponent">
+    <option name="faceletsSupport" value="ENABLED" />
+  </component>
   <component name="ProjectResources">
     <default-html-doctype>http://www.w3.org/1999/xhtml</default-html-doctype>
   </component>

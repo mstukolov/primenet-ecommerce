@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 
 
 @Entity
-@javax.persistence.Table(name = "Ecoresvalueenumeration", schema = "", catalog = "orders")
+@javax.persistence.Table(name = "ecoresvalueenumeration", schema = "", catalog = "orders")
 @AttributeOverride(name = "recid", column = @Column(name = "recid",
         nullable = false, columnDefinition = "BIGINT UNSIGNED"))
 public class Ecoresvalueenumeration extends BaseEntityAudit {

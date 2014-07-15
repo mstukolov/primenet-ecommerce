@@ -114,7 +114,7 @@
 
     <sec:authentication-manager alias="authenticationManagerSQL">
         <sec:authentication-provider>
-        <sec:jdbc-user-service data-source-ref="dataSourceMySQL"
+        <sec:jdbc-user-service data-source-ref="dataSourceMySQLRemote"
                                    users-by-username-query="
                       select login, password, enabled
                       from users where login=?"
@@ -129,5 +129,10 @@
         <property name="username" value="root" />
         <property name="password" value="java" />
     </bean>
-
+    <bean id="dataSourceMySQLRemote" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://mysql-env-4411800.jelasticloud.com:3306/orders" />
+        <property name="username" value="stum" />
+        <property name="password" value="java" />
+    </bean>
 </beans>

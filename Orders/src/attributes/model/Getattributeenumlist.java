@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 
 @Entity
-@javax.persistence.Table(name = "Getattributeenumlist", schema = "", catalog = "orders")
+@javax.persistence.Table(name = "getattributeenumlist", schema = "", catalog = "orders")
 
 public class Getattributeenumlist  {
 

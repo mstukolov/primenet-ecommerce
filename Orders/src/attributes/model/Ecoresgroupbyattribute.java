@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 
 
 @Entity
-@javax.persistence.Table(name = "EcoResGroupByAttribute", schema = "", catalog = "orders")
+@javax.persistence.Table(name = "ecoresgroupbyattribute", schema = "", catalog = "orders")
 @AttributeOverride(name = "recid", column = @Column(name = "recid",
         nullable = false, columnDefinition = "BIGINT UNSIGNED"))
 public class Ecoresgroupbyattribute extends BaseEntityAudit {
