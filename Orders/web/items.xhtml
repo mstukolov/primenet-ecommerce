@@ -92,6 +92,12 @@
                                  style="font: Segoe; font-size:24px; width: 550px; height: 40px">
                         <p:ajax event="change" listener="#{itemController.edit()}" update="@form"/>
                     </p:inputText>
+
+                    <h:outputLabel value="Ссылка для preview:" styleClass="m-text-medium"/>
+                    <p:inputText value="#{itemController.selected.preview}"
+                                 style="font: Segoe; font-size:24px; width: 550px; height: 40px">
+                        <p:ajax event="change" listener="#{itemController.edit()}" update="@form"/>
+                    </p:inputText>
                 </p:panelGrid>
                 <p:panelGrid columns="1" style="border: 2px">
 
