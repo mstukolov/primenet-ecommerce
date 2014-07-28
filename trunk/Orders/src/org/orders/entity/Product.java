@@ -15,6 +15,17 @@ public class Product extends BaseEntityAudit{
     private byte[] image2;
     private byte[] image3;
     private byte[] image4;
+    private String preview;
+
+    @javax.persistence.Column(name = "preview")
+    @Basic
+    public String getPreview() {
+        return preview;
+    }
+
+    public void setPreview(String preview) {
+        this.preview = preview;
+    }
 
     @javax.persistence.Column(name = "image1")
     @Basic
